@@ -1,0 +1,42 @@
+/* ================= 1. width: project and research pages match the homepage ================= */
+.page.narrow { max-width: 1160px; }
+/* intros, subtitles and captions run the full content width */
+main :is(.lx-top p, .lx-h > p, .title .what, .title .lead, .intro-l, figcaption, .fig-c, .lx-foot p) { max-width: none; }
+
+/* highlights at the wider width: the picture keeps its column, and its numbered callout moves beside it as a
+   margin note, top-aligned with the picture. Two pictures in one highlight stack, each with its own note. */
+@media (min-width: 1000px) {
+  .lx-shot { display: grid; grid-template-columns: minmax(0, 1fr) 216px; column-gap: 36px; row-gap: 28px; align-items: start; padding: 32px; }
+  .lx-shot > .lx-pic { grid-column: 1; margin: 0 auto; }
+  .lx-shot > .lx-note { grid-column: 2; width: auto !important; margin: 0; padding-top: 2px;
+    flex-direction: column; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.4; }
+  .lx-shot > .lx-note + .lx-pic { margin-top: 0; }
+  /* a highlight with no callout (rare) keeps the whole width */
+  .lx-shot:not(:has(.lx-note)) { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ================= 2. entrance motion (only while <html> has .m41: JS on, motion allowed) ================= */
+:root { --out: cubic-bezier(.2, .7, .2, 1); }
+/* before: faded, a few px low */
+.m41 :is(/*REVEAL*/) { transition: opacity 520ms var(--out) var(--d, 0ms), transform 520ms var(--out) var(--d, 0ms); }
+.m41 :is(/*REVEAL*/):not(.in) { opacity: 0; transform: translateY(6px); }
+/* pictures rise a touch more and a touch slower */
+.m41 :is(.lx-pic, .ss, .doc-page, .pg, .tp-sheet) { transition-duration: 600ms; }
+.m41 :is(.lx-pic, .ss, .doc-page, .pg, .tp-sheet):not(.in) { transform: translateY(10px); }
+
+/* the numbered callout arrives after its picture: the ring settles onto its target, then the note slides in */
+.m41 .lx-pic .lx-ring { transition: opacity 420ms var(--out) calc(var(--d, 0ms) + 380ms), transform 420ms var(--out) calc(var(--d, 0ms) + 380ms); }
+.m41 .lx-pic:not(.in) .lx-ring { opacity: 0; transform: scale(1.04); }
+.m41 .lx-shot > .lx-note { transition: opacity 400ms var(--out), transform 400ms var(--out); }
+.m41 .lx-shot > .lx-pic:not(.in) + .lx-note { opacity: 0; transform: translateX(-6px); }
+.m41 .lx-shot > .lx-pic.in + .lx-note { transition-delay: calc(var(--d, 0ms) + 480ms); }
+/* narrow screens: the note sits under the picture, so it rises instead of sliding */
+@media (max-width: 999px) { .m41 .lx-shot > .lx-pic:not(.in) + .lx-note { transform: translateY(4px); } }
+
+/* the slideshow: prev / next fade between slides (slides.js adds .ss-out for 180ms around the jump) */
+.ss-track { transition: opacity 320ms var(--out); }
+.ss-track.ss-out { opacity: 0; transition-duration: 180ms; transition-timing-function: ease-in; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-track, .ss-track.ss-out { transition: none; opacity: 1; }
+}

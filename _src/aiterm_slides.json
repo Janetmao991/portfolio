@@ -1,0 +1,181 @@
+{
+ "embedding": [
+  {
+   "label": "The problem",
+   "img": "01",
+   "w": 1600,
+   "h": 767,
+   "caption": "But the customer said \"money back,\" and the document says \"refund.\" Not a single word matches, so nothing comes up.",
+   "at": 37.91,
+   "lines": [
+    "p2",
+    "p3"
+   ]
+  },
+  {
+   "label": "What it is",
+   "img": "02",
+   "w": 1600,
+   "h": 767,
+   "caption": "An embedding turns each sentence into a list of numbers, like coordinates on a map. Sentences that mean similar things land close together: refund, money back, I want to return this.",
+   "at": 98.63,
+   "lines": [
+    "m2",
+    "m3"
+   ]
+  },
+  {
+   "label": "How it's used",
+   "img": "03",
+   "w": 1600,
+   "h": 767,
+   "caption": "Prep: turn every document, chunk by chunk, into a point, and store them. When a customer asks something, turn the question into a point too. Find the nearest: grab the few chunks closest to it, and hand them to the AI to answer.",
+   "at": 115.98,
+   "lines": [
+    "k2",
+    "k3",
+    "k4"
+   ]
+  },
+  {
+   "label": "The business",
+   "img": "04",
+   "w": 1600,
+   "h": 767,
+   "caption": "Model makers sell it, databases store it, and software companies build it into their products.",
+   "at": 219.64,
+   "lines": [
+    "x2"
+   ]
+  },
+  {
+   "label": "One line to remember",
+   "img": "05",
+   "w": 1600,
+   "h": 767,
+   "caption": "So remember it in one line: an embedding turns things into meaning coordinates. Once you have them, you can find things by meaning.",
+   "at": 627.54,
+   "lines": [
+    "x1"
+   ]
+  }
+ ],
+ "vector-database": [
+  {
+   "label": "The problem",
+   "img": "01",
+   "w": 1600,
+   "h": 767,
+   "caption": "That one question alone takes more than 10 billion multiplications. With a few thousand customers asking at once, the servers can't keep up.",
+   "at": 43.0,
+   "lines": [
+    "p3",
+    "p4"
+   ]
+  },
+  {
+   "label": "What it is",
+   "img": "02",
+   "w": 1600,
+   "h": 767,
+   "caption": "What it is: it stores points, and it can quickly find the few closest to any given point. What it's used for: support bots looking up documents, searching by image, recommending similar products.",
+   "at": 72.5,
+   "lines": [
+    "w3",
+    "w4"
+   ]
+  },
+  {
+   "label": "How it finds fast",
+   "img": "03",
+   "w": 1600,
+   "h": 767,
+   "caption": "Take the train to the right city, the subway to the right neighbourhood, then walk the last few steps to the door. Along the way it only looks at a small share of the points, and still finds the closest few.",
+   "at": 129.54,
+   "lines": [
+    "i4",
+    "i5"
+   ]
+  },
+  {
+   "label": "The business",
+   "img": "04",
+   "w": 1600,
+   "h": 767,
+   "caption": "In the middle is the warehouse, and three groups are crowding in.",
+   "at": 274.22,
+   "lines": [
+    "b3"
+   ]
+  },
+  {
+   "label": "One line to remember",
+   "img": "05",
+   "w": 1600,
+   "h": 767,
+   "caption": "One line to remember: a vector database is a warehouse that stores points, and can quickly find the few closest ones.",
+   "at": 675.37,
+   "lines": [
+    "x1"
+   ]
+  }
+ ],
+ "rag": [
+  {
+   "label": "The problem",
+   "img": "01",
+   "w": 1600,
+   "h": 767,
+   "caption": "Two problems: the answer is out of date, and it can't say where it came from. RAG fixes exactly those two.",
+   "at": 89.35,
+   "lines": [
+    "p7"
+   ]
+  },
+  {
+   "label": "What it is",
+   "img": "02",
+   "w": 1600,
+   "h": 767,
+   "caption": "The RAG idea is simple: first find the few relevant passages in your documents, then have the AI answer from them. Think of an open-book exam. The AI is the smart student, and RAG lets it look things up in the book before it answers.",
+   "at": 166.15,
+   "lines": [
+    "w1",
+    "w2"
+   ]
+  },
+  {
+   "label": "How it works",
+   "img": "03",
+   "w": 1600,
+   "h": 767,
+   "caption": "Pinecone's intro article breaks it into four steps: ingest, retrieve, augment, which means building it into the prompt, and finally, generate.",
+   "at": 291.9,
+   "lines": [
+    "k8"
+   ]
+  },
+  {
+   "label": "The business",
+   "img": "04",
+   "w": 1600,
+   "h": 767,
+   "caption": "And at the top, the apps that sell answers directly: Glean for company search, Harvey for law, Hebbia for finance.",
+   "at": 600.36,
+   "lines": [
+    "c5"
+   ]
+  },
+  {
+   "label": "One line to remember",
+   "img": "05",
+   "w": 1600,
+   "h": 767,
+   "caption": "One line to remember: RAG means retrieve first, then generate. It lets the AI take an open-book exam.",
+   "at": 946.45,
+   "lines": [
+    "y1"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction C · Word card</title>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--ground:#CDC3B6;--card:#F4F2EE;--ink:#333231;--soft:#6B6763;--accent:#1F3A5F}
+*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font:19px/1.45 "STIX Two Text",serif}
+.hero{height:100vh;display:grid;place-items:center;padding:40px}
+.card{width:min(62vw,820px);aspect-ratio:7/5;background:var(--card);padding:34px 40px;display:grid;grid-template-rows:auto 1fr auto}
+.title{display:flex;justify-content:space-between;font:600 clamp(26px,2.4vw,36px)/1 "STIX Two Text";letter-spacing:-.026em}
+.mid{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.w{font-size:clamp(64px,6.4vw,96px);line-height:1;letter-spacing:-.03em}.ipa{color:var(--soft);font-size:20px}
+.def{margin:14px 0 0;max-width:30ch}.pos{font-style:italic;color:var(--soft)}
+ul{list-style:none;margin:0;padding:0;font-size:17px}li{display:flex;justify-content:space-between;padding:7px 0}li span:last-child{color:var(--soft)}
+li.done span:first-child::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:10px;vertical-align:2px}
+li.next span:first-child::before{content:"";display:inline-block;width:8px;height:8px;border:2px solid var(--accent);border-radius:50%;margin-right:10px;vertical-align:1px;box-sizing:border-box}
+.foot{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--soft)}
+.btn{background:var(--accent);color:#fff;padding:12px 22px;text-decoration:none;font-size:17px}
+.foot a.l{color:var(--ink)}
+</style></head><body><section class="hero"><div class="card">
+<div class="title"><span>One word,</span><span>five</span><span>tools.</span></div>
+<div class="mid"><div><span class="w">erode</span> <span class="ipa">/ɪˈroʊd/</span>
+<p class="def"><span class="pos">verb (Finance)</span> — of a value: to decrease gradually over time.</p></div>
+<ul><li class="done"><span>Saved</span><span>LexiAI</span></li><li class="done"><span>Reviewed, 9:14 pm</span><span>Meta Muse</span></li><li class="done"><span>Used in writing</span><span>Writing Station</span></li><li class="next"><span>Said out loud</span><span>LexiSpeak</span></li><li><span>Heard in a podcast</span><span>podcast-dig</span></li></ul></div>
+<div class="foot"><span>Janet Mao · AI product builder, San Francisco</span><a class="btn" href="#">Follow this word</a><a class="l" href="#">All work</a></div>
+</div></section></body></html>

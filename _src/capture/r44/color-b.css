@@ -1,0 +1,17 @@
+/* R44 colour B: coloured pollen + warm glow. When the sprout appears (3.7s) and while the tree grows (4.3-5.4s),
+   16 soft motes (butter, peach, lilac, mint, sky) rise once from the book and the branches and fade out by ~8s; they
+   never loop, so they never share the air with the falling words for long. Then a warm apricot glow settles under the
+   canopy and breathes very slowly. Blink motes are drawn by color-b.js.
+   Without .tell (no JS, reduced motion): the glow is there, still; no pollen. Paused off screen by hero.js. */
+.fx-story .pn { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.fx.tell .fx-story .pn { animation: pn-rise var(--s) cubic-bezier(.2, .6, .35, 1) var(--t) both; }
+@keyframes pn-rise {
+  0% { opacity: 0; transform: none; }
+  18% { opacity: .95; }
+  70% { opacity: .7; }
+  100% { opacity: 0; transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) scale(.7); }
+}
+.fx-story .wglow { transform-box: view-box; transform-origin: 156px 106px; }
+.fx.tell .fx-story .wglow { animation: wg-in 1.8s cubic-bezier(.16, 1, .3, 1) 5.3s both, wg-breathe 8s ease-in-out 7.1s infinite; }
+@keyframes wg-in { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
+@keyframes wg-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .78; } }

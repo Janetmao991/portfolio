@@ -1,0 +1,148 @@
+/* ---- type: one family (Work Sans), five working sizes: 14 small · 17 body · 21 lead · 32 heading · display ---- */
+@font-face { font-family: "Work Sans"; font-weight: 300 700; font-style: normal; font-display: swap; src: url("fonts/work-sans-latin.woff2") format("woff2"); }
+@font-face { font-family: "Work Sans"; font-weight: 300 700; font-style: italic; font-display: swap; src: url("fonts/work-sans-italic-latin.woff2") format("woff2"); }
+:root {
+  --display: "Work Sans", "Helvetica Neue", Arial, sans-serif;
+  --sans: "Work Sans", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --pad: 48px;
+}
+@media (max-width: 699px) { :root { --pad: 20px; } }
+body { font-size: 17px; }
+h1 { font-weight: 500; letter-spacing: -.045em; line-height: .98; font-size: clamp(48px, 6.6vw, 96px); }
+h3 { font-weight: 500; }
+:is(.about h3, .dark h2, .nx-name, .funnel dt, .doc-page h4) { font-weight: 500; }
+
+/* ---- surfaces: plates are a tone step, nothing else. No grain, no corner dots, no shadow, square corners ---- */
+body::before { display: none; }
+.plate, .plate.dark { box-shadow: none; background-image: none; border-radius: 0; }
+
+/* ---- section heads: the green number tab + tiny capitals + hairline strip becomes a real heading ---- */
+.ph { margin: 0 0 28px; padding: var(--pad) 0 0; border-bottom: 0; align-items: baseline; gap: 14px; }
+.ph .tab { display: none; }
+.ph h2 { font-family: var(--display); font-size: 32px; font-weight: 500; letter-spacing: -.03em; line-height: 1.1; text-transform: none; }
+.ph .pm { font-size: 14px; letter-spacing: 0; }
+
+/* ---- home ---- */
+.hero h1 mark { background: none; padding: 0; }
+.hero-t > p { font-size: 19px; max-width: none; }
+.links { font-size: 17px; }
+.fit-in { font-size: 19px; }
+/* the map: the two clusters become quiet filled fields instead of dashed outlines; cards are white on the field, no outline */
+.fit .cl { fill: rgba(10, 10, 10, .035); stroke: none; }
+.fit-k { transform: translate(18px, 16px); background: none; padding: 0; font-size: 14px; font-weight: 600; color: var(--ink); }
+.nd { border-color: transparent; border-radius: 0; }
+.nd small { font-size: 14px; }
+.vp { border: 0; background: var(--ui); }
+.fit-note { border-top: 0; padding-top: 0; font-size: 14px; }
+.fm-c { border: 0; border-radius: 0; background: rgba(10, 10, 10, .035); padding: 12px 10px 10px; }
+.fm-k { margin: 0 0 8px 4px; background: none; padding: 0; font-size: 14px; color: var(--ink); }
+.fm-n { border-color: transparent; border-radius: 0; }
+.fm-n > a::after { border-radius: 0; }
+.fm-e { border-top: 0; padding-top: 2px; }
+.fm-e li { font-size: 13px; }
+.fm-br span { outline: 0; background: var(--tint); }
+.about h3 { font-size: 32px; }
+.about li { font-size: 19px; }
+.posts li + li { border-top: 0; }
+.posts a { padding: 12px 0; }
+.dt { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: .3em; align-items: baseline; font-size: 14px; color: var(--ink-soft); }
+.dt b { font: inherit; font-weight: 500; letter-spacing: 0; }
+.dt span { font-size: inherit; font-weight: 500; }
+.pt b { font-size: 21px; font-weight: 500; letter-spacing: -.015em; }
+.pt span { font-size: 17px; }
+.go { border-color: transparent; background: var(--bg-outer); }
+.dark h2 { font-size: clamp(32px, 4vw, 48px); letter-spacing: -.035em; }
+.round a { border-color: transparent; background: rgba(243, 242, 239, .12); }
+footer.site { font-size: 14px; }
+
+/* ---- project pages ---- */
+.title .lead { font-size: 21px; font-weight: 500; }
+.title .what { font-size: 19px; }
+.title .meta { font-size: 14px; gap: 4px 18px; }
+.title .meta span { border-right: 0; padding-right: 0; margin-right: 0; }
+.lx-top p { font-size: 21px; color: var(--ink); }
+.lx-h { margin-top: 72px; }
+.lx-h h2 { font-size: 32px; font-weight: 500; letter-spacing: -.03em; line-height: 1.1; }
+.lx-h p { margin-top: 12px; font-size: 17px; color: var(--ink); }
+.lx-shot { border: 0; }
+.lx-shot img, .lx-pic { border-radius: 0; }
+.lx-foot { border-top: 0; padding-top: 0; font-size: 14px; }
+.shot { border: 0; }
+.shot .bar { border-bottom: 0; background: #ebeae6; }
+.next { padding: 32px var(--pad); }
+.nx-k { font-size: 14px; }
+.nx-d { font-size: 17px; }
+
+/* ---- research pages ---- */
+.intro-l { font-size: 17px; color: var(--ink); }
+.eps li + li { border-top: 0; }
+.ep-t b { font-size: 21px; font-weight: 500; }
+.ep-t span { font-size: 17px; }
+.doc-page { border: 0; }
+.doc-notes li { border-color: transparent; }
+.pg-link { border: 0; border-radius: 0; }
+.fig figcaption, .fig-c, .pg figcaption { font-size: 14px; }
+.see { border-top: 0; padding-top: 0; font-size: 14px; }
+.rules { font-size: 17px; }
+.funnel dd { font-size: 14px; }
+.said p { font-weight: 500; }
+.ss-track, .ss-img { border-radius: 0; }
+.ss-img { border: 0; }
+.ss-s figcaption { font-size: 17px; color: var(--ink); }
+.ss-s figcaption b { font-size: 14px; }
+.ss-bar { border-top: 0; padding-top: 0; }
+.ss-btn { border-color: transparent; background: var(--bg-outer); }
+
+/* ---- startup research: the tree and the two-pager keep their drawing, lose the outlines ---- */
+.tr-sc { border-color: transparent; background: var(--ui); border-radius: 0; }
+.tr-sc-key { box-shadow: none; background: var(--tint); }
+.tr-ph span { border: 0; background: var(--tint); font-size: 13px; }
+.tr-root span { font-size: 14px; }
+.tp { border: 0; border-radius: 0; }
+.tp-sheet { box-shadow: none; border-radius: 0; }
+.tp-f { border-top: 0; }
+.lp { border: 0; border-radius: 0; }
+.fw-end p { border: 0; border-radius: 0; background: var(--tint); }
+
+@media (max-width: 699px) {
+  .ph h2 { font-size: 26px; }
+  .hero-t > p { font-size: 18px; }
+  .about h3 { font-size: 26px; }
+  .about li { font-size: 17px; }
+  .pt b { font-size: 19px; }
+  .pt span { font-size: 15px; }
+  .lx-top p { font-size: 19px; }
+  .lx-h h2 { font-size: 26px; }
+  .lx-h { margin-top: 56px; }
+}
+
+/* ---- round 2 ---- */
+.hero h1 { font-size: clamp(44px, 4.9vw, 70px); }
+/* About: the kicker strip and "How I work" said the same thing twice; the heading alone opens the plate */
+.about > .ph { display: none; }
+.about { padding-top: var(--pad); }
+.fm-e li { font-size: 12.5px; letter-spacing: -.005em; }
+.tp-f { color: var(--ink-soft); }
+.ck-h { border-bottom: 0; padding-bottom: 0; }
+.ck-l li + li { border-top: 0; }
+.ck-card { border-radius: 0; }
+.rv-row { border-top: 0; padding-top: 0; }
+.rv-s b { font-weight: 500; }
+.tr-q { font-size: 15px; }
+.tr-m { font-size: 14px; }
+@media (max-width: 699px) { .back { padding: 10px 10px; } }
+/* one left edge: the nav wordmark and the footer line up with the text inside the plates */
+.nav { padding: 12px var(--pad); }
+footer.site { padding: 18px var(--pad) 28px; }
+@media (max-width: 699px) {
+  .fm-e { margin-left: 0; }
+  .fm-e li { font-size: 13px; letter-spacing: 0; }
+}
+/* cluster labels sit just above their field (inside it they hid under the top-left card); square fields */
+.fit-k { transform: translate(2px, calc(-100% - 2px)); }
+.fit .cl { rx: 0; }
+@media (max-width: 699px) {
+  .nav { padding: 10px 12px 10px 14px; }
+  .nav .home { white-space: nowrap; }
+  .fit-in { font-size: 17px; }
+}

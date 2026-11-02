@@ -1,0 +1,9 @@
+/* R42 option A: the girl's eye. a.js moves .look toward the cursor (or the last tap) and blinks .lid; the eased
+   follow is this transition. Breathing is CSS: body + head of the final pose, 1 -> 1.02 and back over 5s, scaled from
+   where she sits so nothing slides. Reduced motion: no breathing, no blinks (style.css stops all animation and
+   transitions), the eye still turns to the cursor. */
+.fx-story .look { transition: transform .14s cubic-bezier(.16, 1, .3, 1); }
+.fx-story .lid { transform-box: fill-box; transform-origin: center; }
+.fx-story .breathe { transform-box: view-box; transform-origin: 66px 150px; }
+.fx.tell .fx-story .breathe { animation: a-breathe 5s ease-in-out 6.6s infinite; }
+@keyframes a-breathe { 0%, 100% { transform: none; } 45% { transform: scale(1.02); } }

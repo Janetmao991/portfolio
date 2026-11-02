@@ -1,0 +1,35 @@
+# OS / editor
+.DS_Store
+.claude/
+
+# Secrets & deploy config
+.env*
+.vercel
+
+# Dependencies / Python cache
+node_modules/
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+r*.log
+
+# Revision workflow artifacts (not part of the site)
+shots-r*/
+R*_REPORT.md
+REVISION_*.md
+DEMO_*_REPORT.md
+
+# Mockups, snapshots and taste-skill scratch
+_src/mock-*/
+_src/r*-snapshot/
+_src/r*-snapshot-*/
+_src/mock-taste/
+_src/mock-hero/
+.taste-skill/
+
+# Large media (demo videos are not shipped)
+*.mp4
+*.mov
+*.webm

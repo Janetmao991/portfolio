@@ -1,0 +1,23 @@
+/* R44 colour A: soft aurora. Once the forest has grown (5.6s) a pastel wash fades in behind the tree: mint at the left,
+   lilac at the right, coral over the crown. Each blob drifts on its own slow loop (19-29s, eased both ways, never a
+   bounce), so the wash shifts without ever crossing the falling leaves' plane. The falling leaves keep their words and
+   take a tinted edge from the blob they fall through; the words get a soft halo of the same tint.
+   Without .tell (no JS, reduced motion) it all rests: wash and tints shown, nothing moves. Paused off screen by hero.js. */
+.fx-story .au { transform-box: view-box; transform-origin: 156px 80px; }
+.fx.tell .fx-story .aur { animation: au-in 2.4s cubic-bezier(.16, 1, .3, 1) 5.6s both; }
+.fx.tell .fx-story .au { animation: var(--a) var(--s) ease-in-out 5.6s infinite alternate both; }
+@keyframes au-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes au-1 { from { transform: none; } to { transform: translate(9px, -6px) scale(1.06); } }
+@keyframes au-2 { from { transform: none; } to { transform: translate(-10px, 5px) scale(1.08); } }
+@keyframes au-3 { from { transform: translate(-6px, 0); } to { transform: translate(8px, 4px) scale(.95); } }
+
+/* leaf edges, by where each leaf falls: 1 + 4 mint (left), 2 coral (top), 3 + 5 lilac (right) */
+.fx-story .lf { --edge: #7fbf9c; --halo: #c4e6d4; }
+.fx-story .lf:nth-child(2) { --edge: #e29c84; --halo: #f6cdbd; }
+.fx-story .lf:is(:nth-child(3), :nth-child(5)) { --edge: #a593d3; --halo: #ddd0f0; }
+.fx-story .lf-l path { stroke: var(--edge); stroke-width: 1.2; paint-order: stroke; }
+.fx-story .lf text { stroke: var(--halo); stroke-width: 2; stroke-opacity: .8; stroke-linejoin: round; paint-order: stroke; }
+/* the tints arrive with the wash, not before it */
+.fx.tell .fx-story .lf-l path { animation: au-edge 2.4s ease 5.6s both; }
+.fx.tell .fx-story .lf text { animation: lf-word 6s linear var(--t) infinite both, au-edge 2.4s ease 5.6s both; }
+@keyframes au-edge { from { stroke-opacity: 0; } }
