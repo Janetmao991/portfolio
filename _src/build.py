@@ -6,6 +6,8 @@ Shared look lives in assets/style.css; assets/motion.js only drives the Startup 
 Layout (revision 11, "plates"): every page is a stack of light plates on a warm-gray, faintly grained page.
 Each plate opens with a slim header strip (green number tab + small uppercase label). The home page is a hero,
 a 3-column grid of project cards (CATALOG), About, Writing and a dark contact plate.
+Revision 52: Writing is replaced by the full Research list (research_section, #research); projects/research.html redirects there.
+Revision 55: Research rows are one line (date · title · arrow); each group opens with its framework (two-pager, 10 steps).
 Revision 32: the cards are gone; the projects plate is a map of how the six projects connect (map_section), each node a link.
 Revision 12: cards and the hero carry one line-art icon per project (ICON_ART), no screenshots; screenshots live only on project pages. Project pages are one
 ~720px column: a title plate, then one plate per real screenshot (SHOTS), a short decisions plate and a next-project card.
@@ -54,6 +56,11 @@ def head(title, desc, root):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 {FONTS(root)}
 <link rel="stylesheet" href="{root}assets/style.css">{chr(10) + ENTRANCE_ON if root else ""}
 </head>"""
@@ -64,25 +71,65 @@ def nav(root, current=""):
     cur = lambda k: ' aria-current="page"' if k == current else ""
     return f"""<header class="plate nav">
   <a class="home" href="{root}index.html"><span class="av" aria-hidden="true">J</span>Janet Mao</a>
-  <nav><a href="{root}index.html#about"{cur('about')}>About</a><a href="{root}index.html#work"{cur('work')}>Projects</a><a href="{root}projects/research.html"{cur('research')}>Research</a></nav>
+  <nav><a href="{root}index.html#about"{cur('about')}>About</a><a href="{root}index.html#work"{cur('work')}>Projects</a><a href="{root}index.html#research"{cur('research')}>Research</a></nav>
 </header>"""
 
 
-def ph(num, label, meta=""):
-    """A plate's heading, optional meta beside it. R43: num is no longer shown (the green number tab is gone)."""
-    return f'<div class="ph"><h2>{label}</h2>{f"<span class=\"pm\">{meta}</span>" if meta else ""}</div>'
+def ph(num, label, meta="", icon=""):
+    """A plate's heading, optional meta beside it. R43: num is no longer shown (the green number tab is gone).
+    R60: icon = a SEC_ICON key, drawn left of the heading (homepage sections only)."""
+    ic = (f'<svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" '
+          f'stroke-linejoin="round" aria-hidden="true">{SEC_ICON[icon]}</svg>') if icon else ""
+    if len(meta) <= 14:  # R62: a short count ("2 pages", "4 rules") stays on one line on phones
+        meta = meta.replace(" ", "&nbsp;")
+    return f'<div class="ph">{ic}<h2>{label}</h2>{f"<span class=\"pm\">{meta}</span>" if meta else ""}</div>'
+
+
+# R60 (R59 option A): static 24px line icons before the homepage section headings, authored on a 24px grid.
+SEC_ICON = {
+    "built": '<rect x="3.5" y="8.5" width="12" height="12" rx="2.5"/><rect x="8.5" y="3.5" width="12" height="12" rx="2.5"/>',  # two overlapping blocks
+    "research": '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L20.5 20.5"/>',  # a magnifier
+}
+# R60 (R54 option C), R61: a soft highlighter wash under the whole homepage section blurb (every wrapped line), drawn once
+# when the heading scrolls in. The page is written in its finished state; this script
+# (in <head>, before first paint) arms the start state only when JS runs and reduced motion is off. A heading already on
+# screen at load waits for the first scroll or the end of the hero story (6.5s), so it never plays unseen.
+HL_JS = """<script>
+(() => {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.classList.add('hl-arm');
+  let ready = false; const held = [];
+  const play = h => h.closest('.plate').classList.add('hl-on');
+  const release = () => { if (ready) return; ready = true; held.splice(0).forEach(play); };
+  addEventListener('scroll', release, { once: true, passive: true }); setTimeout(release, 6500);
+  const go = () => {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target); ready ? play(e.target) : held.push(e.target);
+    }), { rootMargin: '0px 0px -25% 0px', threshold: 1 });
+    document.querySelectorAll('.hl-sec .ph h2').forEach(h => io.observe(h));
+  };
+  document.readyState === 'loading' ? addEventListener('DOMContentLoaded', go) : go();
+})();
+</script>"""
+
+
+def blurb(cls, text):
+    """A section blurb under the R61 wash: the whole sentence, plain text, each wrapped line washed on its own."""
+    return f'<p class="{cls}"><span class="hl">{text}</span></p>'
 
 
 def contact():
     return f"""<section class="plate dark" id="contact">
-  <h2>Write to me</h2>
+  <h2>Contact me</h2>
   <p class="mail">{EMAIL_BIG}</p>
   <p class="round"><a href="{X}" aria-label="X @BuiltByJanet">{ICON['x']}</a><a href="{GITHUB}" aria-label="GitHub">{ICON['gh']}</a></p>
 </section>"""
 
 
-def foot(root, js=False):
+def foot(root, js=False, extra=""):
     script = f'\n<script src="{root}assets/motion.js"></script>' if js else ""
+    script += extra  # R64: page-only scripts (demo.js)
     if root:  # project and research pages: the entrance motion
         script += f'\n<script src="{root}assets/entrance.js"></script>'
     return f"""{contact()}
@@ -477,9 +524,9 @@ def sources(uid):
     chips = "".join(f'<li class="tr-sc{" tr-sc-key" if k == "pod" else ""}"><svg class="tr-ic" viewBox="0 0 40 40" aria-hidden="true">'
                     f'<g filter="url(#{uid}-rf)" {_KT}>{ic}</g></svg><p><b>{name}</b><span>{line}</span></p></li>'
                     for k, ic, name, line in SOURCES)
-    # R36: one small line under the band, pointing to the AI Terms page.
+    # R36: one small line under the band, pointing to the AI Term Explainer page.
     return (f'<div class="tr-src"><p class="tr-src-k">Raw material</p><ul class="tr-srcs">{chips}</ul>'
-            f'<p class="tr-also">Also: <a href="ai-terms.html">AI Terms explainers</a> for the tech</p></div>')
+            f'<p class="tr-also">Also: <a href="ai-terms.html">AI Term Explainer films</a> for the tech</p></div>')
 
 
 def tree(uid):
@@ -562,14 +609,14 @@ def startup_page():
 {title_plate("Startup Research", P[slug]['what'], meta, lead="10 questions, 2 pages.")}
 <section class="plate" id="framework">
   {ph("01", "The analysis framework", "10 questions")}
-  <p class="intro-l">Each question gets its own file and its own method. Open Competition for the 8-moat checklist.</p>
+  <p class="intro-l">Each question gets its own file and its own method. Open the 8 moats checklist under Competition.</p>
   {tree("tr")}
 </section>
 <section class="plate" id="writing">
   {ph("02", "The writing framework", "2 pages")}
   <p class="intro-l">The research runs long. What I publish fits on two pages, always in this order.</p>
   {two_pager()}
-  <p class="see"><a href="research.html">See it applied → Research</a></p>
+  <p class="see"><a href="../index.html#research">See it applied → Research</a></p>
 </section>
 {next_card(slug, root)}
 </main>
@@ -603,32 +650,40 @@ AITERM_FILMS = [
 AITERM_SLIDES = json.loads((OUT / "_src" / "aiterm_slides.json").read_text())
 
 
-def research_page():
-    root = "../"
-    row = lambda href, y, m, t, x: (f'<li><a href="{href}.html"><span class="dt"><b>{y}</b><span>{m}</span></span><span class="pt"><b>{t}</b>'
-                                    f'<span>{x}</span></span><span class="go" aria-hidden="true">→</span></a></li>')
-    startups = "".join(row(href, y, m, t, x) for y, m, t, x, href in RESEARCH)
-    films = "".join(row(f"research-aiterm-{s}", "2026", "Oct", f"Ep {n} · {t}", x) for s, n, t, x, _w, _l in AITERM_FILMS)
-    what = "Every startup I've researched, and every AI term I've explained on film."
+# R52: the Research list lives on the homepage (#research), like the other nav tabs. projects/research.html is now a
+# redirect (research_redirect) that keeps old #startups / #ai-terms bookmarks pointing at the right group.
+# R55: R53 option A rows (date · title · arrow, no row blurbs).
+# R58: no framework lists on the homepage. Each group head carries a short grey blurb with an underlined link to the
+# method / project page; the frameworks themselves live on startup-research.html and ai-terms.html.
+def research_section():
+    row = lambda href, date, t: (f'<li><a href="projects/{href}.html"><span class="rs-dt">{date}</span><span class="rs-t">{t}</span>'
+                                 f'<span class="go" aria-hidden="true">→</span></a></li>')
+    startups = "".join(row(href, f"{m} {y}", t) for y, m, t, _x, href in RESEARCH)
+    films = "".join(row(f"research-aiterm-{s}", "Oct 2026", f"Ep {n} · {t}") for s, n, t, _x, _w, _l in AITERM_FILMS)
     nc = len(RESEARCH)
-    return f"""{head("Research — Janet Mao", what, root)}
-<body class="project research" data-root="{root}">
-<div class="page narrow">
-{nav(root, 'research')}
-<main>
-{title_plate("Research", what, f'{nc} {"company" if nc == 1 else "companies"} · {len(AITERM_FILMS)} films')}
-<section class="plate" id="startups">
-  {ph("", "Startups", f"{nc}")}
-  <p class="intro-l">Written with my <a href="startup-research.html">Startup Research</a> method.</p>
-  <ul class="posts">{startups}</ul>
-</section>
-<section class="plate" id="ai-terms">
-  {ph("", "AI Terms", f"{len(AITERM_FILMS)}")}
-  <p class="intro-l">Short films that explain one AI word in plain language. Each opens as five key slides. How they’re made: <a href="ai-terms.html">AI Terms</a>.</p>
-  <ul class="posts">{films}</ul>
-</section>
-</main>
-{foot(root)}"""
+    return f"""<section class="plate rs hl-sec" id="research">
+  {ph("", "Research", f'{nc} {"company" if nc == 1 else "companies"} · {len(AITERM_FILMS)} films', icon="research")}
+  {blurb("rs-what", "Startups I've researched, and AI terms I've explained on film.")}
+  <div class="rs-g" id="research-startups">
+    <div class="rs-h"><h3>Startups <span>{nc}</span></h3><p>Written with my <a href="projects/startup-research.html">Startup Research</a> method.</p></div>
+    <ul class="rs-rows">{startups}</ul>
+  </div>
+  <div class="rs-g" id="research-ai-terms">
+    <div class="rs-h"><h3>AI Term Explainer <span>{len(AITERM_FILMS)}</span></h3><p>One AI word per film, in plain language. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
+    <ul class="rs-rows">{films}</ul>
+  </div>
+</section>"""
+
+
+def research_redirect():
+    """R52: projects/research.html → index.html#research. #ai-terms / #startups map to their homepage groups."""
+    to = "../index.html#research"
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research — Janet Mao</title><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>location.replace("{to}" + ({{"#ai-terms": "-ai-terms", "#startups": "-startups"}}[location.hash] || ""));</script>
+<meta http-equiv="refresh" content="0; url={to}"><link rel="canonical" href="{to}"><meta name="robots" content="noindex">
+</head><body><p>Research moved to the homepage: <a href="{to}">Janet Mao → Research</a>.</p></body></html>
+"""
 
 
 def slideshow(slug, term, root):
@@ -652,19 +707,19 @@ def slideshow(slug, term, root):
 def research_aiterm_page(slug):
     root = "../"
     _s, n, term, line, what, length = next(f for f in AITERM_FILMS if f[0] == slug)
-    meta = f'AI Terms, episode {n} · English film, {length} · Made with my&nbsp;<a href="ai-terms.html">AI Terms loop</a>'
-    return f"""{head(f"{term} — AI Terms — Janet Mao", line, root)}
+    meta = f'AI Term Explainer, episode {n} · English film, {length} · Made with my&nbsp;<a href="ai-terms.html">AI Term Explainer loop</a>'
+    return f"""{head(f"{term} — AI Term Explainer — Janet Mao", line, root)}
 <body class="project research" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
-<p class="back"><a href="research.html#ai-terms">← All research</a></p>
+<p class="back"><a href="../index.html#research-ai-terms">← All research</a></p>
 {title_plate(term, what, meta)}
 <section class="plate" id="slides">
   {ph("", "The film in 5 slides", "Problem · what it is · how · business · takeaway")}
   {slideshow(slug, term, root)}
 </section>
-<p class="back"><a href="research.html#ai-terms">← All research</a><a href="ai-terms.html">How the films are made →</a></p>
+<p class="back"><a href="../index.html#research-ai-terms">← All research</a><a href="ai-terms.html">How the films are made →</a></p>
 </main>
 {foot(root)}""".replace("</body>", f'<script src="{root}assets/slides.js"></script>\n</body>')
 
@@ -679,7 +734,7 @@ def research_granola_page():
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
-<p class="back"><a href="research.html">← All research</a></p>
+<p class="back"><a href="../index.html#research-startups">← All research</a></p>
 {title_plate("Granola — Deep Dive", what, meta, lead="10 questions, 53,000 words, 2 pages.")}
 <section class="plate" id="bet">
   {ph("01", "The opening, annotated", "4 rules")}
@@ -697,7 +752,7 @@ def research_granola_page():
   <p class="intro-l">The best finding came from putting every founder interview in date order: the ambition widened through 2025, then narrowed in 2026.</p>
   {page_fig(2, root)}
 </section>
-<p class="back"><a href="research.html">← All research</a><a href="startup-research.html">The framework →</a></p>
+<p class="back"><a href="../index.html#research-startups">← All research</a><a href="startup-research.html">The framework →</a></p>
 </main>
 {foot(root, js=True)}"""
 
@@ -714,8 +769,8 @@ LEXI_ACCENT = "#3d5e4a"
 LEXI_HIGHLIGHTS = [
     ("Clear definitions, every sense numbered",
      "Each entry gives plain definitions with every sense numbered straight through, each with an example.",
-     [("lexiai-notebook", "LexiAI entry for bludgeon with three numbered senses: verb, noun and a finance verb sense, each with an example", (1500, 1522),
-       (30, 446, 1440, 1036), "Every sense numbered: i, ii, iii")]),
+     [("lexiai-notebook", "LexiAI entry for bludgeon with three numbered senses: verb, noun and a finance verb sense, each with an example", (1500, 1338),
+       (30, 446, 1440, 852), "Every sense numbered: i, ii, iii")]),
     ("Which sense, in this sentence",
      "Paste a sentence and LexiAI shows which sense the word has there, even a rare one, next to the usual meaning it isn't.",
      [("lexiai-context", "LexiAI Meaning in context for a podcast line about Nest: clip is highlighted and explained as a speed or rate, not the usual video excerpt or fastener", (1488, 1150),
@@ -862,6 +917,107 @@ P["podcast-dig"] = dict(name="podcast-dig", what=PD_SUMMARY)
 REDIRECTS = {"builder-toolkit": "podcast-dig"}
 
 
+# ---- Revision 64: a guided demo near the end of the LexiAI, LexiSpeak and Writing Station pages (assets/demo.js).
+# It replays the page's own real crops in order: a soft cursor glides to the button (or passage) in each one, "presses" it,
+# and holds ~2s. It starts when 40% of it is in view, pauses off screen, and any click on it hands control to the visitor.
+# (step label, caption, crop key, PNG size, target box in PNG px, press?, optional text typed into a composer first, its button)
+DEMOS = {
+    "lexiai": [
+        # R65: the demo opens on a plain word lookup (crops from the local demo app, ~/lexiai-demo), then moves to sentences
+        ("Look up a word", "Type a word and LexiAI writes its entry: the word, how it's said, and a Listen button.",
+         "lexiai-lookup", (1840, 1020), (170, 560, 820, 300), False, "bludgeon", "Look up"),
+        ("Read every sense", "Every sense is numbered straight through, each with synonyms, examples and common collocations.",
+         "lexiai-senses", (1680, 1368), (70, 720, 1500, 165), False),  # R66: Chinese gloss lines cut out (was 1680x1480)
+        ("Save the word", "One tap puts the word in my Notebook, where reviews and practice pick it up.",
+         "lexiai-lookup-saved", (1840, 1020), (1356, 746, 294, 92), True),
+        ("Paste a sentence", "Reading something? Paste the whole line, then tap the word you're unsure of.",
+         "lexiai-context", (1488, 1150), (668, 196, 132, 92), True,
+         "There are three, four new products coming out at a pretty rapid clip here from Nest.", "Check"),
+        ("Read the sense", "LexiAI names the sense used in this sentence: a speed, not the usual video excerpt.",
+         "lexiai-context", (1488, 1150), (798, 800, 582, 304), False),
+        ("Save it", "One tap saves the word with its sentence, filed as sense iii of clip.",
+         "lexiai-context-saved", (1488, 196), (1024, 64, 344, 88), True),
+        ("Hear it in podcasts", "Saved words collect real podcast lines, timestamped. With sound on, this one plays: \u201cI was appalled by my fasting blood glucose\u2026\u201d",
+         "lexiai-podcasts", (1500, 790), (48, 390, 96, 96), True),
+        ("Review", "A short daily review. Each answer sets the next date: Got it brings this idiom back in 28 days.",
+         "lexiai-review", (1248, 1062), (632, 894, 276, 120), True),
+    ],
+    "writing-station": [
+        ("Write, then review", "One entry a day on a sheet of paper. When it's done, I ask for a review.",
+         "writing-station-desk", (2560, 1600), (2205, 1434, 311, 82), True),
+        ("Read the notes", "Every note has a color: red for an error, amber for more natural, green and violet for notebook words.",
+         "writing-station-annotated", (1784, 726), (1116, 292, 282, 52), True),
+        ("Get the rule", "Each error comes with its rule: a pronoun object goes between the verb and the particle.",
+         "writing-station-note", (780, 786), (20, 446, 742, 168), False),
+        ("Open Compare", "Compare puts a native rewrite next to my original.",
+         "writing-station-annotated", (1784, 726), (548, 52, 164, 52), True),
+        ("Read the rewrite", "The rewrite keeps the review's own fixes, such as break them down.",
+         "writing-station-compare", (1776, 1052), (908, 82, 816, 918), False),
+        ("Ask the editor", "I can ask why something was marked. The editor explains and offers other ways to say it.",
+         "writing-station-editor", (780, 1596), (40, 366, 618, 1200), False,
+         'Why was "keep debriefing the words" marked?', "Ask"),
+    ],
+}
+# R64: a short real clip under a crop (key -> file in assets/<slug>/, caption). LexiAI cuts its clips from real episodes;
+# this one is the appall line on the Podcasts crop, re-cut at 96 kbps from ~/lexiai/podcast/data/audio/235.opus (see R64_REPORT.md).
+AUDIO = {"lexiai-podcasts": ("podcast-clip.mp3", "Listen: the 25-second clip behind this card, from The Diary of a CEO (25:28–25:53).")}
+# R65: sound in the guided demo, per crop key: (file in assets/<slug>/, where it comes from). The demo starts muted;
+# "Sound on" (or Play / Replay) turns it on and the step holds until its clip ends. Nothing loads until sound is on.
+# podcast-demo.mp3 is the appall sentence alone: 235.opus 1535.85s -> 1541.60s (25:35.9-25:41.6), see R65_REPORT.md.
+# LexiSpeak has no entry here: since R66 it shows a screen recording instead (DEMO_VIDEO), picture only since R67.
+DEMO_AUDIO = {"lexiai": {"lexiai-podcasts": "podcast-demo.mp3"}}
+
+
+# R66: LexiSpeak's "See it run" is a real screen recording of its demo app instead of the step demo: ~/lexispeak-demo
+# (?demo=1), Free Talk with Alex played with voices on, then the coaching report and one Hear it. Made by
+# _src/capture/r66/ (record.mjs -> say.py -> assemble.py). The picture is the app running in headless Chrome.
+# R67: picture only. The synthesized Samantha voice sounded choppy, so the audio track was dropped (ffmpeg -an, video stream
+# copied as is; the R66 file with sound is in _src/r67-snapshot/). See R67_REPORT.md.
+# (file stem in assets/<slug>/, width, height, length, one line under it)
+DEMO_VIDEO = {"lexispeak": ("see-it-run", 1280, 800, "0:57",
+                            "Free Talk with Alex, played start to finish, then the coaching report.")}
+
+
+def video_demo_html(slug, name, root):
+    """R66: a recorded run. Muted autoplay at 40% in view (demo.js), Pause / Replay; reduced motion waits for Play.
+    R67: the file has no sound, so there is no Sound on button."""
+    stem, w, h, length, line = DEMO_VIDEO[slug]
+    src = f"{root}assets/{slug}/{stem}"
+    return f"""
+  <section class="dm dm-rec" data-demo-video aria-label="Screen recording of the {name} demo">
+    <h2>See it run</h2><p>A screen recording of the demo app, picture only. Pause or replay it anytime.</p>
+    <div class="dm-stage dm-vstage"><video src="{src}.mp4" poster="{src}.jpg" width="{w}" height="{h}" muted playsinline controls preload="metadata" aria-label="{name} demo: {line}"></video><button class="dm-big" type="button" data-act="play" aria-label="Play the recording" hidden>▶ Play</button></div>
+    <div class="dm-bar"><p class="dm-vcap">{line} <span>{length}</span></p><div class="dm-ctrl" hidden><button type="button" data-act="play">Play</button><button type="button" data-act="replay">Replay</button></div></div>
+  </section>"""
+
+
+def demo_html(slug, name, steps, alts, root):
+    """The guided demo (R64). Frame 0 shows without JS; demo.js fits the frames, moves the cursor and runs the steps."""
+    frames, chips, caps, sounds = "", "", "", DEMO_AUDIO.get(slug, {})
+    for i, (label, cap, key, (w, h), (x, y, bw, bh), press, *typing) in enumerate(steps):
+        src = f"{root}assets/{slug}/{key}"
+        data = f' data-type="{typing[0].replace(chr(34), "&quot;")}" data-btn="{typing[1]}"' if typing else ""
+        data += f' data-audio="{key}"' if key in sounds else ""
+        frames += (f'<div class="dm-frame{" on" if i == 0 else ""}"{" data-press" if press else ""}{data}>'
+                   f'<div class="dm-pic" data-w="{w}" data-h="{h}"><picture><source srcset="{src}.webp" type="image/webp">'
+                   f'<img src="{src}.png" alt="{alts.get(key, label)}" width="{w}" height="{h}" loading="lazy" decoding="async"></picture>'
+                   f'<button class="dm-hit" type="button" tabindex="-1" aria-label="Next step" style="left:{x / w * 100:.2f}%;top:{y / h * 100:.2f}%;'
+                   f'width:{bw / w * 100:.2f}%;height:{bh / h * 100:.2f}%"></button></div></div>')
+        chips += f'<li><button class="dm-step" type="button"{" aria-current=step" if i == 0 else ""}>{i + 1} · {label}</button></li>'
+        caps += f'<p aria-hidden="true">{cap}</p>'
+    # R65: one <audio> per clip, preload=none until the visitor turns sound on; the hint sits on the stage, so nothing moves
+    audio = "".join(f'<audio data-clip="{k}" preload="none" src="{root}assets/{slug}/{f}"></audio>' for k, f in sounds.items())
+    hint = '<button class="dm-hint" type="button" hidden>🔊 Tap for sound</button>' if sounds else ""
+    sound = '<button class="dm-sound" type="button" data-act="sound" aria-pressed="false">🔊 Sound on</button>' if sounds else ""
+    return f"""
+  <section class="dm" data-demo aria-label="Guided demo of {name}">
+    <h2>See it run</h2><p>A guided run through the real screens. Pause it, replay it, or tap any step to look around.{" It starts muted; tap Sound on to hear the clips." if sounds else ""}</p>
+    <div class="dm-stage">{frames}<div class="dm-type" aria-hidden="true"><span class="dm-typed"></span><span class="dm-send"></span></div><span class="dm-cursor" aria-hidden="true"></span>{hint}</div>{audio}
+    <div class="dm-caps">{caps}<p class="dm-cap" aria-live="polite">{steps[0][1]}</p></div>
+    <div class="dm-bar"><ol class="dm-steps">{chips}</ol><div class="dm-ctrl" hidden>{sound}<button type="button" data-act="play">Play demo</button><button type="button" data-act="replay">Replay</button></div></div>
+  </section>"""
+
+
 def lexiai_page():
     return callout_page("lexiai", "LexiAI", LEXI_SUMMARY, LEXI_HIGHLIGHTS, LEXI_BUILT, base=1500, url=LEXI_LIVE)
 
@@ -882,7 +1038,7 @@ def podcast_dig_page():
 
 def redirect_page(new):
     return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>Moved</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Moved — Janet Mao</title><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <meta http-equiv="refresh" content="0; url={new}.html"><link rel="canonical" href="{new}.html"><meta name="robots" content="noindex">
 </head><body><p>This page moved to <a href="{new}.html">{new}.html</a>.</p></body></html>
 """
@@ -896,7 +1052,7 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
     R29: lead = a block right after the summary; js = load motion.js. A shot may also be ("card", html, label), an HTML card
     that carries its own .lx-ring (the dot number is filled in here), or a crop with a 6th item, its width in % of the frame."""
     root = "../"
-    items, n = "", 0
+    items, n, alts = "", 0, {}
     for i, (h, line, shots) in enumerate(highlights):
         pics = ""
         for shot in shots:
@@ -915,6 +1071,11 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
             pics += (f'<div class="lx-pic" style="{width}"><picture><source srcset="{src}.webp" type="image/webp">'
                      f'<img src="{src}.png" alt="{alt}" width="{w}" height="{hgt}"{lazy} decoding="async"></picture>{ring}</div>'
                      f'<div class="lx-note" style="{width}"><span class="lx-dot" aria-hidden="true">{n}</span>{label}</div>')
+            if key in AUDIO:  # R64: a real clip under its crop; never autoplays, nothing loads until play
+                clip, cap = AUDIO[key]
+                pics += (f'<div class="lx-audio" style="{width}"><audio controls preload="none" src="{root}assets/{slug}/{clip}"></audio>'
+                         f'<p>{cap}</p></div>')
+            alts[key] = alt
         items += f'\n  <section class="lx-h"><h2>{h}</h2><p>{line}</p><figure class="lx-shot">{pics}</figure></section>'
     live = f'<a class="try-live" href="{url}" target="_blank" rel="noopener">Try it live →</a>' if url else '' if url is None else '<a class="try-live" href="#">Try it live →</a>'
     return f"""{head(f"{name} — Janet Mao", summary, root).replace("</head>", LEXI_CSS + css + "\n</head>")}
@@ -923,12 +1084,12 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
 {nav(root, 'work')}
 <main>
 <article class="plate lx">
-  <header class="lx-top"><h1>{name}</h1><p>{summary}</p></header>{f'{chr(10)}  {lead}' if lead else ""}{items}{f'{chr(10)}  {coda}' if coda.startswith("<") else f'{chr(10)}  <p class="lx-coda">{coda}</p>' if coda else ""}
+  <header class="lx-top"><h1>{name}</h1><p>{summary}</p></header>{f'{chr(10)}  {lead}' if lead else ""}{items}{f'{chr(10)}  {coda}' if coda.startswith("<") else f'{chr(10)}  <p class="lx-coda">{coda}</p>' if coda else ""}{demo_html(slug, name, DEMOS[slug], alts, root) if slug in DEMOS else video_demo_html(slug, name, root) if slug in DEMO_VIDEO else ""}
   <footer class="lx-foot"><p>{built}</p>{live}</footer>
 </article>
 {next_card(slug, root)}
 </main>
-{foot(root, js)}"""
+{foot(root, js, f'{chr(10)}<script src="{root}assets/demo.js"></script>' if slug in DEMOS or slug in DEMO_VIDEO else "")}"""
 
 
 # ---------------------------------------------------------------- AI Terms (revision 29: the production loop)
@@ -937,7 +1098,7 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
 # The two cards are faithful English translations of Chinese files, labeled as translated:
 #   ai-long-context-ep4/审片/机检.md (machine check of the final cut, v7) and 审片/审片-2026-10-31.md (review of v5).
 AT_SUMMARY = "Short films that explain one AI word in plain language, made by a loop of agents that check each other."
-P["ai-terms"] = dict(name="AI Terms", what=AT_SUMMARY)
+P["ai-terms"] = dict(name="AI Term Explainer", what=AT_SUMMARY)
 # (episode, term, one line from the episode's through-line, length of the finished English video in ~/AI-Terms/成片)
 EPISODES = [
     ("Ep 1", "Embedding", "A sentence becomes a point on a map of meaning.", "10:30"),
@@ -1027,12 +1188,12 @@ LP_MAKE = [  # (name, icon, three short lines for the wide card; the tall card j
      ["Every shot planned", "first; the lint must", "show no red."]),
     ("Voice", f'<path d="M5 20h2M10 15v10M15 10v20M25 12v16M30 16v8M35 20h0" fill="none"/>'
                       f'<path d="M20 6v28" fill="none" stroke="{_G}" stroke-width="2.4"/>',
-     ["Voice checked by ASR,", "then scenes, a frame", "checked after each."]),
+     ["Voiceover checked by", "speech recognition,", "then a frame per scene."]),
 ]
 LP_LOOP = [  # (name, one line) clockwise from the top; the reviewer is index 1
     ("Machine check", "stills · blanks · blue · camera"),
     ("Independent reviewer", "7 checks · score 1–10 · top 3"),
-    ("Fix + re-render", "each issue: fixed, or why not"),
+    ("Fix + re-render", "every issue fixed or explained"),
     ("Re-check", "check again, a frame per fix"),
 ]
 LP_NOTE = ["Never saw the making.", "Sees only what", "a viewer sees."]
@@ -1103,45 +1264,24 @@ def _lp_wide():
     return f'<svg class="lp-svg lp-w" viewBox="0 0 760 420" aria-hidden="true">{"".join(s).replace("ID-", "lpw-")}</svg>'
 
 
-def _lp_tall():
-    s = [_lp_defs(), '<text class="lp-k" x="28" y="14">Make</text>']
-    two = lambda ls: [f"{ls[0]} {ls[1]}", ls[2]]
-    for i, (name, ic, lines) in enumerate(LP_MAKE):
-        x, y = 28, 24 + i * 72
-        s.append(f'<g class="lp-o" style="--k:{i}"><rect class="lp-card" x="{x}" y="{y}" width="332" height="60" rx="8"/>'
-                 f'<text class="lp-pn" x="{x + 46}" y="{y + 22}"><tspan class="lp-num">{i + 1}</tspan> {name}</text>'
-                 f'{_lp_text(x + 46, y + 38, two(lines), "lp-s", dy=13)}</g>{_lp_icon(x + 12, y + 14, ic, i)}')
-        if i < 4:
-            s.append(_ln(f"M194 {y + 61}v9", i))
-    s.append(_ln("M194 372v36", 5))
-    s.append('<text class="lp-k lp-o" style="--k:5" x="204" y="396">Check</text>')
-    ys, hs = [410, 476, 584, 650], [44, 82, 44, 44]
-    for j, (name, sub) in enumerate(LP_LOOP):
-        cy = ys[j] + hs[j] / 2
-        s.append(_lp_pill(170, cy, 260, hs[j], name, sub, 6 + 2 * j, key=j == 1,
-                          note=[f"{LP_NOTE[0]} {LP_NOTE[1]}", LP_NOTE[2]] if j == 1 else None))
-        if j < 3:
-            s.append(_ln(f"M170 {ys[j] + hs[j] + 1}V{ys[j + 1] - 2}", 7 + 2 * j))
-    s.append(_ln("M301 672h21V432h-20", 13))
-    s.append('<g class="lp-o" style="--k:13"><text class="lp-c" transform="translate(350 552) rotate(90)" text-anchor="middle">up to 3 rounds</text>'
-             '<text class="lp-s" transform="translate(336 552) rotate(90)" text-anchor="middle">new reviewer if &gt;3 shots changed</text></g>')
-    s.append(_ln("M170 695v19", 14))
-    s.append('<g class="lp-o" style="--k:14"><rect class="lp-card lp-j" x="100" y="716" width="140" height="44" rx="8"/>'
-             '<text class="lp-pn" x="170" y="734" text-anchor="middle">Janet watches</text>'
-             '<text class="lp-ps" x="170" y="748" text-anchor="middle">leftovers listed</text></g>')
-    s.append('<path class="lp-learn lp-o" style="--k:15" d="M98 738H10V54h15" marker-end="url(#ID-ahg)"/>')
-    s.append('<g class="lp-o" style="--k:15"><text class="lp-note" transform="translate(22 560) rotate(-90)" text-anchor="middle">'
-             f'{" ".join(LP_LEARN).lower().capitalize()}</text></g>')
-    return f'<svg class="lp-svg lp-t" viewBox="0 0 362 770" aria-hidden="true">{"".join(s).replace("ID-", "lpt-")}</svg>'
+def _lp_list():
+    """R63: the phone version is a plain list (same steps, same order) instead of the tall SVG, whose text came out ~8px.
+    On desktop the same list stays visually hidden and is what screen readers read; the wide SVG is decoration."""
+    ic = lambda c: f'<svg class="lp-li-ic" viewBox="0 0 40 40" aria-hidden="true"><g {_KT}>{c}</g></svg>'
+    make = "".join(f'<li>{ic(c)}<p><b><span class="lp-num">{i + 1}</span> {n}</b><span>{" ".join(ls)}</span></p></li>'
+                   for i, (n, c, ls) in enumerate(LP_MAKE))
+    check = "".join(f'<li{' class="lp-li-key"' if j == 1 else ''}><p><b>{n}</b><span>{d}</span>'
+                    + (f'<i>{" ".join(LP_NOTE)}</i>' if j == 1 else "") + '</p></li>' for j, (n, d) in enumerate(LP_LOOP))
+    return ('<div class="lp-list"><p class="lp-lk">Make</p><ol class="lp-make">' + make + '</ol>'
+            '<p class="lp-lk">Check</p><ol class="lp-check">' + check + '</ol>'
+            '<p class="lp-rd">Back to the machine check, up to 3 rounds; a new reviewer if more than 3 shots changed.</p>'
+            '<p class="lp-jw"><b>Janet watches</b><span>Any leftovers are listed.</span></p>'
+            f'<p class="lp-lrn">{" ".join(LP_LEARN)}.</p></div>')
 
 
 def loop_diagram():
-    """The production loop. Screen readers get the ordered list; the two SVGs are decoration of the same content."""
-    sr = "".join(f"<li>{n}: {' '.join(ls)}</li>" for n, _, ls in LP_MAKE)
-    sr += "".join(f"<li>{n}: {d}.</li>" for n, d in LP_LOOP)
-    sr += f"<li>Back to the machine check, up to 3 rounds; a new reviewer if more than 3 shots changed. The reviewer {' '.join(LP_NOTE).lower()}</li>"
-    sr += f"<li>Janet watches; any leftovers are listed. {' '.join(LP_LEARN)}.</li>"
-    return (f'<figure class="lp" data-loop><ol class="sr">{sr}</ol>{_lp_wide()}{_lp_tall()}'
+    """The production loop: the wide SVG on desktop, the list on phones (and for screen readers everywhere)."""
+    return (f'<figure class="lp" data-loop>{_lp_list()}{_lp_wide()}'
             f'<figcaption class="lp-cap">How each episode is made: a Claude Code skill, <span style="white-space:nowrap">ai-term-explainer</span>.</figcaption></figure>')
 
 
@@ -1177,7 +1317,7 @@ AT_REVIEW = (
 AT_HIGHLIGHTS = [
     ("What the reviewer sees",
      "Every cut is sampled into contact sheets, one frame every 2 seconds. The reviewer reads only these, the subtitle timeline and the real data.",
-     [("at-sheet", "Contact sheet from Ep 4: six frames of the opening, 0:00 to 0:14, each stamped with its timecode in the top-left corner", (1464, 558),
+     [("at-sheet", "Contact sheet from the English Ep 3, RAG: six frames of the opening, 0:00 to 0:14, each stamped with its timecode in the top-left corner", (1464, 558),
        (492, 282, 480, 270), "One frame every 2 seconds, timecoded")]),
     ("Machine check first",
      "film_check.py flags long still shots, blank frames, banned blue and camera push-ins. On Ep 4 the first re-check after fixes found one red, "
@@ -1189,12 +1329,13 @@ AT_HIGHLIGHTS = [
      "error at 2:33 and the math error at 5:21; both were fixed.",
      [("card", AT_REVIEW, "A score, and three fixes ranked first")]),
     ("Fixed, then checked again",
-     "The reviewer flagged 0:24–0:30, where chunk, coordinates and vector database were three words in boxes. Now they are drawn: scissors cut a page, "
-     "points land on a plot, a database stores them. After the re-render, a frame is pulled at that timecode to confirm.",
-     [("at-before", "Before: three hand-drawn boxes with arrows, labeled in Chinese chunk, make coordinates, build vector database, then a pink question mark", (920, 210),
+     "The reviewer flagged 0:24–0:30 of Ep 4, where chunk, coordinates and vector database were three words in boxes. Now they are drawn: scissors cut a page, "
+     "points land on a plot, a database stores them. After the re-render, a frame is pulled at that timecode to confirm. "
+     "Ep 4 is in Chinese for now, so the labels in these two frames are translated.",
+     [("at-before", "Before: three hand-drawn boxes with arrows, labeled chunk, coordinates and vector DB, then a pink question mark", (920, 210),
        (30, 28, 760, 106), "Before: three words in boxes", 90),
-      ("at-after", "After: the same three steps drawn as scissors cutting a page, dots on a plot and a database cylinder, with the labels underneath", (920, 210),
-       (30, 16, 660, 186), "After: scissors, points, a database", 90)]),
+      ("at-after", "After: the same three steps drawn as scissors cutting a page, dots on a plot and a database cylinder, labeled chunk, coordinates and vector DB underneath", (920, 210),
+       (30, 16, 690, 186), "After: scissors, points, a database", 90)]),
     ("The finished film",
      "Ep 3, RAG, ends on the one line to keep and where to read next. Janet watches every cut before it ships, and what worked goes back into the skill.",
      [("at-final", "Last frame of the English RAG episode: RAG = retrieve, then generate. An open-book exam for the AI, with a reading list from IBM, Pinecone and Anthropic", (1920, 1080),
@@ -1206,7 +1347,23 @@ AT_CSS = """
 /* R29: the production loop */
 .lp { margin: 40px 0 0; padding: 26px 16px 18px; background: var(--bg-panel); }
 .lp-svg { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--sans); }
-.lp-t { display: none; }
+.lp-list { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lp-list ol { list-style: none; margin: 0; padding: 0; }
+.lp-list li p { margin: 0; }
+.lp-list .lp-lk { font-size: 13px; font-weight: 600; color: var(--ink-soft); margin: 0 0 8px; }
+.lp-make li, .lp-check li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: #fff; border-radius: 8px; }
+.lp-make li + li, .lp-check li + li { margin-top: 6px; }
+.lp-li-ic { flex: none; width: 28px; height: 28px; margin-top: 1px; }
+.lp-list li b, .lp-list .lp-jw b { display: block; font-size: 15px; font-weight: 600; letter-spacing: -.005em; color: var(--ink); }
+.lp-list li p > span, .lp-list .lp-jw span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.45; color: var(--ink-soft); }
+.lp-list li i { display: block; margin-top: 4px; font-size: 14px; font-weight: 500; color: var(--accent); }
+.lp-list .lp-check { padding-left: 12px; border-left: 1.5px solid var(--accent); }
+.lp-li-key { box-shadow: inset 0 0 0 2px var(--accent); }
+.lp-list .lp-li-key b { color: var(--accent); }
+.lp-list .lp-rd { margin: 10px 0 0; padding-left: 12px; font-size: 14px; line-height: 1.45; color: var(--ink-soft); }
+.lp-rd::before { content: "↺ "; color: var(--accent); font-weight: 600; }
+.lp-list .lp-jw { margin: 18px 0 0; padding: 12px 14px; background: var(--tint); border-radius: 8px; box-shadow: inset 0 0 0 1px var(--accent); }
+.lp-list .lp-lrn { margin: 10px 0 0; font-size: 14px; font-style: italic; font-weight: 500; color: var(--accent); }
 .lp-card { fill: #fff; stroke: rgba(10, 10, 10, .22); stroke-width: 1; }
 .lp-j { fill: var(--tint); stroke: var(--accent); }
 .lp-pill { fill: #fff; stroke: #0a0a0a; stroke-width: 1; }
@@ -1269,10 +1426,10 @@ AT_CSS = """
 .lx-coda { margin: 56px 0 0; }
 .lx-coda h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--ink-soft); }
 @media (max-width: 699px) {
-  .lp { padding: 16px 6px 12px; }
+  .lp { padding: 18px 14px 14px; }
   .lp-w { display: none; }
-  .lp-t { display: block; }
-  .lp-pn { font-size: 13px; } .lp-ps, .lp-s { font-size: 11px; } .lp-note { font-size: 11.5px; }
+  .lp-list { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; }
+  .lp-list .lp-make + .lp-lk { margin-top: 18px; }
   .ck-card { padding: 14px 14px 12px; }
   .ck-h { display: block; } .ck-h b, .ck-m, .tl { display: block; } .ck-m::before { content: none; } .tl { margin: 4px 0 0; }
   .ck-l li { grid-template-columns: 1fr; gap: 2px; }
@@ -1287,8 +1444,8 @@ def ai_terms_page():
     eps = "".join(f'<li><span class="ep-n">{n}</span><span class="ep-t"><b>{t}</b><span>{d}</span></span><span class="ep-l">{l}</span></li>'
                   for n, t, d, l in EPISODES)
     coda = (f'<div class="lx-coda"><h3>Episodes</h3><ol class="eps">{eps}</ol>'
-            f'<p class="see"><a href="research.html#ai-terms">See the finished films →</a></p></div>')  # R38
-    return callout_page("ai-terms", "AI Terms", AT_SUMMARY, AT_HIGHLIGHTS, AT_BUILT, base=1464, url=None,
+            f'<p class="see"><a href="../index.html#research-ai-terms">See the finished films →</a></p></div>')  # R38
+    return callout_page("ai-terms", "AI Term Explainer", AT_SUMMARY, AT_HIGHLIGHTS, AT_BUILT, base=1464, url=None,
                         coda=coda, css=AT_CSS, js=True,
                         lead=framework_section() + '\n  <section class="lx-h" id="loop"><h2>How each film is made</h2>'
                              '<p>Five steps to make it, then a check loop before I watch it.</p>' + loop_diagram() + '</section>')
@@ -1520,19 +1677,9 @@ CATALOG = [
     ("SR-26", "startup-research", "How I read a company: understand the tech, analyze the business."),
     ("AT-26", "ai-terms", "Short videos that explain AI words in plain language."),
 ]
-# Writing: real pieces only (year, month, title, one line, link). Both are the Granola work on projects/research-granola.html (R23).
-WRITING = [
-    ("2026", "Oct", "Granola — Deep Dive", "Four beliefs stated before the evidence, each with the data that would prove it wrong.", "projects/research-granola.html"),
-    ("2026", "Oct", "Granola, in two pages", "What the $1.5B pays for, and what could take it away.", "projects/research-granola.html#example"),
-]
 # hero story captions (revision 27): text, start, end in seconds. The last one has no end: it stays with the living
 # forest and is also the caption of the still frame (reduced motion, no JS).
 HERO_CAPTIONS = [("Bored…", .3, 2.7), ("…then she opened AI.", 3.0, 5.4), ("Now she can’t stop learning.", 5.8, None)]
-ABOUT = [
-    "The LexiAI tools share one word list: my LexiAI notebook.",
-    "I build them for myself first, in my second language.",
-    "Anything I do twice with Claude becomes a skill.",
-]
 
 
 # ---------------------------------------------------------------- home: the project map (R32, from the R31 mock)
@@ -1693,9 +1840,9 @@ def map_section():
     lines = {s: line for _c, s, line in CATALOG}
     notes = {s: n for s, (_x, _y, n) in MAP_NODES.items()}
     rest = "Hover or tab to a project to see how it connects. Click to open it."
-    return f'''<section class="plate fits" id="work">
-  {ph("01", "Things I've built", f"{len(MAP_NODES)} projects")}
-  <p class="fit-in">None of these stands alone. The English tools share one word notebook, and one pool of podcast transcripts feeds both my English practice and my startup research.</p>
+    return f'''<section class="plate fits hl-sec" id="work">
+  {ph("01", "Things I've built", f"{len(MAP_NODES)} projects", icon="built")}
+  {blurb("fit-in", "None of these stands alone. The English tools share one word notebook, and one pool of podcast transcripts feeds both my English practice and my startup research.")}
   {_map_desktop(lines)}
   {_map_mobile(lines)}
   <p class="fit-note" id="fit-note" aria-live="polite" data-rest="{rest}">{rest}</p>
@@ -1703,25 +1850,24 @@ def map_section():
 </section>'''
 
 
+# R51: the "How I work" About plate is gone; the hero carries id="about" so the nav's About tab lands on the greeting.
 def index_page():
     caps = "".join(f'<span class="fx-cap" style="--t:{t}s;--u:{u}s">{c}</span>' if u else f'<span class="fx-cap last" style="--t:{t}s">{c}</span>'
                    for c, t, u in HERO_CAPTIONS)
-    about = "".join(f"<li>{t}</li>" for t in ABOUT)
-    posts = "".join(
-        f'<li><a href="{href}"><span class="dt"><b>{y}</b><span>{m}</span></span><span class="pt"><b>{t}</b><span>{x}</span></span><span class="go" aria-hidden="true">→</span></a></li>'
-        for y, m, t, x, href in WRITING)
-    return f"""{head("Janet Mao — AI builder", "Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language.", "")}
+    return f"""{head("Janet Mao — AI builder", "Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.", "")}
 <body class="home" data-root="">
 <div class="page">
 {nav("", "")}
 <main>
-<section class="plate hero">
+<section class="plate hero" id="about">
   <div class="hero-t">
     <h1>Hi! I'm <mark>Janet</mark></h1>
-    <p>I'm an AI builder in San Francisco.</p>
-    <p>I build tools for learning English, my second language.</p>
-    <p>The LexiAI tools share one word list, my LexiAI notebook, and talk to each other.</p>
-    <p>I also write Claude Code skills for my own work.</p>
+    <p>I like cool, fancy things.</p>
+    <p>But I'd rather make something I use every day.</p>
+    <p>As a former VC and startup core member, I'm always diving into startups.</p>
+    <p>I build these projects for lifelong learning.</p>
+    <p>None of them stands alone.</p>
+    <p>They connect as one system, woven into how I learn.</p>
     <p class="links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
   <div class="hero-v"><div class="fx">
@@ -1730,18 +1876,9 @@ def index_page():
   </div><p class="vh">A short drawing: a girl is bored at her desk with a closed book. She opens it, and a forest grows out of the pages. Leaves fall from the trees and turn into English words while she leans in to read.</p></div>
 </section>
 {map_section()}
-<section class="plate about" id="about">
-  {ph("02", "About")}
-  <div class="about-in">
-    <h3>How I work</h3><ul>{about}</ul>
-  </div>
-</section>
-<section class="plate" id="writing">
-  {ph("03", "Writing", f"{len(WRITING)} pieces")}
-  <ul class="posts">{posts}</ul>
-</section>
+{research_section()}
 </main>
-{foot("")}""".replace("</body>", '<script src="assets/hero.js"></script>\n<script src="assets/eyes.js"></script>\n<script src="assets/pollen.js"></script>\n<script src="assets/map.js"></script>\n</body>')
+{foot("")}""".replace("</head>", HL_JS + "\n</head>").replace("</body>", '<script src="assets/hero.js"></script>\n<script src="assets/eyes.js"></script>\n<script src="assets/pollen.js"></script>\n<script src="assets/map.js"></script>\n</body>')
 
 
 if __name__ == "__main__":
@@ -1750,7 +1887,7 @@ if __name__ == "__main__":
     for s in ORDER:
         page ={"startup-research": startup_page, "ai-terms": ai_terms_page, "lexiai": lexiai_page, "lexispeak": lexispeak_page, "writing-station": writing_station_page, "podcast-dig": podcast_dig_page}.get(s)
         (OUT / "projects" / f"{s}.html").write_text(page() if page else project_page(s))
-    extra = {"research": research_page, "research-granola": research_granola_page,
+    extra = {"research": research_redirect, "research-granola": research_granola_page,
              **{f"research-aiterm-{s}": (lambda s=s: research_aiterm_page(s)) for s, *_ in AITERM_FILMS}}
     for s, page in extra.items():
         (OUT / "projects" / f"{s}.html").write_text(page())

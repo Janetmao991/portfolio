@@ -33,3 +33,9 @@ _src/mock-hero/
 *.mp4
 *.mov
 *.webm
+
+# QA captures and snapshots (local only)
+_src/capture/r4[89]/
+_src/capture/r5[0-9]/
+_src/capture/r6[0-9]/
+_src/r6[0-9]-snapshot/

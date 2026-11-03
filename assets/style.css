@@ -268,14 +268,6 @@ main { display: grid; gap: var(--gap); }
 .fm-br b { color: var(--accent); font-weight: 600; }
 .next:hover .go, .next:focus-visible .go, .posts a:hover .go, .posts a:focus-visible .go { background: var(--accent); border-color: var(--accent); color: var(--bg-panel); transform: translateX(2px); }
 
-/* ---------- home: about ---------- */
-.about-in { display: grid; grid-template-columns: 5fr 6fr; gap: 40px; align-items: start; }
-.about li:last-child { padding-bottom: 0; }
-.about h3 { font-family: var(--display); font-weight: 800; font-size: 30px; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
-.about ul { list-style: none; margin: 0; padding: 0; }
-.about li { position: relative; padding: 0 0 10px 20px; font-size: 17px; }
-.about li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 7px; height: 7px; border-radius: 1px; background: var(--accent); }
-
 /* ---------- home: writing list ---------- */
 .posts { list-style: none; margin: 0; padding: 0; }
 .posts li + li { border-top: 1px solid var(--rule); }
@@ -495,7 +487,6 @@ footer.site a { color: var(--ink-soft); }
   .hero { grid-template-columns: 1fr; padding: 40px var(--pad); gap: 28px; }
   .hero-v { min-height: 0; padding: 24px 0; }
   .forest { width: min(100%, 460px); }
-  .about-in { grid-template-columns: 1fr; gap: 24px; }
 }
 @media (max-width: 699px) {
   .hero { padding: 32px var(--pad) 28px; }
@@ -665,7 +656,7 @@ html:has(.ss.is-full) { overflow: hidden; }
 /* ---- type: one family (Work Sans, set above), five working sizes: 14 small · 17 body · 21 lead · 32 heading · display ---- */
 h1 { font-weight: 500; letter-spacing: -.045em; line-height: .98; font-size: clamp(48px, 6.6vw, 96px); }
 h3 { font-weight: 500; }
-:is(.about h3, .dark h2, .nx-name, .funnel dt, .doc-page h4) { font-weight: 500; }
+:is(.dark h2, .nx-name, .funnel dt, .doc-page h4) { font-weight: 500; }
 
 /* ---- surfaces: plates are a tone step, nothing else. No grain, no corner dots, no shadow, square corners ---- */
 .plate, .plate.dark { box-shadow: none; background-image: none; border-radius: 0; }
@@ -694,8 +685,6 @@ h3 { font-weight: 500; }
 .fm-e { border-top: 0; padding-top: 2px; }
 .fm-e li { font-size: 13px; }
 .fm-br span { outline: 0; background: var(--tint); }
-.about h3 { font-size: 32px; }
-.about li { font-size: 19px; }
 .posts li + li { border-top: 0; }
 .posts a { padding: 12px 0; }
 .dt { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: .3em; align-items: baseline; font-size: 14px; color: var(--ink-soft); }
@@ -760,8 +749,6 @@ footer.site { font-size: 14px; }
 @media (max-width: 699px) {
   .ph h2 { font-size: 26px; }
   .hero-t > p { font-size: 18px; }
-  .about h3 { font-size: 26px; }
-  .about li { font-size: 17px; }
   .pt b { font-size: 19px; }
   .pt span { font-size: 15px; }
   .lx-top p { font-size: 19px; }
@@ -771,9 +758,6 @@ footer.site { font-size: 14px; }
 
 /* ---- round 2 ---- */
 .hero h1 { font-size: clamp(44px, 4.9vw, 70px); }
-/* About: the kicker strip and "How I work" said the same thing twice; the heading alone opens the plate */
-.about > .ph { display: none; }
-.about { padding-top: var(--pad); }
 .fm-e li { font-size: 12.5px; letter-spacing: -.005em; }
 .tp-f { color: var(--ink-soft); }
 .ck-h { border-bottom: 0; padding-bottom: 0; }
@@ -904,3 +888,153 @@ main :is(.lx-top p, .lx-h > p, .title .what, .title .lead, .intro-l, figcaption,
 .fx.tell .fx-story .lf-l path { animation: au-edge 2.6s ease var(--au-t) both; }
 .fx.tell .fx-story .lf text { animation: lf-word 6s linear var(--t) infinite both, au-edge 2.6s ease var(--au-t) both; }
 @keyframes au-edge { from { stroke-opacity: 0; } }
+
+/* ---- R48: homepage intro, one sentence per line ----
+   each sentence is its own <p>. A sentence that has to wrap splits into even halves (no one-word last line),
+   and sentences sit a touch further apart than wrapped lines, so a wrap never reads as a new sentence. */
+.hero-t > p:not(.links) { text-wrap: balance; line-height: 1.45; margin-bottom: 10px; }
+
+/* ---- R49: the greeting breathes ----
+   "Hi! I'm Janet" inherited the display h1's -.045em tracking, which pinched the letters together at this size.
+   Neutral tracking plus a little extra word space; size and weight unchanged. Greeting only — other h1s keep theirs. */
+.hero h1 { letter-spacing: 0; word-spacing: .06em; }
+
+/* ---- R52 → R55 → R58: the Research list on the homepage (#research, replaces Writing) ----
+   one plate: heading + count, a full-width intro line, then two groups (Startups, AI Term Explainer).
+   Each group = head (name, count, a short grey blurb with an underlined link to the method page, a thin rule) → the
+   finished pieces as R53 option A rows (date · title · arrow). R58: the R55 framework lists are gone from here. */
+.rs-what { margin: -14px 0 0; font-size: 19px; max-width: none; }
+.rs-g { margin-top: 40px; }
+.rs-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding-bottom: 10px; }
+.rs-h h3 { display: flex; align-items: baseline; gap: 8px; margin: 0; font-size: 21px; letter-spacing: -.015em; line-height: 1.2; }
+.rs-h h3 span { font-size: 14px; font-weight: 400; color: var(--ink-soft); letter-spacing: 0; }
+.rs-h p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+.rs-rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.rs-rows li { border-bottom: 1px solid var(--rule); }
+.rs-rows a { display: grid; grid-template-columns: 96px 1fr auto; gap: 20px; align-items: center; min-height: 52px; padding: 6px 0; color: var(--ink); text-decoration: none; }
+.rs-dt { font-size: 14px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.rs-t { font-size: 19px; font-weight: 500; letter-spacing: -.012em; line-height: 1.3; transition: color 200ms var(--ease); }
+.rs-rows .go { width: 28px; height: 28px; font-size: 13px; }
+.rs-rows a:hover .rs-t, .rs-rows a:focus-visible .rs-t { color: var(--accent); }
+.rs-rows a:hover .go, .rs-rows a:focus-visible .go { background: var(--accent); color: var(--bg-panel); transform: translateX(2px); }
+@media (max-width: 699px) {
+  .rs-what { margin-top: -10px; font-size: 18px; }
+  .rs-g { margin-top: 32px; }
+  .rs-h h3 { font-size: 19px; }
+  .rs-h p { font-size: 14.5px; flex-basis: 100%; }
+  .rs-rows a { grid-template-columns: 1fr auto; grid-template-areas: "dt go" "t go"; gap: 0 12px; padding: 9px 0; }
+  .rs-dt { grid-area: dt; font-size: 12.5px; line-height: 1.3; }
+  .rs-t { grid-area: t; font-size: 17.5px; }
+  .rs-rows .go { grid-area: go; }
+}
+
+
+/* ---- R60: homepage section heads get an icon (R59 option A) and a highlighter wash under the blurb's opening phrase (R54 option C) ----
+   Icons are static. The .ph row is baseline-aligned, so the svg's bottom edge sits on the heading baseline; the nudge
+   centres the drawn glyph on the cap height, and the negative margin turns the row's 14px gap into ~11px of visible air.
+   The wash is written in its finished state; only html.hl-arm (set by the homepage's head script, never under reduced
+   motion) hides it until the section's heading scrolls in (.hl-on). Only background-size moves.
+   R61: the wash covers the whole blurb; box-decoration-break: clone gives each wrapped line its own band, all drawn together. */
+.ph .ti { flex: none; display: block; width: 24px; height: 24px; margin-right: -6px; transform: translateY(1.5px); color: #4f735c; }
+.hl { background: linear-gradient(rgba(61, 94, 74, .2), rgba(61, 94, 74, .2)) no-repeat 0 90% / 100% .46em; padding: 0 .06em; margin: 0 -.06em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hl-arm .hl-sec .hl { background-size: 0% .46em; transition: background-size 900ms cubic-bezier(.16, 1, .3, 1) 180ms; }
+.hl-arm .hl-sec.hl-on .hl { background-size: 100% .46em; }
+@media (max-width: 699px) { .ph .ti { width: 20px; height: 20px; margin-right: -5px; transform: translateY(1.4px); } }
+
+/* R63: a shorter hero stage on phones. The forest grows into the space under the links, so keep just enough of it:
+   no stage padding, a small gap, and a slightly narrower drawing. Desktop and tablet are unchanged. */
+@media (max-width: 600px) {
+  .hero { gap: 10px; padding-bottom: 20px; }
+  .hero-v { padding: 0; }
+  .forest { width: 90%; }
+}
+
+/* ---------- R64: guided demos (assets/demo.js; markup: demo_html in _src/build.py) ---------- */
+.dm { --dm-accent: #3d5e4a; margin-top: 64px; }
+.dm h2 { font-size: 21px; font-weight: 650; letter-spacing: -.015em; line-height: 1.25; }
+.dm > p { margin: 8px 0 0; font-size: 16px; color: var(--ink-soft); max-width: none; }
+.dm-stage { position: relative; aspect-ratio: 16 / 10; margin-top: 20px; background: #e9e8e4; border: 1px solid rgba(10, 10, 10, .08); border-radius: 12px; overflow: hidden; }
+.dm-frame { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; visibility: hidden; transition: opacity 420ms var(--out), visibility 0s 420ms; }
+.dm-frame.on { opacity: 1; visibility: visible; transition: opacity 420ms var(--out); }
+.dm-stage.typing .dm-frame { opacity: 0; visibility: hidden; }
+.dm-pic { position: relative; width: 92%; }
+.dm-pic img { display: block; width: 100%; height: 100%; border-radius: 6px; box-shadow: 0 1px 3px rgba(10, 10, 10, .08); }
+.dm-hit { position: absolute; padding: 0; margin: 0; border: 2px solid transparent; border-radius: 10px; background: none; cursor: pointer; transition: border-color 280ms, box-shadow 280ms; }
+.dm-hit.lit { border-color: var(--dm-accent); box-shadow: 0 0 0 4px rgba(61, 94, 74, .14); }
+.dm-hit:focus-visible { outline: 2px solid var(--dm-accent); outline-offset: 2px; }
+.dm-cursor { position: absolute; left: 0; top: 0; z-index: 3; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: rgba(20, 20, 18, .3); border: 2px solid #fff; box-shadow: 0 2px 8px rgba(10, 10, 10, .2); pointer-events: none; opacity: 0;
+  transition: transform 950ms cubic-bezier(.45, .05, .25, 1), opacity 300ms, scale 160ms; }
+.dm-cursor.on { opacity: 1; }
+.dm-cursor.down { scale: .8; }
+.dm-cursor::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--dm-accent); opacity: 0; }
+.dm-cursor.down::after { animation: dm-ripple 600ms var(--out); }
+@keyframes dm-ripple { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(2.6); } }
+.dm-type { position: absolute; left: 50%; top: 50%; z-index: 2; width: min(86%, 600px); translate: -50% -50%; display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 18px;
+  background: #fff; border: 1px solid rgba(10, 10, 10, .1); border-radius: 14px; box-shadow: 0 6px 20px rgba(10, 10, 10, .07); opacity: 0; visibility: hidden; transition: opacity 320ms var(--out), visibility 0s 320ms; }
+.dm-stage.typing .dm-type { opacity: 1; visibility: visible; transition: opacity 320ms var(--out); }
+.dm-typed { flex: 1; min-width: 0; min-height: 2.9em; font-size: 15px; line-height: 1.45; color: var(--ink); }
+.dm-typed::after { content: ""; display: inline-block; width: 1.5px; height: 1.1em; margin-left: 1px; vertical-align: -.18em; background: currentColor; animation: dm-blink 1s steps(1) infinite; }
+@keyframes dm-blink { 50% { opacity: 0; } }
+.dm-send { flex: none; padding: 7px 14px; border-radius: 999px; background: #1e1c1a; color: #fff; font-size: 13.5px; font-weight: 600; transition: background 200ms; }
+.dm-send.down { background: var(--dm-accent); }
+/* every caption sits in one cell, so the box keeps the tallest one's height and nothing below moves */
+.dm-caps { display: grid; margin-top: 14px; font-size: 15px; line-height: 1.5; color: var(--ink-soft); }
+.dm-caps p { grid-area: 1 / 1; margin: 0; max-width: none; }
+.dm-caps p[aria-hidden] { visibility: hidden; }
+.dm-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 14px; }
+.dm-steps { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.dm-step, .dm-ctrl button { font: inherit; font-size: 13px; line-height: 1.3; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-soft); cursor: pointer; }
+.dm-step[aria-current] { border-color: var(--dm-accent); color: var(--dm-accent); background: rgba(61, 94, 74, .07); }
+.dm-ctrl { display: flex; gap: 6px; }
+.dm-ctrl[hidden] { display: none; }
+.dm-ctrl button { color: var(--ink); font-weight: 550; }
+.dm-ctrl [data-act=play] { min-width: 88px; }
+.dm :is(.dm-step, .dm-ctrl button):hover { border-color: var(--ink-soft); }
+.dm :is(.dm-step, .dm-ctrl button):focus-visible { outline: 2px solid var(--dm-accent); outline-offset: 2px; }
+@media (max-width: 699px) {
+  .dm { margin-top: 48px; }
+  .dm-stage { aspect-ratio: 4 / 3; border-radius: 10px; }
+  .dm-hit { border-radius: 6px; }
+  .dm-type { width: 92%; gap: 8px; padding: 8px 8px 8px 12px; border-radius: 10px; }
+  .dm-typed { font-size: 12.5px; }
+  .dm-send { padding: 5px 10px; font-size: 12px; }
+  .dm-caps { font-size: 14.5px; }
+  .dm-step, .dm-ctrl button { font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .dm *, .dm *::after { transition: none !important; animation: none !important; } }
+
+/* R64: a real podcast clip under its crop */
+.lx-audio { margin: 12px auto 0; }
+.lx-audio audio { display: block; width: 100%; height: 40px; }
+.lx-audio p { margin: 6px 0 0; font-size: 13.5px; color: var(--ink-soft); max-width: none; }
+@media (min-width: 1000px) { .lx-shot > .lx-audio { grid-column: 1; width: 100% !important; margin: -14px 0 0; } }
+
+/* ---------- R65: sound in the guided demo (assets/demo.js) ---------- */
+/* "Sound on" is the one filled control, so it reads first; once on it turns into a quiet "Mute" like Pause/Replay */
+.dm .dm-ctrl .dm-sound[aria-pressed=false] { background: var(--dm-accent); border-color: var(--dm-accent); color: #fff; }
+.dm .dm-ctrl .dm-sound[aria-pressed=false]:hover { background: #2f4a3a; border-color: #2f4a3a; }
+.dm-sound { min-width: 104px; }
+/* over the stage, top right, so showing it never moves anything */
+.dm-hint { position: absolute; top: 12px; right: 12px; z-index: 4; font: inherit; font-size: 13px; font-weight: 600; line-height: 1.3; padding: 6px 12px; border-radius: 999px; border: 0;
+  background: rgba(30, 28, 26, .86); color: #fff; box-shadow: 0 4px 14px rgba(10, 10, 10, .16); cursor: pointer; animation: dm-hint-in 360ms var(--out); }
+.dm-hint[hidden] { display: none; }
+.dm-hint:hover { background: #1e1c1a; }
+.dm-hint:focus-visible { outline: 2px solid var(--dm-accent); outline-offset: 2px; }
+@keyframes dm-hint-in { from { opacity: 0; transform: translateY(-4px); } }
+@media (max-width: 699px) {
+  .dm-hint { top: 8px; right: 8px; font-size: 12px; padding: 5px 10px; }
+  .dm-sound { min-width: 96px; }
+}
+
+/* ---------- R66: LexiSpeak's recorded run (video_demo_html in _src/build.py, assets/demo.js) ---------- */
+/* the box is the video's own 16:10 at every width, so nothing moves when the poster or the video arrives */
+.dm .dm-vstage, .dm .dm-vstage video { aspect-ratio: 16 / 10; }
+.dm-vstage video { display: block; width: 100%; height: 100%; object-fit: contain; background: #faf9f7; cursor: pointer; }
+.dm-big { position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2; font: inherit; font-size: 16px; font-weight: 600; line-height: 1; padding: 14px 24px; border-radius: 999px; border: 0;
+  background: rgba(30, 28, 26, .88); color: #fff; box-shadow: 0 6px 20px rgba(10, 10, 10, .2); cursor: pointer; }
+.dm-big:hover { background: #1e1c1a; }
+.dm-big:focus-visible { outline: 2px solid var(--dm-accent); outline-offset: 3px; }
+.dm-big[hidden] { display: none; }
+.dm-vcap { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink-soft); max-width: none; }
+.dm-vcap span { font-variant-numeric: tabular-nums; color: var(--ink-faint, var(--ink-soft)); }
+@media (max-width: 699px) { .dm .dm-vstage { aspect-ratio: 16 / 10; } .dm-big { font-size: 14px; padding: 11px 18px; } .dm-vcap { font-size: 13.5px; } }

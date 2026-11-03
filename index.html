@@ -4,24 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Janet Mao — AI builder</title>
-<meta name="description" content="Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language.">
+<meta name="description" content="Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Janet Mao — AI builder">
+<meta property="og:description" content="Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
+<script>
+(() => {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.classList.add('hl-arm');
+  let ready = false; const held = [];
+  const play = h => h.closest('.plate').classList.add('hl-on');
+  const release = () => { if (ready) return; ready = true; held.splice(0).forEach(play); };
+  addEventListener('scroll', release, { once: true, passive: true }); setTimeout(release, 6500);
+  const go = () => {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target); ready ? play(e.target) : held.push(e.target);
+    }), { rootMargin: '0px 0px -25% 0px', threshold: 1 });
+    document.querySelectorAll('.hl-sec .ph h2').forEach(h => io.observe(h));
+  };
+  document.readyState === 'loading' ? addEventListener('DOMContentLoaded', go) : go();
+})();
+</script>
 </head>
 <body class="home" data-root="">
 <div class="page">
 <header class="plate nav">
   <a class="home" href="index.html"><span class="av" aria-hidden="true">J</span>Janet Mao</a>
-  <nav><a href="index.html#about">About</a><a href="index.html#work">Projects</a><a href="projects/research.html">Research</a></nav>
+  <nav><a href="index.html#about">About</a><a href="index.html#work">Projects</a><a href="index.html#research">Research</a></nav>
 </header>
 <main>
-<section class="plate hero">
+<section class="plate hero" id="about">
   <div class="hero-t">
     <h1>Hi! I'm <mark>Janet</mark></h1>
-    <p>I'm an AI builder in San Francisco.</p>
-    <p>I build tools for learning English, my second language.</p>
-    <p>The LexiAI tools share one word list, my LexiAI notebook, and talk to each other.</p>
-    <p>I also write Claude Code skills for my own work.</p>
+    <p>I like cool, fancy things.</p>
+    <p>But I'd rather make something I use every day.</p>
+    <p>As a former VC and startup core member, I'm always diving into startups.</p>
+    <p>I build these projects for lifelong learning.</p>
+    <p>None of them stands alone.</p>
+    <p>They connect as one system, woven into how I learn.</p>
     <p class="links"><a href="https://x.com/BuiltByJanet">X @BuiltByJanet</a><a href="https://github.com/Janetmao991">GitHub</a><a href="mailto:qing.mao.2024@marshall.usc.edu">Email</a></p>
   </div>
   <div class="hero-v"><div class="fx">
@@ -55,9 +80,9 @@
     <p class="fx-c" aria-hidden="true"><span class="fx-cap" style="--t:0.3s;--u:2.7s">Bored…</span><span class="fx-cap" style="--t:3.0s;--u:5.4s">…then she opened AI.</span><span class="fx-cap last" style="--t:5.8s">Now she can’t stop learning.</span></p>
   </div><p class="vh">A short drawing: a girl is bored at her desk with a closed book. She opens it, and a forest grows out of the pages. Leaves fall from the trees and turn into English words while she leans in to read.</p></div>
 </section>
-<section class="plate fits" id="work">
-  <div class="ph"><h2>Things I've built</h2><span class="pm">6 projects</span></div>
-  <p class="fit-in">None of these stands alone. The English tools share one word notebook, and one pool of podcast transcripts feeds both my English practice and my startup research.</p>
+<section class="plate fits hl-sec" id="work">
+  <div class="ph"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="12" height="12" rx="2.5"/><rect x="8.5" y="3.5" width="12" height="12" rx="2.5"/></svg><h2>Things I've built</h2><span class="pm">6&nbsp;projects</span></div>
+  <p class="fit-in"><span class="hl">None of these stands alone. The English tools share one word notebook, and one pool of podcast transcripts feeds both my English practice and my startup research.</span></p>
   <div class="fit" style="aspect-ratio:1000/760">
   <svg class="wires" viewBox="0 0 1000 760" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#55554f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#3d5e4a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
     <rect class="cl" x="10" y="22" width="446" height="716" rx="14"/><rect class="cl" x="544" y="22" width="446" height="716" rx="14"/>
@@ -84,7 +109,7 @@
 <path d="M76 76l18 18" fill="none" stroke-width="9"/><circle cx="62" cy="62" r="19" fill="#fff" fill-opacity=".35"/>
 <path d="M51 55c2-5 6-8 11-8.5" fill="none" stroke-width="2.5"/></g></svg><b>Startup Research<span class="na" aria-hidden="true">→</span></b><small>How I read a company: understand the tech, analyze the business.</small></a><a class="nd" data-id="ai-terms" href="projects/ai-terms.html" style="left:88.20%;top:73.68%;--p:6;--fd:5.20s;--fo:-6.5s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-ai-terms" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-ai-terms)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 88l-9 17M82 88l9 17M60 88v10" fill="none"/><rect x="14" y="22" width="92" height="64" rx="5" fill="#fff"/>
 <path d="M10 88h100" fill="none" stroke-width="4"/><path d="M24 33c4-3 7 3 11 0s7 3 11 0M88 74h8" fill="none" stroke-width="2.5"/>
-<path d="M51 40v32l26-16z" fill="#3d5e4a"/></g></svg><b>AI Terms<span class="na" aria-hidden="true">→</span></b><small>Short videos that explain AI words in plain language.</small></a>
+<path d="M51 40v32l26-16z" fill="#3d5e4a"/></g></svg><b>AI Term Explainer<span class="na" aria-hidden="true">→</span></b><small>Short videos that explain AI words in plain language.</small></a>
   <p class="vp" data-id="vault" style="left:68.00%;top:90.79%;--p:8;--fd:6.10s;--fo:-7.8s"><svg class="vi" viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="30" height="25" rx="3" fill="#fff"/><circle cx="20" cy="19.5" r="6"/><path d="M20 15.5v8M16 19.5h8" stroke="#3d5e4a"/><path d="M11 32v3M29 32v3"/></g></svg><span><b>Obsidian vault</b><small>where the research lands</small></span></p>
 </div>
   <div class="fm"><section class="fm-c"><p class="fm-k">Learning English</p><ol><li class="fm-n"><a href="projects/lexispeak.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-lexispeak-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-lexispeak-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M62 20h41c4 0 7 3 7 7v28c0 4-3 7-7 7H82L68 75l2-13h-8c-4 0-7-3-7-7V27c0-4 3-7 7-7z" fill="#fff"/>
@@ -102,25 +127,27 @@
 <path d="M-5 -48.5v10h10v-10A14.5 14.5 0 1 1 -5 -48.5z" fill="#fff"/><circle cx="0" cy="19" r="3" fill="none"/></g></g></svg><span><b>podcast-dig<span class="na" aria-hidden="true">→</span></b><small>Exact quotes from long podcasts, searchable in my Obsidian vault.</small></span></a><ul class="fm-e" aria-label="Connections"><li class="br"><span class="to">⇄ LexiAI</span><span class="lb">shared transcripts</span></li><li><span class="to">→ Startup Research</span><span class="lb">raw material</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li><li class="fm-n"><a href="projects/startup-research.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-startup-research-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-startup-research-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v80h92" fill="none"/><path d="M16 80h-4M16 60h-4M16 40h-4" fill="none" stroke-width="2.5"/>
 <path d="M24 88l17-14 14 6 19-23 22-21" fill="none" stroke="#3d5e4a" stroke-width="4"/><path d="M86 35h11v11" fill="none" stroke="#3d5e4a" stroke-width="4"/>
 <path d="M76 76l18 18" fill="none" stroke-width="9"/><circle cx="62" cy="62" r="19" fill="#fff" fill-opacity=".35"/>
-<path d="M51 55c2-5 6-8 11-8.5" fill="none" stroke-width="2.5"/></g></svg><span><b>Startup Research<span class="na" aria-hidden="true">→</span></b><small>How I read a company: understand the tech, analyze the business.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">← podcast-dig</span><span class="lb">raw material</span></li><li><span class="to">← AI Terms</span><span class="lb">tech explained</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li><li class="fm-n"><a href="projects/ai-terms.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-ai-terms-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-ai-terms-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 88l-9 17M82 88l9 17M60 88v10" fill="none"/><rect x="14" y="22" width="92" height="64" rx="5" fill="#fff"/>
+<path d="M51 55c2-5 6-8 11-8.5" fill="none" stroke-width="2.5"/></g></svg><span><b>Startup Research<span class="na" aria-hidden="true">→</span></b><small>How I read a company: understand the tech, analyze the business.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">← podcast-dig</span><span class="lb">raw material</span></li><li><span class="to">← AI Term Explainer</span><span class="lb">tech explained</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li><li class="fm-n"><a href="projects/ai-terms.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-ai-terms-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-ai-terms-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 88l-9 17M82 88l9 17M60 88v10" fill="none"/><rect x="14" y="22" width="92" height="64" rx="5" fill="#fff"/>
 <path d="M10 88h100" fill="none" stroke-width="4"/><path d="M24 33c4-3 7 3 11 0s7 3 11 0M88 74h8" fill="none" stroke-width="2.5"/>
-<path d="M51 40v32l26-16z" fill="#3d5e4a"/></g></svg><span><b>AI Terms<span class="na" aria-hidden="true">→</span></b><small>Short videos that explain AI words in plain language.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">→ Startup Research</span><span class="lb">tech explained</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li></ol></section></div>
+<path d="M51 40v32l26-16z" fill="#3d5e4a"/></g></svg><span><b>AI Term Explainer<span class="na" aria-hidden="true">→</span></b><small>Short videos that explain AI words in plain language.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">→ Startup Research</span><span class="lb">tech explained</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li></ol></section></div>
   <p class="fit-note" id="fit-note" aria-live="polite" data-rest="Hover or tab to a project to see how it connects. Click to open it.">Hover or tab to a project to see how it connects. Click to open it.</p>
   <script type="application/json" id="fit-notes">{"lexispeak": "Picks target words from my notebook; saying one right marks it “Can Speak” in LexiAI.", "lexiai": "The shared word notebook. The other two practise its words and write progress back.", "writing-station": "Asks me to use notebook words; a word used well counts toward “Can Write”.", "podcast-dig": "One local Whisper transcript pool, shared with LexiAI, so no episode is transcribed twice.", "startup-research": "Reads podcast-dig’s highlights first, so founders speak in their own words.", "ai-terms": "Explains the tech a startup is built on, before I judge the business."}</script>
 </section>
-<section class="plate about" id="about">
-  <div class="ph"><h2>About</h2></div>
-  <div class="about-in">
-    <h3>How I work</h3><ul><li>The LexiAI tools share one word list: my LexiAI notebook.</li><li>I build them for myself first, in my second language.</li><li>Anything I do twice with Claude becomes a skill.</li></ul>
+<section class="plate rs hl-sec" id="research">
+  <div class="ph"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L20.5 20.5"/></svg><h2>Research</h2><span class="pm">1 company · 3 films</span></div>
+  <p class="rs-what"><span class="hl">Startups I've researched, and AI terms I've explained on film.</span></p>
+  <div class="rs-g" id="research-startups">
+    <div class="rs-h"><h3>Startups <span>1</span></h3><p>Written with my <a href="projects/startup-research.html">Startup Research</a> method.</p></div>
+    <ul class="rs-rows"><li><a href="projects/research-granola.html"><span class="rs-dt">Oct 2026</span><span class="rs-t">Granola — Deep Dive</span><span class="go" aria-hidden="true">→</span></a></li></ul>
   </div>
-</section>
-<section class="plate" id="writing">
-  <div class="ph"><h2>Writing</h2><span class="pm">2 pieces</span></div>
-  <ul class="posts"><li><a href="projects/research-granola.html"><span class="dt"><b>2026</b><span>Oct</span></span><span class="pt"><b>Granola — Deep Dive</b><span>Four beliefs stated before the evidence, each with the data that would prove it wrong.</span></span><span class="go" aria-hidden="true">→</span></a></li><li><a href="projects/research-granola.html#example"><span class="dt"><b>2026</b><span>Oct</span></span><span class="pt"><b>Granola, in two pages</b><span>What the $1.5B pays for, and what could take it away.</span></span><span class="go" aria-hidden="true">→</span></a></li></ul>
+  <div class="rs-g" id="research-ai-terms">
+    <div class="rs-h"><h3>AI Term Explainer <span>3</span></h3><p>One AI word per film, in plain language. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
+    <ul class="rs-rows"><li><a href="projects/research-aiterm-embedding.html"><span class="rs-dt">Oct 2026</span><span class="rs-t">Ep 1 · Embedding</span><span class="go" aria-hidden="true">→</span></a></li><li><a href="projects/research-aiterm-vector-database.html"><span class="rs-dt">Oct 2026</span><span class="rs-t">Ep 2 · Vector database</span><span class="go" aria-hidden="true">→</span></a></li><li><a href="projects/research-aiterm-rag.html"><span class="rs-dt">Oct 2026</span><span class="rs-t">Ep 3 · RAG</span><span class="go" aria-hidden="true">→</span></a></li></ul>
+  </div>
 </section>
 </main>
 <section class="plate dark" id="contact">
-  <h2>Write to me</h2>
+  <h2>Contact me</h2>
   <p class="mail"><a href="mailto:qing.mao.2024@marshall.usc.edu">qing.mao.2024@marshall.usc.edu</a></p>
   <p class="round"><a href="https://x.com/BuiltByJanet" aria-label="X @BuiltByJanet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.6l5.24 6.93zM17.6 20.64h2.04L6.48 3.24H4.3z"/></svg></a><a href="https://github.com/Janetmao991" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57l-.02-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.31-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .32.21.69.82.57A12 12 0 0 0 12 .3"/></svg></a></p>
 </section>
