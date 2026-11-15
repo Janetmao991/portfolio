@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Startup Teardown No.01 · Granola</title>
+<!-- Fonts are bundled locally in assets/fonts (SIL Open Font License). The Google Fonts link is only a fallback. -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Inter+Tight:wght@500;700;800;900&family=JetBrains+Mono:wght@500;700&family=Instrument+Serif:ital@0;1&display=block" rel="stylesheet">
+<style>
+@font-face{font-family:"TD Newsreader";src:url(assets/fonts/Newsreader.ttf) format("truetype");font-weight:200 800;font-style:normal}
+@font-face{font-family:"TD Newsreader";src:url(assets/fonts/Newsreader-Italic.ttf) format("truetype");font-weight:200 800;font-style:italic}
+@font-face{font-family:"TD Playfair";src:url(assets/fonts/PlayfairDisplay.ttf) format("truetype");font-weight:400 900;font-style:normal}
+@font-face{font-family:"TD Playfair";src:url(assets/fonts/PlayfairDisplay-Italic.ttf) format("truetype");font-weight:400 900;font-style:italic}
+@font-face{font-family:"TD Inter";src:url(assets/fonts/InterTight.ttf) format("truetype");font-weight:100 900;font-style:normal}
+@font-face{font-family:"Instrument Serif";src:url(assets/fonts/InstrumentSerif-Italic.ttf) format("truetype");font-weight:400;font-style:italic}
+@font-face{font-family:"TD Mono";src:url(assets/fonts/JetBrainsMono.ttf) format("truetype");font-weight:100 800;font-style:normal}
+:root{--serif:"TD Newsreader","Newsreader",Georgia,"Times New Roman",serif;--num:"TD Playfair","Playfair Display",Georgia,serif;
+  --sans:"TD Inter","Inter Tight","Helvetica Neue",Arial,sans-serif;--mono:"TD Mono","JetBrains Mono",Menlo,monospace;
+  --red:#D7262B;--ink:#141414;--grey:#8a8a8a;--lime:#B3C248;--cream:#F4F3EE}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:1080px 1440px;margin:0}
+html,body{background:#777}
+a{color:inherit;text-decoration:none}
+.page{width:1080px;height:1440px;position:relative;overflow:hidden;margin:0 auto 40px;break-after:page;page-break-after:always}
+body.single{background:transparent}
+body.single .page{display:none;margin:0}
+body.single .page.on{display:block}
+
+/* ================= COVER ================= */
+.cv{background:var(--cream);color:var(--ink);font-family:var(--sans);padding:56px 64px}
+.cv .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cv .brand{font:700 58px/1 var(--serif);letter-spacing:-.015em}
+.cv .brand i{font-style:italic;font-weight:400;color:var(--red)}
+.cv .meta{font:700 19px/1.55 var(--mono);text-align:right;letter-spacing:.04em}
+.cv .pill{display:inline-flex;align-items:center;gap:14px;margin-top:46px;background:var(--ink);color:var(--lime);
+  border-radius:999px;padding:10px 26px 10px 10px;font:800 25px/1 var(--sans)}
+.cv .pill img{width:46px;height:46px;border-radius:11px}
+.cv h1{margin-top:30px;font:800 94px/1.04 var(--sans);letter-spacing:-.035em}
+.cv h1 .serif{font:400 italic 150px/0.9 "Instrument Serif",var(--serif);letter-spacing:-.01em;color:var(--ink);
+  background:var(--lime);border-radius:24px;padding:0 24px 8px;display:inline-block;transform:translateY(14px)}
+.cv h1 .red{color:var(--red)}
+.cv .art{position:absolute;left:0;right:0;top:628px;height:400px}
+.cv .art svg{display:block}
+.cv .credit{position:absolute;right:64px;top:1026px;font:500 15px/1 var(--mono);color:#777}
+.cv .bottom{position:absolute;left:0;right:0;bottom:0;height:380px;background:var(--ink);color:var(--cream);
+  display:grid;grid-template-columns:1.5fr 1fr;padding:34px 64px 48px;column-gap:54px}
+.cv .intro .lb{font:400 italic 42px/1 "Instrument Serif",var(--serif);color:var(--lime)}
+.cv .intro p{margin-top:16px;font:400 26px/1.5 var(--serif)}
+.cv .intro small{display:block;margin-top:16px;font:500 15px/1.4 var(--mono);color:#a9a9a0;letter-spacing:.02em}
+.cv .facts div{display:flex;justify-content:space-between;align-items:center;height:72px;border-top:2px solid var(--lime);padding:0;
+  font:500 19px/1.2 var(--sans);color:#d8d8cf}
+.cv .facts div span small{display:block;font:500 13px/1.3 var(--mono);color:#9a9a90;margin-top:3px}
+.cv .facts b{font:400 italic 40px/1 "Instrument Serif",var(--serif);color:var(--lime);font-weight:400}
+
+/* ================= INNER ================= */
+.atl{background:#fff;color:var(--ink);padding:66px 92px 0;font-family:var(--serif)}
+.atl .kick{font:700 18px/1 var(--sans);letter-spacing:.28em;color:var(--red);text-transform:uppercase}
+.atl h1{margin-top:18px;font:600 58px/1.06 var(--serif);letter-spacing:-.018em}
+.atl .dek{margin-top:14px;font:400 24.5px/1.42 var(--serif);color:#555}
+.atl .by{margin-top:14px;font:500 15px/1 var(--sans);letter-spacing:.22em;color:#999;text-transform:uppercase}
+.atl .body{margin-top:24px;font:400 22.5px/1.52 var(--serif);color:#222;hyphens:auto}
+.atl .body p{margin-bottom:12px}
+.atl .body p:last-child{margin-bottom:0}
+.atl .body p.dc::first-letter{float:left;font:700 88px/0.8 var(--serif);color:var(--red);margin:8px 10px 0 0}
+.atl .body b{font-weight:700;color:var(--ink)}
+.atl .body i{font-style:italic}
+.atl sup{font:700 15px/1 var(--sans);color:var(--red);margin-left:2px;vertical-align:super}
+.atl .pq{margin-top:20px;border-top:1.5px solid var(--ink);padding-top:16px;display:grid;grid-template-columns:58px 1fr;gap:10px}
+.atl .pq .q{font:700 italic 92px/0.8 var(--num);color:var(--red)}
+.atl .pq p{font:600 26px/1.36 var(--serif);letter-spacing:-.005em}
+.atl .pq p.sm{font-size:23px;line-height:1.4}
+.atl .pq small{display:block;margin-top:8px;font:500 14.5px/1.45 var(--sans);letter-spacing:.14em;color:#888;text-transform:uppercase}
+.atl .notes{position:absolute;left:92px;right:92px;bottom:92px;border-top:1px solid #ccc;padding-top:14px}
+.atl .notes p{font:400 16px/1.45 var(--serif);color:#555;margin-bottom:5px}
+.atl .notes p:last-child{margin-bottom:0}
+.atl .notes sup{font:700 14px/1 var(--sans);color:var(--red);margin-right:6px;vertical-align:baseline}
+.atl .notes a{border-bottom:1px solid #ccc}
+.atl .folio{position:absolute;bottom:44px;left:92px;right:92px;display:flex;justify-content:space-between;
+  font:500 15px/1 var(--sans);letter-spacing:.2em;color:#999;text-transform:uppercase}
+.tag{display:inline-block;font:700 11.5px/1 var(--sans);letter-spacing:.14em;padding:4px 6px 3px;border:1.2px solid currentColor;border-radius:3px;
+  vertical-align:3px;margin-left:6px;text-transform:uppercase;white-space:nowrap}
+.tag.f{color:var(--ink)} .tag.r{color:#666} .tag.e{color:var(--red)} .tag.j{color:#fff;background:var(--red);border-color:var(--red)}
+.tag.g{color:#999;border-style:dashed}
+
+.atl .qlist{margin-top:18px}
+.atl .qlist .it{display:grid;grid-template-columns:52px 1fr;padding:10px 0;border-top:1px solid #ddd}
+.atl .qlist .it:last-child{border-bottom:1px solid #ddd}
+.atl .qlist .n{font:400 italic 38px/1 var(--num);color:var(--red)}
+.atl .qlist .h{font:700 22.5px/1.32 var(--serif)}
+.atl .qlist .d{font:400 20px/1.45 var(--serif);color:#555;margin-top:2px}
+.atl .stats3{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px;margin-top:22px;border-top:1.5px solid var(--ink);border-bottom:1px solid #ddd;padding:16px 0 18px}
+.atl .stats3 .n{font:400 italic 62px/1 var(--num)}
+.atl .stats3 .n.red{color:var(--red)}
+.atl .stats3 .l{margin-top:10px;font:500 15.5px/1.4 var(--sans);letter-spacing:.06em;color:#666}
+.atl .bigstat{display:grid;grid-template-columns:250px 1fr;align-items:center;gap:24px;margin-top:20px;border-top:1.5px solid var(--ink);padding-top:16px}
+.atl .bigstat .n{font:400 italic 84px/0.9 var(--num);color:var(--red);white-space:nowrap}
+.atl .bigstat p{font:600 22px/1.45 var(--serif)}
+.atl .tl{margin-top:20px}
+.atl .tl .row{display:grid;grid-template-columns:150px 28px 1fr;align-items:baseline;padding:7px 0;border-bottom:1px solid #eee}
+.atl .tl .y{font:400 italic 30px/1.1 var(--num)}
+.atl .tl .row.red .y{color:var(--red)}
+.atl .tl .d{width:11px;height:11px;border-radius:50%;background:var(--ink);transform:translateY(-3px)}
+.atl .tl .row.red .d{background:var(--red);width:15px;height:15px}
+.atl .tl .t{font:400 20.5px/1.4 var(--serif);color:#333}
+.atl .tl .t b{font-weight:700;color:var(--ink)}
+.atl .chain{margin-top:30px;position:relative;height:190px}
+.atl .chain .ln{position:absolute;left:120px;right:120px;top:42px;height:2px;background:var(--ink)}
+.atl .chain .node{position:absolute;top:0;width:280px;text-align:center;transform:translateX(-50%)}
+.atl .chain .c{width:84px;height:84px;border-radius:50%;border:2px solid var(--ink);background:#fff;margin:0 auto;
+  display:flex;align-items:center;justify-content:center;font:400 italic 38px/1 var(--num)}
+.atl .chain .node.red .c{background:var(--red);border-color:var(--red);color:#fff}
+.atl .chain .lb{margin-top:14px;font:700 14.5px/1 var(--sans);letter-spacing:.2em;color:#888}
+.atl .chain .rs{margin-top:8px;font:400 21px/1.35 var(--serif)}
+.atl .moats{margin-top:36px;display:grid;grid-template-columns:repeat(7,1fr);column-gap:8px}
+.atl .moat{text-align:center}
+.atl .moat .c{width:64px;height:64px;border-radius:50%;border:2px solid var(--ink);margin:0 auto;position:relative;overflow:hidden}
+.atl .moat.full .c{background:var(--red);border-color:var(--red)}
+.atl .moat.half .c::after{content:"";position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--ink)}
+.atl .moat .nm{margin-top:12px;font:600 19px/1.25 var(--serif)}
+.atl .legend{margin-top:18px;display:flex;gap:30px;font:500 14.5px/1 var(--sans);letter-spacing:.12em;color:#888;text-transform:uppercase}
+.atl .legend i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink);margin-right:8px;vertical-align:-2px}
+.atl .legend i.f{background:var(--red);border-color:var(--red)}
+.atl .legend i.h{background:linear-gradient(90deg,var(--ink) 50%,#fff 50%)}
+.atl table.mt{width:100%;border-collapse:collapse;margin-top:20px}
+.atl table.mt th{font:700 13.5px/1.2 var(--sans);letter-spacing:.16em;color:#888;text-align:left;padding:0 14px 10px 0;border-bottom:1.5px solid var(--ink);text-transform:uppercase}
+.atl table.mt td{font:400 19.5px/1.38 var(--serif);padding:9px 14px 9px 0;border-bottom:1px solid #ddd;vertical-align:top}
+.atl table.mt td.k{font-weight:700;width:190px}
+.atl table.mt td.red{color:var(--red);font-weight:700}
+.atl .lead{margin-top:28px;font:700 16px/1 var(--sans);letter-spacing:.24em;color:var(--red);text-transform:uppercase}
+.atl svg{display:block}
+.atl .cap{margin-top:8px;font:500 14px/1.45 var(--sans);letter-spacing:.06em;color:#999}
+.atl .two{display:grid;grid-template-columns:1fr 1fr;column-gap:44px;margin-top:26px}
+.atl .two h3{font:700 15px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
+.atl .two h3.red{color:var(--red);border-color:var(--red)}
+.atl .two ul{list-style:none;margin-top:6px}
+.atl .two li{font:400 21px/1.45 var(--serif);color:#333;padding:10px 0;border-bottom:1px solid #e3e3e3}
+.atl .box{margin-top:18px;border:1.5px solid var(--ink);padding:14px 20px}
+.atl .box .h{font:700 14.5px/1 var(--sans);letter-spacing:.2em;color:var(--red);text-transform:uppercase}
+.atl .box p{margin-top:8px;font:400 19.5px/1.45 var(--serif);color:#333}
+/* sources page */
+.atl .src{column-count:2;column-gap:40px;margin-top:20px}
+.atl .src p{break-inside:avoid;font:400 15.4px/1.42 var(--serif);color:#444;margin-bottom:7.5px;padding-left:34px;text-indent:-34px}
+.atl .src p b{font:700 13px/1 var(--sans);color:var(--red);display:inline-block;width:34px;text-indent:0;letter-spacing:.04em}
+.atl .src a{color:#222;border-bottom:1px solid #ccc;overflow-wrap:anywhere}
+.atl .colophon{position:absolute;left:92px;right:92px;bottom:92px;border-top:1.5px solid var(--ink);padding-top:14px;font:400 16.5px/1.55 var(--serif);color:#666}
+.atl .colophon b{color:var(--red);font:400 italic 28px/1 var(--num);margin-right:10px}
+
+/* verdict + sources */
+.atl .lb{font:700 15px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--red)}
+.atl .cols2{display:grid;grid-template-columns:1fr 1fr;column-gap:44px;margin-top:30px}
+.atl .cols2 .lb{padding-bottom:12px;border-bottom:1.5px solid var(--ink);color:var(--ink)}
+.atl .cols2 > div:first-child .lb{color:var(--red);border-color:var(--red)}
+.atl .cols2 p{margin-top:10px;font:400 20px/1.45 var(--serif);color:#333}
+.atl .method{margin-top:26px;font:400 19px/1.52 var(--serif);color:#333}
+.atl .method p{margin-bottom:10px}
+.atl .method b{font:700 14px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-right:6px}
+.atl ol.srcs{list-style:none;margin-top:14px;column-count:2;column-gap:40px;padding-left:30px;font:400 16px/1.4 var(--serif);color:#444;border-top:1.5px solid var(--ink);padding-top:14px}
+.atl ol.srcs li{break-inside:avoid;margin-bottom:6px;padding-left:4px}
+.atl ol.srcs li b{font:700 12.5px/1 var(--sans);color:var(--red);display:inline-block;width:30px;margin-left:-30px}
+.atl ol.srcs a{color:#222;border-bottom:1px solid #ccc;overflow-wrap:anywhere}
+.atl .colo{position:absolute;left:92px;right:92px;bottom:92px;border-top:1.5px solid var(--ink);padding-top:12px;display:flex;gap:18px;align-items:baseline;font:400 15.5px/1.5 var(--serif);color:#666}
+.atl .colo .fin{color:var(--red);font:400 italic 30px/1 var(--num)}
+body.reader .page{transform:translateX(-50%) scale(var(--rs,1));top:12px}
+/* ================= READER (opt-in: ?reader) ================= */
+html.reader,body.reader{height:100%;overflow:hidden;overscroll-behavior:none}
+body.reader{background:#3a3a3a}
+/* reader viewport: a bounded scroller; the nav lives outside it, so wide pages can never widen the document */
+#rview{display:none}
+body.reader #rview{display:block;position:fixed;left:0;top:0;right:0;bottom:var(--navh,56px);overflow:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+body.reader .page{display:none;margin:0;position:absolute;left:50%;top:0;transform-origin:top center}
+body.reader .page.on{display:block}
+#rnav{display:none}
+body.reader #rnav{display:flex;position:fixed;left:0;right:0;bottom:0;min-height:56px;padding-bottom:env(safe-area-inset-bottom);align-items:center;justify-content:center;gap:22px;
+  background:#141414;color:#eee;font:600 15px/1 var(--sans);letter-spacing:.14em;z-index:10}
+#rnav button{background:none;border:1.5px solid #777;color:#eee;font:inherit;padding:10px 18px;border-radius:999px;cursor:pointer}
+#rnav button:hover{border-color:var(--red);color:#fff}
+#rnav button:disabled{opacity:.35;cursor:default}
+#rnav button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+body.reader #rnav{flex-wrap:wrap;padding:0 8px}
+#rzoom{min-width:7.5em}
+@media (max-width:480px){body.reader #rnav{gap:10px;letter-spacing:.06em}#rnav button{padding:10px 14px}}
+/* zoom modes: default = fit page; .zw = fit width (scroll); .z1 = actual size (scroll) */
+body.reader.zw #rview,body.reader.z1 #rview{overflow:auto}
+body.reader.zw .page,body.reader.z1 .page{margin-top:12px!important;margin-bottom:12px!important}
+body.reader.zw .page,body.reader.z1 .page{position:relative;left:auto;top:auto;transform:none;margin:0 auto;zoom:var(--rs,1)}
+body.reader.z1 .page{margin:0}
+@media (min-width:1104px){body.reader.z1 .page{margin:0 auto}}
+@media print{html,body{background:#fff}.page{margin:0}#rnav{display:none!important}}
+</style>
+</head>
+<body>
+<!-- 1 · COVER -->
+<section class="page cv" id="p1">
+  <div class="top"><div class="brand">Startup <i>Teardown</i></div><div class="meta">ENGLISH EDITION<br>NO.01 · OCT 2026</div></div>
+  <div class="pill"><img src="assets/granola-icon.png" alt="Granola app icon">This issue · Granola</div>
+  <h1>It never joins<br>the call. <span class="red">Priced</span><br>at <span class="serif">$1.5B</span></h1>
+  <div class="art">
+    <svg width="1080" height="400" viewBox="0 0 1080 470" role="img" aria-label="Illustration: a video call with three participants and no bot; a laptop notepad where three typed lines expand into fuller notes">
+      <!-- call tiles -->
+      <g font-family="TD Inter, Inter Tight, sans-serif">
+        <rect x="64" y="40" width="430" height="300" rx="18" fill="#141414"/>
+        <rect x="84" y="60" width="190" height="125" rx="10" fill="#2a2a2a"/><circle cx="179" cy="110" r="26" fill="#B3C248"/><rect x="139" y="142" width="80" height="26" rx="13" fill="#B3C248"/>
+        <rect x="284" y="60" width="190" height="125" rx="10" fill="#2a2a2a"/><circle cx="379" cy="110" r="26" fill="#e7e5dc"/><rect x="339" y="142" width="80" height="26" rx="13" fill="#e7e5dc"/>
+        <rect x="84" y="195" width="190" height="125" rx="10" fill="#2a2a2a"/><circle cx="179" cy="245" r="26" fill="#e7e5dc"/><rect x="139" y="277" width="80" height="26" rx="13" fill="#e7e5dc"/>
+        <rect x="284" y="195" width="190" height="125" rx="10" fill="none" stroke="#D7262B" stroke-width="2.5" stroke-dasharray="9 7"/>
+        <text x="379" y="252" text-anchor="middle" font-size="21" font-weight="800" fill="#D7262B" letter-spacing="3">NO BOT</text>
+        <text x="379" y="280" text-anchor="middle" font-size="14" font-weight="500" fill="#aaa" letter-spacing="1.5">nothing joins the call</text>
+      </g>
+      <!-- audio link -->
+      <path d="M494 190 C 540 190, 548 150, 572 150 S 604 230, 628 230 S 660 170, 684 190" fill="none" stroke="#141414" stroke-width="3" stroke-linecap="round"/>
+      <text x="589" y="270" text-anchor="middle" font-family="TD Mono, JetBrains Mono, monospace" font-size="14" fill="#555">system audio</text>
+      <text x="589" y="289" text-anchor="middle" font-family="TD Mono, JetBrains Mono, monospace" font-size="14" fill="#555">+ microphone</text>
+      <!-- notepad -->
+      <g>
+        <rect x="690" y="20" width="330" height="410" rx="14" fill="#fff" stroke="#141414" stroke-width="2.5"/>
+        <rect x="690" y="20" width="330" height="46" rx="14" fill="#141414"/><rect x="690" y="50" width="330" height="16" fill="#141414"/>
+        <text x="712" y="50" font-family="TD Inter, Inter Tight, sans-serif" font-size="16" font-weight="700" fill="#B3C248" letter-spacing="1.5">CUSTOMER CALL · 10:00</text>
+        <g font-family="TD Newsreader, Newsreader, Georgia, serif">
+          <text x="712" y="104" font-size="21" font-weight="700" fill="#141414">pricing too high?</text>
+          <rect x="712" y="118" width="280" height="9" rx="4.5" fill="#cfcfc8"/><rect x="712" y="134" width="236" height="9" rx="4.5" fill="#cfcfc8"/><rect x="712" y="150" width="258" height="9" rx="4.5" fill="#cfcfc8"/>
+          <text x="712" y="200" font-size="21" font-weight="700" fill="#141414">Sarah owns Q3 launch</text>
+          <rect x="712" y="214" width="268" height="9" rx="4.5" fill="#cfcfc8"/><rect x="712" y="230" width="210" height="9" rx="4.5" fill="#cfcfc8"/>
+          <text x="712" y="280" font-size="21" font-weight="700" fill="#141414">follow up Friday</text>
+          <rect x="712" y="294" width="250" height="9" rx="4.5" fill="#cfcfc8"/><rect x="712" y="310" width="276" height="9" rx="4.5" fill="#cfcfc8"/><rect x="712" y="326" width="180" height="9" rx="4.5" fill="#cfcfc8"/>
+        </g>
+        <line x1="712" y1="366" x2="998" y2="366" stroke="#e0e0da" stroke-width="1.5"/>
+        <text x="712" y="392" font-family="TD Inter, Inter Tight, sans-serif" font-size="14" font-weight="600" fill="#888" letter-spacing="1">BLACK = YOU TYPED</text><text x="712" y="414" font-family="TD Inter, Inter Tight, sans-serif" font-size="14" font-weight="600" fill="#888" letter-spacing="1">GREY = AI FILLED IN</text>
+      </g>
+    </svg>
+  </div>
+  <div class="credit">Illustration: Startup Teardown, after Granola's documented note format</div>
+  <div class="bottom">
+    <div class="intro"><div class="lb">What is Granola?</div>
+      <p>An AI notepad for meetings. It listens through your own computer instead of sending a bot into the call, then turns the few lines you typed into complete notes you can search later.</p>
+      <small>Research Sep–Oct 2026 · figures as of the dates shown, not updated for this issue</small></div>
+    <div class="facts">
+      <div><span>Founded<small>London</small></span><b>2023</b></div>
+      <div><span>Raised<small>to Mar 2026</small></span><b>$192M</b></div>
+      <div><span>Valuation<small>Series C, Mar 2026</small></span><b>$1.5B</b></div>
+      <div><span>Paid seats<small>per user / month, Oct 2026</small></span><b>$14–35</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · WHAT IT IS -->
+<section class="page atl" id="p2">
+  <div class="kick">Meet Granola</div>
+  <h1>A notepad that listens</h1>
+  <p class="dek">You type a few fragments. When the call ends, Granola writes the notes you would have written if you had an hour to spare.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="body"><p class="dc">Granola is a desktop app for Mac and Windows, now also on iPhone, Android and Apple Watch. It reads your calendar, so it knows when a meeting starts. It listens to the audio on your own computer instead of sending a recording bot into the call, so it works the same on Zoom, Meet, Teams, a phone call or a conversation across a table.<sup>1</sup></p></div>
+  <div class="qlist">
+    <div class="it"><span class="n">1</span><div><div class="h">Before the meeting</div><div class="d">A short brief: who is attending, and what you discussed last time.</div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">During it</div><div class="d">You jot only what matters to you: “pricing objection”, “Sarah owns Q3”.</div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">When it ends</div><div class="d">Your fragments and the transcript become structured notes, action items and a draft follow-up email.</div></div></div>
+    <div class="it"><span class="n">4</span><div><div class="h">Weeks later</div><div class="d">You can question every meeting at once: “What did I commit to this week?”</div></div></div>
+  </div>
+  <div class="body"><p>One misconception to drop early: this is not a transcription app. Otter, the category’s older leader, sends a visible bot and gives you something like a court stenographer’s record. Granola tries to give you the one-page memo a sharp chief of staff would write. To Granola, the transcript is raw material. The note is the product.</p></div>
+  <div class="bigstat"><div class="n">1 hr+</div><p>The time heavy users report saving each day at four to five meetings.<sup>2</sup> Below about three meetings a day, the product is nice to have rather than essential. <span class="tag j">Judgment</span></p></div>
+  <div class="notes">
+    <p><sup>1</sup>Product description from Granola’s site and help docs as summarised in the research notes (Sep–Oct 2026). Mobile apps: Android Jul 1, Apple Watch Jul 28, 2026. Sources: <a href="#p14">S13, S14</a>.</p>
+    <p><sup>2</sup>User reports gathered in a review roundup cited in the research (Sep 2026), not a company figure. The three-a-day threshold is the author’s judgment.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>02 / 14</span></div>
+</section>
+
+<!-- 3 · PRODUCT MECHANICS -->
+<section class="page atl" id="p3">
+  <div class="kick">The product</div>
+  <h1>Your notes are the skeleton</h1>
+  <p class="dek">Two early decisions define Granola: your own typed lines anchor the AI’s write-up, and the audio is never kept.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <svg width="896" height="330" viewBox="0 0 896 330" style="margin-top:28px" role="img" aria-label="Diagram: four inputs feed a rented language model, which produces a note where your lines stay black and AI additions are grey; audio is streamed to transcription and then discarded">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <text x="0" y="14" font-size="13" font-weight="700" fill="#888" letter-spacing="2.5">WHAT GOES IN</text>
+      <rect x="0" y="28" width="300" height="56" fill="#D7262B"/><text x="16" y="52" font-size="17" font-weight="800" fill="#fff">Your typed lines</text><text x="16" y="73" font-size="14" fill="#fff">the signal of what mattered</text>
+      <rect x="0" y="94" width="300" height="56" fill="none" stroke="#141414" stroke-width="1.5"/><text x="16" y="118" font-size="17" font-weight="800" fill="#141414">Transcript</text><text x="16" y="139" font-size="14" fill="#555">“Me” = microphone · “Them” = system audio</text>
+      <rect x="0" y="160" width="300" height="56" fill="none" stroke="#141414" stroke-width="1.5"/><text x="16" y="184" font-size="17" font-weight="800" fill="#141414">Calendar</text><text x="16" y="205" font-size="14" fill="#555">title, attendees, your role</text>
+      <rect x="0" y="226" width="300" height="56" fill="none" stroke="#141414" stroke-width="1.5"/><text x="16" y="250" font-size="17" font-weight="800" fill="#141414">Template</text><text x="16" y="271" font-size="14" fill="#555">sales call, 1:1, interview…</text>
+      <path d="M300 56 L360 155 M300 122 L360 155 M300 188 L360 155 M300 254 L360 155" stroke="#141414" stroke-width="1.5" fill="none"/>
+      <rect x="360" y="110" width="170" height="90" rx="45" fill="#141414"/>
+      <text x="445" y="150" text-anchor="middle" font-size="16" font-weight="800" fill="#fff">Language model</text>
+      <text x="445" y="172" text-anchor="middle" font-size="13" fill="#bbb">rented: OpenAI, Anthropic</text>
+      <path d="M530 155 L586 155" stroke="#141414" stroke-width="2"/><path d="M586 148 L598 155 L586 162 Z" fill="#141414"/>
+      <text x="606" y="14" font-size="13" font-weight="700" fill="#888" letter-spacing="2.5">WHAT COMES OUT</text>
+      <rect x="606" y="28" width="290" height="254" fill="#fff" stroke="#141414" stroke-width="1.5"/>
+      <text x="624" y="62" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="19" font-weight="700" fill="#141414">pricing too high?</text>
+      <rect x="624" y="74" width="232" height="8" rx="4" fill="#cfcfc8"/><rect x="624" y="88" width="196" height="8" rx="4" fill="#cfcfc8"/>
+      <circle cx="868" cy="84" r="9" fill="none" stroke="#D7262B" stroke-width="2"/><line x1="874" y1="91" x2="880" y2="97" stroke="#D7262B" stroke-width="2"/>
+      <text x="624" y="132" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="19" font-weight="700" fill="#141414">Sarah owns Q3</text>
+      <rect x="624" y="144" width="216" height="8" rx="4" fill="#cfcfc8"/><rect x="624" y="158" width="240" height="8" rx="4" fill="#cfcfc8"/>
+      <text x="624" y="200" font-size="13" font-weight="800" fill="#141414" letter-spacing="1.5">ACTION ITEMS</text>
+      <rect x="624" y="212" width="180" height="8" rx="4" fill="#cfcfc8"/><rect x="624" y="226" width="150" height="8" rx="4" fill="#cfcfc8"/>
+      <text x="624" y="266" font-size="12.5" fill="#888">black = yours · grey = AI · lens = source passage</text>
+      <!-- audio discarded -->
+      <path d="M360 268 q12 -16 24 0 t24 0 t24 0 t24 0 t24 0 t24 0" fill="none" stroke="#999" stroke-width="2"/>
+      <line x1="356" y1="292" x2="532" y2="250" stroke="#D7262B" stroke-width="2.5"/>
+      <text x="360" y="316" font-size="13.5" font-weight="700" fill="#D7262B" letter-spacing="1">AUDIO: STREAMED, THEN DISCARDED</text>
+    </g>
+  </svg>
+  <div class="cap">Simplified from Granola’s help docs and founder interviews, as summarised in the research notes (Oct 16, 2026). Which model does which job is not disclosed.</div>
+  <div class="body"><p class="dc">The hard part of summarising a meeting is not shortening it. It is knowing what mattered. The few words you type are that signal. Granola turns a hard judgement problem into an easier expansion problem: the write-up is built around your lines, and the detail comes from the transcript, with a link back to the passage it came from.<sup>1</sup></p>
+  <p>The second decision was about trust. Granola transcribes as you go and throws the audio away. The trade-off is real: there is no recording to replay, and on desktop the speaker labels are mostly just “Me” and “Them”, the gap rivals cite most.<sup>2</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">When we first created Granola, we made a very conscious decision not to record and store any audio … And everyone kind of laughed at us for that.</p><small>Chris Pedregal, CEO · Invest Like the Best, Feb 25, 2025</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Me/Them comes from two physical audio streams, not from AI guessing who spoke. Source: research notes on Granola’s architecture (Oct 16, 2026), based on Granola docs and founder interviews; <a href="#p14">S14, S31</a>.</p>
+    <p><sup>2</sup>Product gaps from critical reviews and a competitor’s comparison page cited in the research (Sep–Oct 2026); <a href="#p14">S1, S24</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>03 / 14</span></div>
+</section>
+
+<!-- 4 · CUSTOMER -->
+<section class="page atl" id="p4">
+  <div class="kick">The customer</div>
+  <h1>Built for the busiest person in the room</h1>
+  <p class="dek">Granola started with investors and founders: the people with the most meetings and the loudest networks. Often, the champion is also the boss.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="body"><p class="dc">Business software usually involves three people: the user, the champion who pushes for it internally, and the buyer who signs off on the budget. At Granola those roles can be the same person. In the 2024 cohort, 57% of users held leadership roles.<sup>1</sup> When the champion is the boss, adoption moves down through the company, and it moves quickly.</p></div>
+  <div class="chain">
+    <div class="ln"></div>
+    <div class="node" style="left:14%"><div class="c">1</div><div class="lb">USER</div><div class="rs">A partner tries the free plan in pitch meetings</div></div>
+    <div class="node" style="left:50%"><div class="c">2</div><div class="lb">CHAMPION</div><div class="rs">She shares her notes at the Monday partner meeting</div></div>
+    <div class="node red" style="left:86%"><div class="c">3</div><div class="lb">BUYER</div><div class="rs">Ops moves the fund to Business at $14 a seat<sup>2</sup></div></div>
+  </div>
+  <div class="cap" style="margin-top:6px">Illustrative path, not a named customer. One real case: recruiting firm Daversa Partners went from a few users to 136 of about 150 staff with no sales push (reported Apr 2025).<sup>3</sup></div>
+  <div class="stats3">
+    <div><div class="n red">&gt;70%</div><div class="l">of new users still active in week one · reported, Oct 2024 cohort</div></div>
+    <div><div class="n">~50%</div><div class="l">still active after ten weeks, at ~6 meetings a week · same cohort</div></div>
+    <div><div class="n">57%</div><div class="l">of users in leadership roles · 2024 cohort</div></div>
+  </div>
+  <div class="bigstat"><div class="n">2%</div><p>“When you’re in a meeting we can expect to have 2% of your attention and … the other 98% is on the person you’re talking to.” Sam Stephenson’s design brief, Apr 2026.<sup>4</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">The number one piece of positive feedback we get … is that it helps me feel more present in the meeting.</p><small>Sam Stephenson, co-founder · The Cognitive Revolution, Apr 8, 2026, 1:31:56</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Sacra, 2024 cohort <span class="tag r">Reported</span>. Retention from Series A coverage (TechCrunch, Oct 2024) and Okara (2026) <span class="tag r">Reported</span>. <sup>2</sup>Seat: one paid user licence. <sup>3</sup>Upstarts Media. <sup>4</sup>Cognitive Revolution, 1:02:50. <a href="#p14">S5, S12, S28, S29</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>04 / 14</span></div>
+</section>
+
+<!-- 5 · ORIGIN -->
+<section class="page atl" id="p5">
+  <div class="kick">Origin</div>
+  <h1>A year of silence, then growth by word of mouth</h1>
+  <p class="dek">The two founders had never worked together. They held off launching for nine months against investor advice, then grew with almost no marketing.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="tl">
+    <div class="row"><span class="y">2022</span><span class="d"></span><span class="t"><b>Chris Pedregal</b>, whose AI tutor Socratic was bought by Google in 2018, leaves Google and cold-emails designer <b>Sam Stephenson</b></span></div>
+    <div class="row"><span class="y">Mar 2023</span><span class="d"></span><span class="t">London company formed; seed of $4.25M led by Lightspeed, first sale Mar 20 <span class="tag f">Form D</span></span></div>
+    <div class="row"><span class="y">2023–24</span><span class="d"></span><span class="t">About <b>150</b> users onboarded by hand in a year-long closed beta; half the features cut</span></div>
+    <div class="row"><span class="y">May 2024</span><span class="d"></span><span class="t">Public launch with <b>four</b> people on the team</span></div>
+    <div class="row"><span class="y">Jul 2024</span><span class="d"></span><span class="t">Series A, $20M (Spark Capital) <span class="tag f">Form D</span>. Announced in Oct 2024, when weekly users were <b>5,000</b></span></div>
+    <div class="row"><span class="y">May 2025</span><span class="d"></span><span class="t">Series B, $43M at $250M; ~20 staff; users growing ~10% a week <span class="tag r">Press</span></span></div>
+    <div class="row red"><span class="y">Mar 2026</span><span class="d"></span><span class="t">Series C, <b>$125M at $1.5B</b> (Index Ventures, with Kleiner Perkins) <span class="tag r">Press</span></span></div>
+  </div>
+  <div class="body"><p class="dc">The founders say the delay was deliberate. “Typical VC actually been pushing us to launch for about nine months before that. We held them off for nine months,” Stephenson said in May 2025.<sup>1</sup> The rival Pedregal chose to worry about was “the one that hasn’t launched yet”.<sup>2</sup></p>
+  <p>The growth came from people sharing it. “Most of our virality is … either just people recommending it to each other or people sharing notes with each other,” Stephenson said in April 2026. Every shared note is an invitation. That loop has to offset a cost he names himself: without a bot, there is no “huge glowing orb with a logo on it” in other people’s meetings.<sup>3</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">We were seven years late when we founded Granola. We didn’t launch for a year.</p><small>Chris Pedregal · Invest Like the Best, Feb 25, 2025</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Generative Now, May 15, 2025, 17:54 (beta of ~150: 17:26). <sup>2</sup>Invest Like the Best, Feb 25, 2025. <sup>3</sup>Cognitive Revolution, Apr 8, 2026, 1:10:30 and 52:28. Four-person team: Hallway Chat, Jan 24, 2025. Seed and Series A are confirmed by SEC Form D. The B and C rely on company and press statements; no Form D was found as of Oct 2, 2026. <a href="#p14">S1–S2, S5, S8, S12, S30–S31</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>05 / 14</span></div>
+</section>
+<!-- 6 · POSITIONING -->
+<section class="page atl" id="p6">
+  <div class="kick">Positioning</div>
+  <h1>The identity held. The ambition moved twice.</h1>
+  <p class="dek">In 26 months Granola’s stated scope widened, then narrowed. The open question was who does the work with the context.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <svg width="896" height="318" viewBox="0 0 896 340" preserveAspectRatio="xMinYMin meet" style="margin-top:20px" role="img" aria-label="Chart: Granola's stated ambition rises from May 2024 to a peak in August 2025, then narrows by July 2026, above a constant band of commitments that never moved">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <text x="0" y="14" font-size="12.5" font-weight="700" fill="#888" letter-spacing="2.5">SCOPE OF WHAT GRANOLA SAYS IT WILL DO</text>
+      <path d="M30 222 L314 197 L408 122 L503 72 L723 132 L866 162 L866 238 L30 238 Z" fill="#fbe7e7"/>
+      <polyline points="30,222 314,197 408,122 503,72 723,132 866,162" fill="none" stroke="#D7262B" stroke-width="3" stroke-linejoin="round"/>
+      <g fill="#D7262B"><circle cx="30" cy="222" r="6"/><circle cx="314" cy="197" r="6"/><circle cx="408" cy="122" r="6"/><circle cx="503" cy="72" r="8"/><circle cx="723" cy="132" r="6"/><circle cx="866" cy="162" r="6"/></g>
+      <g font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="15.5" fill="#141414">
+        <text x="30" y="172">“enhances, not</text><text x="30" y="190">replaces, your thinking”</text>
+        <text x="250" y="232" font-size="14.5" fill="#333">“power tool quadrant”</text>
+        <text x="270" y="104" text-anchor="start">“meetings are really</text><text x="270" y="121">just to start”</text>
+        <text x="503" y="40" text-anchor="middle">“a tool for thought to</text><text x="503" y="57" text-anchor="middle">help you do work”</text>
+        <text x="723" y="164" text-anchor="middle">MCP server,</text><text x="723" y="181" text-anchor="middle">then public API</text>
+        <text x="866" y="206" text-anchor="end">“meeting adjacent” +</text><text x="866" y="223" text-anchor="end">context for any agent</text>
+      </g>
+      <rect x="30" y="250" width="836" height="40" fill="#141414"/>
+      <text x="46" y="276" font-size="14" font-weight="800" fill="#fff" letter-spacing="1.5">NEVER MOVED</text>
+      <text x="170" y="276" font-size="15" fill="#ddd">your own notes · no bot · no stored audio · context as the asset</text>
+      <g font-family="TD Mono, JetBrains Mono, monospace" font-size="12.5" fill="#777">
+        <text x="30" y="314" text-anchor="start">MAY 2024</text><text x="314" y="314" text-anchor="middle">FEB 2025</text><text x="408" y="332" text-anchor="middle">MAY 2025</text>
+        <text x="503" y="314" text-anchor="middle">AUG 2025</text><text x="723" y="314" text-anchor="middle">FEB–MAR 2026</text><text x="866" y="314" text-anchor="end">JUL 2026</text>
+      </g>
+    </g>
+  </svg>
+  <div class="cap">Author’s reading of dated statements: launch post, Invest Like the Best, Generative Now, MAD, AI &amp; I. Height is qualitative. <span class="tag j">Judgment</span></div>
+  <div class="body"><p class="dc">Through 2025 the ambition widened. In May, Pedregal said “meetings are really just to start like we’ll have to add emails, we have to add Slack”. By August, Granola was “a tool for thought to help you do work”.<sup>1</sup> In early 2026 the record opened: an MCP server,<sup>2</sup> then, after an a16z partner publicly quit over newly encrypted local files on March 16, a public API within the week.<sup>3</sup> By July the plan was narrower: do meeting-adjacent jobs, and feed context to whatever agent the customer uses.</p>
+  <p>The seam still shows. In June the VP of Sales said “the product will start using the context of your conversations to help you get work done.”<sup>4</sup> Email and Slack as inputs, first floated in May 2025, had not visibly shipped by October 2026. <span class="tag g">Gap</span></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">Be best in the world in anything that’s like meeting adjacent and then … be the best way to capture context to power any agents you have.</p><small>Chris Pedregal · AI &amp; I (Every), Jul 15, 2026, 39:56</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Generative Now, May 15, 2025, 34:24; MAD Podcast, Aug 21, 2025, 36:40. <sup>2</sup>MCP: an open standard that lets AI assistants such as Claude or ChatGPT read data from other tools. <sup>3</sup>Public posts by Guido Appenzeller (Mar 16) and Pedregal (Mar 17, 2026), as cited in the research. <sup>4</sup>The Crew, Jun 23, 2026, 18:09. <a href="#p14">S2–S3, S6–S7, S20, S31</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>06 / 14</span></div>
+</section>
+
+<!-- 7 · THE CATEGORY -->
+<section class="page atl" id="p7">
+  <div class="kick">The category</div>
+  <h1>The standalone race is mostly decided</h1>
+  <p class="dek">Among businesses paying for a dedicated AI notetaker, Granola was the default by autumn 2026.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <svg width="896" height="240" viewBox="0 0 896 262" preserveAspectRatio="xMinYMin meet" style="margin-top:20px" role="img" aria-label="Bar chart of Ramp data: Granola 30 percent of category buyers in October 2025 and 64 percent in October 2026; Fireflies 44 percent; Fathom 1 percent">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <text x="0" y="14" font-size="12.5" font-weight="700" fill="#888" letter-spacing="2.5">SHARE OF RAMP CUSTOMERS BUYING AI MEETING NOTES WHO PAY EACH VENDOR</text>
+      <g font-size="17" fill="#141414">
+        <text x="200" y="66" text-anchor="end">Granola · a year earlier</text>
+        <text x="200" y="118" text-anchor="end" font-weight="800">Granola · Oct 2026</text>
+        <text x="200" y="170" text-anchor="end">Fireflies</text>
+        <text x="200" y="222" text-anchor="end">Fathom</text>
+      </g>
+      <rect x="216" y="44" width="186" height="32" fill="#cfcfc8"/>
+      <rect x="216" y="96" width="397" height="32" fill="#D7262B"/>
+      <rect x="216" y="148" width="273" height="32" fill="#cfcfc8"/>
+      <rect x="216" y="200" width="6" height="32" fill="#cfcfc8"/>
+      <g font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="30">
+        <text x="414" y="70" fill="#141414">30%</text>
+        <text x="625" y="122" fill="#D7262B">64%</text>
+        <text x="501" y="174" fill="#141414">44%</text>
+        <text x="234" y="226" fill="#141414">1%</text>
+      </g>
+      <text x="700" y="119" font-size="14.5" fill="#555">+34 points in a year</text>
+      <line x1="216" y1="246" x2="836" y2="246" stroke="#141414" stroke-width="1"/>
+    </g>
+  </svg>
+  <div class="cap">Ramp vendor data, updated Oct 2, 2026. Buyers can pay more than one vendor; Ramp’s customer base skews toward small and mid-sized firms; Otter is not shown in Ramp’s category view. <span class="tag r">Reported</span></div>
+  <div class="body"><p class="dc">Two independent spending datasets point the same way. On Ramp’s card data, 64% of businesses buying AI meeting notes were paying Granola, up 34 points in a year, and 74% of its buyers there had switched from a competitor.<sup>1</sup> In YipitData’s mid-market panel, churn was near zero, spend tripled in six months, and switching ran mostly one way: toward Granola.<sup>2</sup></p></div>
+  <table class="mt">
+    <tr><th>Rival</th><th>What the record shows</th><th>As of</th></tr>
+    <tr><td class="k">Fathom</td><td>Headcount down 6% in six months; then sold to Superhuman</td><td>Apr / Sep 14, 2026</td></tr>
+    <tr><td class="k">Otter</td><td>~$100M ARR (company); mid-market spend flat (Yipit)</td><td>Mar 2025 / early 2026</td></tr>
+    <tr><td class="k">Fireflies</td><td>~40% more panel customers; spend falling</td><td>Feb 2026</td></tr>
+  </table>
+  <div class="bigstat"><div class="n" style="font-size:60px">Small<br>pond</div><p>The category is too small to appear in Ramp’s ranking of top software vendors. Winning 64% of a line item is not winning a budget. <span class="tag j">Judgment</span></p></div>
+  <div class="notes">
+    <p><sup>1</sup>Ramp vendor page, updated Oct 2, 2026. The research notes the figure partly covers the months after Google switched its own notes on by default in July. <sup>2</sup>YipitData, Apr 2026, panel data to Feb 2026. Rival rows: TechCrunch, Otter, YipitData. <a href="#p14">S10–S11, S16, S25</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>07 / 14</span></div>
+</section>
+
+<!-- 8 · THREATS -->
+<section class="page atl" id="p8">
+  <div class="kick">The threats</div>
+  <h1>The danger is above the standalones, not among them</h1>
+  <p class="dek">The platforms give notes away. General AI apps treat them as one feature of a much bigger daily habit. Open source gives the whole design away for free.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <svg width="896" height="300" viewBox="0 0 896 300" style="margin-top:24px" role="img" aria-label="Map of four kinds of players by distribution and price: platforms, horizontal AI apps, open-source local tools, and paid standalones including Granola, with an arrow showing Granola moving toward being the context source other AI apps call">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <line x1="40" y1="150" x2="896" y2="150" stroke="#bbb" stroke-width="1"/><line x1="468" y1="0" x2="468" y2="280" stroke="#bbb" stroke-width="1"/>
+      <text x="40" y="296" font-size="12" font-weight="700" fill="#888" letter-spacing="2">← OWNS A SURFACE PEOPLE ALREADY USE</text>
+      <text x="896" y="296" text-anchor="end" font-size="12" font-weight="700" fill="#888" letter-spacing="2">NEUTRAL ACROSS SURFACES →</text>
+      <text transform="translate(14,150) rotate(-90)" text-anchor="middle" font-size="12" font-weight="700" fill="#888" letter-spacing="2">PAID NOTES ↑ · BUNDLED OR FREE ↓</text>
+      <!-- standalones top right -->
+      <rect x="484" y="10" width="404" height="128" fill="#fff" stroke="#141414" stroke-width="1.5"/>
+      <text x="500" y="36" font-size="13" font-weight="800" fill="#141414" letter-spacing="2">PAID STANDALONES</text>
+      <text x="500" y="64" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="22" font-weight="700" fill="#D7262B">Granola</text>
+      <text x="590" y="64" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="18" fill="#333">Otter · Fireflies · Circleback</text>
+      <text x="500" y="92" font-size="13.5" fill="#666">Neutral and cross-platform; charge for quality</text>
+      <text x="500" y="114" font-size="13.5" fill="#666">No surface of their own; priced against free</text>
+      <!-- platforms bottom left -->
+      <rect x="48" y="162" width="400" height="110" fill="#141414"/>
+      <text x="64" y="188" font-size="13" font-weight="800" fill="#fff" letter-spacing="2">PLATFORMS</text>
+      <text x="64" y="216" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="18" fill="#fff">Google Meet · Microsoft Teams · Zoom</text>
+      <text x="64" y="244" font-size="13.5" fill="#bbb">Own the meeting; notes bundled into the licence</text>
+      <!-- horizontal AI apps bottom left-center -->
+      <rect x="48" y="10" width="400" height="128" fill="#fff" stroke="#141414" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text x="64" y="36" font-size="13" font-weight="800" fill="#141414" letter-spacing="2">HORIZONTAL AI APPS</text>
+      <text x="64" y="64" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="18" fill="#333">ChatGPT Record · Notion · Claude ·</text>
+      <text x="64" y="86" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="18" fill="#333">Superhuman (with Fathom)</text>
+      <text x="64" y="108" font-size="13.5" fill="#666">Notes are one feature of a bigger daily app</text>
+      <!-- open source bottom right -->
+      <rect x="484" y="162" width="404" height="110" fill="#fff" stroke="#141414" stroke-width="1.5"/>
+      <text x="500" y="188" font-size="13" font-weight="800" fill="#141414" letter-spacing="2">OPEN SOURCE, ON-DEVICE</text>
+      <text x="500" y="216" font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="18" fill="#333">Anarlog · Meetily</text>
+      <text x="500" y="244" font-size="13.5" fill="#666">Same no-bot design, free, private by construction</text>
+      <!-- arrow -->
+      <path d="M500 70 C 488 74, 474 78, 462 82" fill="none" stroke="#D7262B" stroke-width="2.5"/>
+      <path d="M466 75 L452 84 L468 89 Z" fill="#D7262B"/>
+      <text x="64" y="130" font-size="12" font-weight="800" fill="#D7262B" letter-spacing="1">← GRANOLA’S MOVE: SUPPLY THEIR CONTEXT</text>
+    </g>
+  </svg>
+  <div class="cap">Author’s map, adapted from the research’s four-player taxonomy (Oct 2026). Placement is qualitative. <span class="tag j">Judgment</span></div>
+  <div class="qlist">
+    <div class="it"><span class="n">1</span><div><div class="h">Google, in Granola’s home base</div><div class="d">Meet’s notes were switched on by default for business tiers in July 2026. From Sep 29, admins could make them automatic for meetings of three or more people.<sup>1</sup></div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">Microsoft, in the enterprises Granola is only now selling to</div><div class="d">Teams’ Facilitator agent co-writes notes live, and in July 2026 it reached Teams Rooms, moving into the in-person meetings that were Granola’s structural edge.<sup>2</sup></div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">Lookalikes without a bot</div><div class="d">Notion and ChatGPT capture meetings inside apps people already use. Anarlog, an open-source app whose name is an anagram of Granola, has 9.4K GitHub stars.<sup>3</sup></div></div></div>
+  </div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">It hasn’t changed anything from our growth rate or what not, but again, we’re still a drop in the bucket.</p><small>Pedregal, asked whether lookalikes showed up in the numbers · AI &amp; I, Jul 15, 2026, 07:51</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Google Workspace Updates, Jul and Sep 2026. <sup>2</sup>Windows Latest, Jul 7, 2026. <sup>3</sup>Reviews through Apr 2026 described ChatGPT Record as Mac-only with no speaker identification; its status was not re-checked after Oct 2. GitHub star count as of Oct 2026. <a href="#p14">S15, S23–S24</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>08 / 14</span></div>
+</section>
+
+<!-- 9 · DEFENSIBILITY -->
+<section class="page atl" id="p9">
+  <div class="kick">Defensibility</div>
+  <h1>One real advantage, and only against some rivals</h1>
+  <p class="dek">On Hamilton Helmer’s seven powers, Granola holds one today and is building three.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="moats">
+    <div class="moat full"><div class="c"></div><div class="nm">Counter-<br>positioning</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Switching<br>costs</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Network<br>effects</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Brand</div></div>
+    <div class="moat"><div class="c"></div><div class="nm">Scale<br>economies</div></div>
+    <div class="moat"><div class="c"></div><div class="nm">Cornered<br>resource</div></div>
+    <div class="moat"><div class="c"></div><div class="nm">Process<br>power</div></div>
+  </div>
+  <div class="legend"><span><i class="f"></i>Has</span><span><i class="h"></i>Building</span><span><i></i>None</span><span style="margin-left:auto">Author’s scoring, Oct 2026</span></div>
+  <div class="body"><p class="dc">Counter-positioning means a rival cannot copy you without hurting itself. Otter’s growth depends on its visible bot, which advertises the product in every call it joins. Dropping it would break that loop. Google’s value is the surface it owns, so it cannot be neutral across Zoom and Teams. Through 2026, both moved further into their own products instead. That explains the switching data better than any feature.</p>
+  <p>But it only works against incumbents whose models punish imitation. Notion, ChatGPT Record and Anarlog are all bot-free. Against them, Granola’s idea is a well-made feature with a strong brand, not a structural power. <span class="tag j">Judgment</span></p></div>
+  <table class="mt">
+    <tr><th>Building</th><th>Evidence</th><th>Why it is not yet a moat</th></tr>
+    <tr><td class="k">Switching costs</td><td>Meeting history, MCP and CRM connections</td><td>Notes export freely; the free plan keeps 30 days</td></tr>
+    <tr><td class="k">Network effects</td><td>Shared Spaces, shared links</td><td>Still mostly single-player</td></tr>
+    <tr><td class="k">Brand</td><td>A verb among founders; a rival named itself after it</td><td>Three years old, and mostly known in tech</td></tr>
+  </table>
+  <div class="pq"><div class="q">“</div><div><p class="sm">Even if somebody comes along and they build a better granola, you’re not going to switch because it has all of your context.</p><small>Michael Mignano, Lightspeed (seed investor) · Sourcery, Dec 27, 2025, 09:07. This has only been tested on long-time users.</small></div></div>
+  <div class="notes">
+    <p>Framework: Hamilton Helmer, <i>7 Powers</i>. Scores reflect the author’s reading of the competition research (Oct 2, 2026), not a third-party rating. <a href="#p14">S1, S4</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>09 / 14</span></div>
+</section>
+
+<!-- 10 · BUSINESS -->
+<section class="page atl" id="p10">
+  <div class="kick">The business</div>
+  <h1>A notes-app price, with costs that grow with use</h1>
+  <p class="dek">Revenue is undisclosed. What is visible: a price ladder built to recruit teams, and costs that rise with the most-loved features.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <svg width="896" height="210" viewBox="0 0 896 210" style="margin-top:18px" role="img" aria-label="Pricing steps: 10 dollars a month at launch in May 2024; 18 dollars individual and 14 dollars per team seat from May 2025; from March 2026 free, 14 dollars Business and 35 dollars Enterprise, with MCP and API in the 14 dollar tier">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <path d="M0 180 H250 V128 H520 V64 H896" fill="none" stroke="#141414" stroke-width="2"/>
+      <g font-family="TD Mono, JetBrains Mono, monospace" font-size="12.5" fill="#777"><text x="0" y="202">MAY 2024 · LAUNCH</text><text x="250" y="202">MAY 2025</text><text x="520" y="202">MAR 2026 → UNCHANGED TO OCT 2</text></g>
+      <text x="0" y="160" font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="40" fill="#141414">$10</text><text x="78" y="160" font-size="15" fill="#555">a month</text>
+      <text x="262" y="110" font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="34" fill="#141414">$18 · $14</text><text x="262" y="82" font-size="14" fill="#555">individual · per team seat</text>
+      <text x="532" y="44" font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="34" fill="#D7262B">Free · $14 · $35</text>
+      <text x="532" y="16" font-size="14" fill="#555">30-day history · Business · Enterprise</text>
+      <rect x="532" y="84" width="300" height="56" fill="#fbe7e7"/><text x="546" y="108" font-size="14.5" font-weight="800" fill="#D7262B" letter-spacing="1">MCP + API SIT IN THE $14 TIER</text><text x="546" y="128" font-size="14" fill="#555">individual plan removed</text>
+    </g>
+  </svg>
+  <div class="cap">Per user per month. History reconstructed from press because archived pages were unreachable; current tiers from granola.ai/pricing, Oct 2, 2026. <span class="tag r">Reported</span></div>
+  <div class="body"><p class="dc">The company has said annual recurring revenue grew more than 400% in the year to March 2026, and 2.5 times between January and the Series C announcement.<sup>1</sup> That jump coincided with removing the individual plan, so it is not a steady rate. Sales works bottom-up: reps take adoption that already exists in an account and “formalize it in a company contract.”<sup>2</sup> On Oct 2, 2026, eight of 18 open roles were in go-to-market.<sup>3</sup></p>
+  <p>Costs are less settled. “There was a time where half of our burn rate as a company was going on transcription,” Stephenson said.<sup>4</sup> That is now cheap; the new cost is cross-meeting AI work: about half of weekly users run agentic queries, and Granola prepares meeting briefs even though only about 10% are opened.<sup>5</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">Agentic features are really expensive um and so as we build more and more of them at some point that’ll … break the math.</p><small>Chris Pedregal · AI &amp; I, Jul 15, 2026, 56:45</small></div></div>
+  <div class="box"><div class="h">Estimate, not disclosure</div><p>Gross margin is probably 50–70%, nearer the low end, below typical software. The CEO said only that it was not negative (Aug 2025). <span class="tag e">Estimate</span></p></div>
+  <div class="notes">
+    <p><sup>1</sup>Reported via Forbes and TechCrunch, Jan–Mar 2026. <sup>2</sup>The Crew, Jun 23, 2026, 36:25. <sup>3</sup>granola.ai/jobs. <sup>4</sup>Cognitive Revolution, Apr 8, 2026, 42:23. <sup>5</sup>AI &amp; I, 57:27 and 56:27. <a href="#p14">S3, S5–S7, S12–S13, S26</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>10 / 14</span></div>
+</section>
+<!-- 11 · THE MODEL QUESTION -->
+<section class="page atl" id="p11">
+  <div class="kick">The model question</div>
+  <h1>Better models help Granola. They help everyone else too.</h1>
+  <p class="dek">The usual case against an app built on someone else’s AI is that the next model release makes it pointless. In Granola’s case that is the wrong test.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="body"><p class="dc">Granola does not train a frontier model and does not try to. “Our philosophy is to use the best model that is on the market as quickly as … possible,” Pedregal said in 2025.<sup>1</sup> What it owns is the workflow around the model: when capture starts, what the user typed, which past meetings are relevant, and where the result goes next. So far, three things have meant each model generation helped Granola more than it hurt.</p></div>
+  <div class="qlist">
+    <div class="it"><span class="n">1</span><div><div class="h">Longer context opened up the product</div><div class="d">At launch “you could only do like 30 minute meetings.” Larger context windows removed that limit and, later, made searching across many meetings practical.<sup>2</sup></div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">The hard questions need the whole record</div><div class="d">Simple retrieval finds facts. But for questions like “what did I explain badly?”, a lot of the most interesting queries “would completely fail with that type of method.” Only the full context gives a good answer.<sup>3</sup></div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">It builds a year ahead</div><div class="d">The company aims to “build for the world a year from now,” on the bet that capabilities which are expensive today will be cheap by the time they reach users.<sup>3</sup></div></div></div>
+  </div>
+  <div class="body" style="margin-top:22px"><p>The catch is that the same models are available to Google, OpenAI and the open-source copies. The real test is relative: does Granola improve faster than the free version? Stephenson has said he has “worried about this since day one,” and, when asked why users still pay, “I don’t have great answers as to why.”<sup>4</sup> <span class="tag j">Judgment</span></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">If Granola doesn’t get better when … the next version of Claude or GPT comes out, then I think over … time we’re cooked.</p><small>Sam Stephenson, co-founder · Cognitive Revolution, Apr 8, 2026, 1:30:33</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>MAD Podcast, Aug 21, 2025, 38:31. <sup>2</sup>Generative Now, May 15, 2025, 10:22; MAD 42:45. <sup>3</sup>MAD 43:32 and 44:36. <sup>4</sup>Cognitive Revolution, 1:29:05 and 1:29:33. Context window: how much text a model can consider at once. <a href="#p14">S2–S3, S5</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>11 / 14</span></div>
+</section>
+
+<!-- 12 · RISKS -->
+<section class="page atl" id="p12">
+  <div class="kick">The risks</div>
+  <h1>The lawsuit targets the core feature</h1>
+  <p class="dek">Capturing a call without a visible bot is what users love. It is also what a pending class action says is illegal.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="body"><p class="dc"><i>Chamberlain v. Granola</i> was filed in federal court in Northern California on July 30, 2026. It alleges that recording other people in a meeting without their consent, and training models on those recordings, breaks California’s wiretap law and federal law. These are allegations, not findings.<sup>1</sup> Two weeks later, the same court refused to dismiss similar claims against Otter. It held that a notetaker that trains on recordings for its own purposes can be treated as a third-party eavesdropper.<sup>2</sup></p>
+  <p>Granola’s defence was in place before the suit was filed: “granola from the get-go never stored the audio. It only stores the transcripts.”<sup>3</sup> But reporting in April and July 2026 described defaults that cut the other way: share links anyone could open, training switched on by default for non-enterprise users, and folders shared across a whole organisation.<sup>4</sup> As of Oct 2, 2026, coverage showed no answer or motion to dismiss; the case may have moved since. <span class="tag g">Status not current</span></p></div>
+  <div class="bigstat"><div class="n" style="font-size:80px">&gt;60%</div><p>The author’s estimate of the chance of <i>some</i> forced change, such as opt-in training or stricter sharing defaults. The worst case, mandatory notice to every participant, is put at 20–30%. <span class="tag j">Judgment</span></p></div>
+  <table class="mt">
+    <tr><th>Risk</th><th>What to look for</th><th>Read</th></tr>
+    <tr><td class="k">Legal</td><td>Docket filings; changes to defaults</td><td class="red">Highest</td></tr>
+    <tr><td class="k">Platform clock</td><td>Spending data after Google’s Sep 29 auto-on</td><td class="red">High</td></tr>
+    <tr><td class="k">Margins</td><td>Usage-based pricing; briefs generated only when needed</td><td>Medium</td></tr>
+    <tr><td class="k">Disclosure</td><td>No Form D for the B or C; UK FY26 accounts due Dec 31, 2026</td><td>Medium</td></tr>
+    <tr><td class="k">Cash</td><td>Runway est. 3.5–5 years <span class="tag e">Estimate</span></td><td>Low</td></tr>
+  </table>
+  <div class="notes">
+    <p><sup>1</sup>N.D. Cal. 3:26-cv-07926. <sup>2</sup><i>In re Otter.AI Privacy Litigation</i>, order of Aug 13, 2026, as reported by Recording Law. <sup>3</sup>Pedregal, Generative Now, May 15, 2025, 36:11. <sup>4</sup>The Verge (Apr 2026) via Hacker News; a Hacker News user (Jul 2026). Granola has since added a user-settable “Private” sharing default and training opt-outs. <a href="#p14">S1–S2, S8–S9, S14, S17–S19</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>12 / 14</span></div>
+</section>
+
+<!-- 13 · VERDICT -->
+<section class="page atl" id="p13">
+  <div class="kick">The verdict</div>
+  <h1>Running the race well, without controlling the clock</h1>
+  <p class="dek">Granola has won the paid notetaker market. The $1.5B price depends on a second act that it does not yet own.</p>
+  <div class="by">Startup Teardown · No.01 · Granola</div>
+  <div class="cols2">
+    <div><div class="lb">The optimist’s case</div><p>The best retention in the category and the strongest switching data. A neutral record of every meeting, available to any agent through MCP and an API. A founding team that delayed launch, kept a clear identity, and cuts features to keep the product calm.</p></div>
+    <div><div class="lb">The sceptic’s case</div><p>A small category whose price is heading towards zero. Every repeatable move has been copied. Margins that agent features will squeeze. A lawsuit aimed at the defining feature. No disclosed revenue, users or renewals.</p></div>
+  </div>
+  <div class="body" style="margin-top:26px"><p class="dc">Our reading: both are right, on different timescales. The first act was won on product quality, not on a structural moat. The second act, supplying context to agents, is the right direction, but the agents, buyers and budgets are not yet in place. In October 2026 the research put the window for turning brand and meeting history into organisation-level lock-in at about 9 to 18 months, before free, automatic notes become the default box ticked for small teams. <span class="tag j">Judgment</span></p></div>
+  <div class="lb" style="margin-top:28px">Five things to watch</div>
+  <div class="qlist" style="margin-top:6px">
+    <div class="it"><span class="n">1</span><div><div class="h">Spending data after Sep 29</div><div class="d">Ramp and YipitData figures covering the quarter in which Google’s notes turned on automatically.</div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">Metering</div><div class="d">The first usage-based price signals that agent costs have caught up with the model.</div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">Agents in production</div><div class="d">Named customers whose agents read the API every day, not just in demos.</div></div></div>
+    <div class="it"><span class="n">4</span><div><div class="h">The docket</div><div class="d">Whether <i>Chamberlain</i> survives a motion to dismiss, and what any settlement would force.</div></div></div>
+    <div class="it"><span class="n">5</span><div><div class="h">Beyond meetings</div><div class="d">Whether email and Slack actually become inputs, as described in May 2025.</div></div></div>
+  </div>
+  <div class="notes"><p>The 9–18-month window is the research’s judgment as of Oct 2, 2026, and is not updated here. <a href="#p14">S1</a>.</p></div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>13 / 14</span></div>
+</section>
+
+<!-- 14 · SOURCES -->
+<section class="page atl" id="p14">
+  <div class="kick">Sources, gaps &amp; method</div>
+  <h1 style="font-size:64px">What this issue knows, and what it doesn’t</h1>
+  <div class="method">
+    <p><b>Method.</b> The research was carried out between Sep 20 and Oct 16, 2026, and no figure is updated after those dates. Every number carries the date it refers to. <span class="tag f">Filing</span> marks public filings, <span class="tag r">Reported</span> marks company statements and press, <span class="tag e">Estimate</span> marks the author’s estimates, and <span class="tag j">Judgment</span> marks the author’s opinion. Quotes come from transcripts of the episodes cited. Some were machine-transcribed, so filler words are cut and marked “…”. Timestamps are approximate.</p>
+    <p><b>Gaps.</b> Revenue (never disclosed; estimates left out). Current user numbers (last disclosed: about 5,000 weekly users, Oct 2024). Net revenue retention. Enterprise renewals. Agents using the API in production. Form D filings for the Series B and C (absent as of Oct 2, 2026). Granola’s response in court. The size of the stake held by Nat Friedman and Daniel Gross’s fund.</p>
+    <p><b>Glossary.</b> <i>ARR</i>: annual recurring revenue. <i>MCP</i>: Model Context Protocol, a standard for AI assistants to read other tools. <i>Form D</i>: SEC notice of a private fundraise. <i>Counter-positioning</i>: a model that rivals can’t copy without hurting themselves.</p>
+  </div>
+  <ol class="srcs">
+    <li><b>S1</b>Janet Mao, <i>Granola — Deep Dive</i>, rev 4, Oct 4, 2026, and dimension notes (unpublished)</li>
+    <li><b>S2</b><a href="https://www.youtube.com/watch?v=2eajeT9WU4k">Generative Now, May 15, 2025</a></li>
+    <li><b>S3</b><a href="https://www.youtube.com/watch?v=IcbuTTVUY7M">MAD Podcast, Aug 21, 2025</a></li>
+    <li><b>S4</b><a href="https://www.youtube.com/watch?v=m0lZ3JdZw7s">Sourcery, Dec 27, 2025</a></li>
+    <li><b>S5</b><a href="https://www.youtube.com/watch?v=Z8dohAchPzU">Cognitive Revolution, Apr 8, 2026</a></li>
+    <li><b>S6</b><a href="https://www.youtube.com/watch?v=SvKTESMtcd8">The Crew, Jun 23, 2026</a></li>
+    <li><b>S7</b><a href="https://every.to/podcast/transcript-the-founder-of-a-1-5b-ai-company-on-what-comes-after-the-first-wave-of-ai-apps">AI &amp; I (Every), Jul 15, 2026</a></li>
+    <li><b>S8</b><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001969640&amp;type=D">SEC EDGAR, Form D, CIK 0001969640</a></li>
+    <li><b>S9</b><a href="https://find-and-update.company-information.service.gov.uk/company/14703652/filing-history">Companies House, Granola Labs Ltd 14703652</a></li>
+    <li><b>S10</b><a href="https://ramp.com/vendors/granola">Ramp vendor data, updated Oct 2, 2026</a></li>
+    <li><b>S11</b><a href="https://www.yipitdata.com/resources/blog/granola-vs-fathom-otter-fireflies-ai-notetaking">YipitData, Apr 2026</a></li>
+    <li><b>S12</b>TechCrunch: <a href="https://techcrunch.com/2024/10/23/vcs-love-using-the-ai-meeting-notepad-granola-so-they-gave-it-20m/">A</a> · <a href="https://techcrunch.com/2025/05/14/ai-note-taking-app-granola-raises-43m-at-250m-valuation-launches-collaborative-features/">B</a> · <a href="https://techcrunch.com/2026/03/25/granola-raises-125m-hits-1-5b-valuation-as-it-expands-from-meeting-notetaker-to-enterprise-ai-app/">C</a></li>
+    <li><b>S13</b><a href="https://www.granola.ai/pricing">granola.ai pricing</a> and <a href="https://www.granola.ai/jobs">jobs</a>, Oct 2, 2026</li>
+    <li><b>S14</b><a href="https://docs.granola.ai/help-center/consent-security-privacy/model-training">Granola docs</a>, privacy, MCP, transcription</li>
+    <li><b>S15</b><a href="https://workspaceupdates.googleblog.com/2026/09/new-google-meet-take-notes-for-me-settings-for-admins-and-end-users-take-effect-September-29th.html">Google Workspace Updates</a>, Jul &amp; Sep 2026</li>
+    <li><b>S16</b><a href="https://techcrunch.com/2026/09/14/superhuman-acquires-yc-backed-notetaker-fathom-as-productivity-platforms-push-for-agentic-work/">TechCrunch, Superhuman–Fathom, Sep 14, 2026</a></li>
+    <li><b>S17</b><a href="https://www.pacermonitor.com/public/case/65990958/Chamberlain_v_Granola,_Inc_et_al"><i>Chamberlain v. Granola</i>, 3:26-cv-07926</a>; <a href="https://btlaw.com/en/insights/alerts/2026/what-the-granola-class-action-means-for-companies-building-and-deploying-conversation-capture-tools">Barnes &amp; Thornburg</a></li>
+    <li><b>S18</b><a href="https://www.recordinglaw.com/news/otter-ai-wiretap-lawsuit-explained/">Recording Law on <i>In re Otter.AI</i></a></li>
+    <li><b>S19</b><a href="https://news.ycombinator.com/item?id=47628018">The Verge via HN, Apr 2026</a>; <a href="https://news.ycombinator.com/item?id=44725306">HN, Jul 2026</a></li>
+    <li><b>S20</b><a href="https://x.com/appenz/status/2033597347868111004">Appenzeller, Mar 16</a>; <a href="https://x.com/cjpedregal/status/2033909268554953067">Pedregal, Mar 17, 2026</a></li>
+    <li><b>S21</b><a href="https://a16z.com/100-gen-ai-apps-6/">a16z Top 100 Gen AI Apps, 6th ed.</a></li>
+    <li><b>S22</b><a href="https://www.kleinerperkins.com/perspectives/granola-putting-your-companys-context-to-work/">Kleiner Perkins</a> and <a href="https://www.indexventures.com/perspectives/granola-investing-in-what-makes-us-human/">Index</a> memos</li>
+    <li><b>S23</b><a href="https://github.com/fastrepl/anarlog">Anarlog on GitHub</a></li>
+    <li><b>S24</b>Competitor coverage: <a href="https://techcrunch.com/2025/05/13/notion-takes-on-ai-notetakers-like-granola-with-its-own-transcription-feature">Notion (TechCrunch)</a>, ChatGPT Record reviews</li>
+    <li><b>S25</b><a href="https://otter.ai/blog/otter-ai-caps-transformational-2025-with-100m-arr-milestone-industry-first-ai-meeting-agents-and-global-enterprise-expansion">Otter, $100M ARR post</a></li>
+    <li><b>S26</b><a href="https://www.forbes.com/sites/iainmartin/2026/01/30/vcs-favorite-note-taking-app-granola-in-talks-to-hit-1-billion-valuation/">Forbes, Jan 30, 2026</a> (paywalled; cited as reported)</li>
+    <li><b>S27</b><a href="https://windowslatest.com/2026/07/07/microsoft-teams-big-update-brings-ai-notes-to-physical-meetings-chat-sections-and-more">Windows Latest, Teams, Jul 7, 2026</a></li>
+    <li><b>S28</b><a href="https://sacra.com/c/granola/">Sacra, Granola</a></li>
+    <li><b>S29</b><a href="https://okara.ai/blog/how-granola-grew">Okara</a>; <a href="https://www.upstartsmedia.com/p/granola-ai-meeting-notes-eat">Upstarts</a></li>
+    <li><b>S30</b><a href="https://www.hallwaychat.co/granola-the-art-of-invisible-ai-christopher-pedregal/">Hallway Chat, Jan 24, 2025</a></li>
+    <li><b>S31</b><a href="https://colossus.com/episode/building-granola/">Invest Like the Best, Feb 25, 2025</a></li>
+  </ol>
+  <div class="colo"><span class="fin">Fin.</span><span>Startup Teardown · English edition No.01 · Independent analysis by Janet Mao, not affiliated with or reviewed by Granola. Figures are as of the dates shown.</span></div>
+  <div class="folio"><span>Startup Teardown · Granola</span><span>14 / 14</span></div>
+</section>
+
+<nav id="rnav" aria-label="Page navigation"><button id="rprev" aria-label="Previous page">←</button><span id="rpos">1 / 14</span><button id="rnext" aria-label="Next page">→</button><button id="rzoom" type="button" aria-label="Zoom: fit page. Activate to change">Fit page</button></nav>
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('section.page'));
+  var q=new URLSearchParams(location.search);
+  var single=q.get('p');
+  if(single){document.body.classList.add('single');var el=document.getElementById('p'+single);if(el)el.classList.add('on');return;}
+  if(!q.has('reader'))return;
+  document.documentElement.classList.add('reader');document.body.classList.add('reader');
+  var rv=document.createElement('div');rv.id='rview';rv.setAttribute('role','region');rv.setAttribute('aria-label','Magazine page');rv.tabIndex=0;
+  pages[0].parentNode.insertBefore(rv,pages[0]);pages.forEach(function(p){rv.appendChild(p);});
+  var nav=document.getElementById('rnav');
+  var cur=0;
+  var modes=[['fit','Fit page'],['zw','Fit width'],['z1','Actual size']],zm=0;
+  var zq=q.get('zoom');if(zq==='width')zm=1;if(zq==='actual')zm=2;
+  try{var zs=sessionStorage.getItem('tdZoom');if(zs!==null&&!zq)zm=+zs||0;}catch(e){}
+  var zb=document.getElementById('rzoom');
+  function fit(){var m=modes[zm][0],s;
+    document.documentElement.style.setProperty('--navh',nav.offsetHeight+'px');
+    if(m==='fit')s=Math.min((rv.clientWidth-24)/1080,(rv.clientHeight-24)/1440,1);
+    else if(m==='zw')s=Math.min((rv.clientWidth-16)/1080,1);
+    else s=1;
+    document.body.classList.toggle('zw',m==='zw');document.body.classList.toggle('z1',m==='z1');
+    document.documentElement.style.setProperty('--rs',s);
+    zb.textContent=modes[zm][1];zb.setAttribute('aria-label','Zoom: '+modes[zm][1].toLowerCase()+'. Activate to change');}
+  zb.onclick=function(){zm=(zm+1)%modes.length;try{sessionStorage.setItem('tdZoom',zm);}catch(e){}fit();};
+  function show(i){cur=Math.max(0,Math.min(pages.length-1,i));pages.forEach(function(s,j){s.classList.toggle('on',j===cur);});document.getElementById('rpos').textContent=(cur+1)+' / '+pages.length;try{history.replaceState(null,'','#p'+(cur+1));}catch(e){}document.getElementById('rprev').disabled=cur===0;document.getElementById('rnext').disabled=cur===pages.length-1;rv.scrollTop=0;rv.scrollLeft=0;}
+  document.getElementById('rprev').onclick=function(){show(cur-1);};
+  document.getElementById('rnext').onclick=function(){show(cur+1);};
+  addEventListener('keydown',function(e){if(e.key==='z'||e.key==='Z'){zb.click();return;}if(e.key==='ArrowRight'||e.key==='PageDown')show(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')show(cur-1);});
+  document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#p"]');if(a){e.preventDefault();show(+a.getAttribute('href').slice(2)-1);}});
+  addEventListener('resize',fit);fit();
+  var m=/#p(\d+)/.exec(location.hash);show(m?+m[1]-1:0);
+})();
+</script>
+<script src="../reader-plus.js"></script>
+</body>
+</html>

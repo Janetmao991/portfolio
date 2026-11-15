@@ -28,6 +28,11 @@
     const soundBtn = ctrl.querySelector('[data-act=sound]');
     const hint = root.querySelector('.dm-hint');
     const clips = Object.fromEntries([...root.querySelectorAll('audio[data-clip]')].map(a => [a.dataset.clip, a]));
+    const ctx = root.querySelector('.dm-ctx');
+    const ctxJson = ctx && ctx.querySelector('[data-ctx-data]');
+    const ctxData = ctxJson ? JSON.parse(ctxJson.textContent) : null;
+    let ctxWord = '';      // word currently shown on the sentence card
+    let ctxByUser = false; // visitor chose the word; auto must not overwrite it mid-step
     let sound = false;     // sound is on for this demo
     let clip = null;       // the clip playing now
     ctrl.hidden = false;
@@ -62,7 +67,41 @@
     new ResizeObserver(fit).observe(stage);
     fit();
 
-    const hit = i => frames[i].querySelector('.dm-hit');
+    const hit = i => frames[i].querySelector('.dm-hit')
+      || (ctx && frames[i].dataset.ctx && ctx.querySelector('.dm-ctx-w[data-word="' + frames[i].dataset.ctx + '"]'));
+
+    const ctxLabel = (word, byUser) => {
+      if (byUser || (ctxData && word !== ctxData.auto)) return 'Not the word you meant? Tap another.';
+      return 'LexiAI spots the likely unfamiliar word';
+    };
+    function setCtxWord(word, byUser) {
+      if (!ctx || !ctxData || !ctxData.words[word]) return;
+      ctxWord = word;
+      ctxByUser = byUser;
+      ctx.querySelectorAll('.dm-ctx-w').forEach(b => {
+        const on = b.dataset.word === word;
+        if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+      });
+      const entry = ctxData.words[word];
+      const label = ctx.querySelector('[data-ctx-label]');
+      const wEl = ctx.querySelector('[data-ctx-word]');
+      const meaning = ctx.querySelector('[data-ctx-meaning]');
+      const usual = ctx.querySelector('[data-ctx-usual]');
+      const here = ctx.querySelector('[data-ctx-here]');
+      if (label) label.textContent = ctxLabel(word, byUser);
+      if (wEl) wEl.textContent = word;
+      if (meaning) meaning.textContent = entry.meaning;
+      if (usual) usual.textContent = entry.usual;
+      if (here) here.textContent = entry.meaning;
+    }
+    function showCtx(word, byUser, force) {
+      if (!ctx) return;
+      if (!word) { ctx.hidden = true; return; }
+      ctx.hidden = false;
+      // A visitor pick is kept until they pick again, change step by hand, or the auto run starts a new step after they resume.
+      if (ctxByUser && !force && !byUser && ctxWord) return;
+      setCtxWord(word, byUser);
+    }
     // the cursor fades in low in the middle of the stage, then glides
     function appear() {
       if (cursor.classList.contains('on')) return;
@@ -83,17 +122,31 @@
       if (instant) { cursor.offsetWidth; cursor.style.transition = ''; }
     }
 
-    function show(i, lit) {
+    function show(i, lit, opts = {}) {
       cur = i;
       stage.classList.remove('typing');
       frames.forEach((f, k) => {
         f.classList.toggle('on', k === i);
         const b = hit(k);
-        b.classList.toggle('lit', k === i && lit);
-        b.tabIndex = k === i && i < frames.length - 1 ? 0 : -1;
+        if (!b) return;
+        b.classList.toggle('lit', k === i && lit && b.classList.contains('dm-hit'));
+        b.tabIndex = k === i && i < frames.length - 1 && b.classList.contains('dm-hit') ? 0 : -1;
       });
       chips.forEach((c, k) => k === i ? c.setAttribute('aria-current', 'step') : c.removeAttribute('aria-current'));
       cap.textContent = caps[i];
+      const w = frames[i].dataset.ctx || '';
+      if (w) {
+        // On an auto "press" step the word changes only after the cursor clicks, so the switch is visible.
+        const waitForPress = active && playing && !opts.forceCtx && !opts.applyWord && ('press' in frames[i].dataset);
+        if (waitForPress) {
+          ctx.hidden = false;
+          if (!ctxWord && ctxData) setCtxWord(ctxData.auto, false);
+        } else {
+          showCtx(w, false, !!opts.forceCtx);
+        }
+      } else {
+        showCtx('', false, true);
+      }
       if (clip && clip !== clipOf(i)) stopClip();
       syncSound();
     }
@@ -191,6 +244,8 @@
     async function auto(from) {
       const id = ++run;
       active = playing = started = true;
+      ctxByUser = false;
+      ctxWord = '';
       sync();
       for (let i = from; i < frames.length; i++) {
         const f = frames[i];
@@ -200,8 +255,13 @@
         appear();
         point(hit(i));
         if (!await wait(1000, id)) return;
-        if ('press' in f.dataset) { press(hit(i)); if (!await wait(400, id)) return; }
-        else hit(i).classList.add('lit');
+        if ('press' in f.dataset) {
+          press(hit(i));
+          if (f.dataset.ctx) setCtxWord(f.dataset.ctx, true); // simulated visitor tap, not a LexiAI pick
+          if (!await wait(400, id)) return;
+        } else if (hit(i) && hit(i).classList.contains('dm-hit')) {
+          hit(i).classList.add('lit');
+        }
         startClip(i);
         if (!await hold(i, i === frames.length - 1 ? 2600 : 2000, id)) return;
       }
@@ -211,18 +271,44 @@
     }
 
     // the visitor takes over: the auto run stops where it is
-    function manual(i) {
+    function manual(i, picked) {
       run++;
       active = playing = false;
       started = true;
       cursor.classList.remove('on');
-      show(i, true);
+      if (picked && ctxData && ctxData.words[picked]) {
+        // Keep the current context step (or move to the matching one) and do not let a later auto tick overwrite this pick.
+        let at = i;
+        const match = frames.findIndex(f => f.dataset.ctx === picked);
+        if (match >= 0) at = match;
+        else if (!frames[i] || !frames[i].dataset.ctx) {
+          const any = frames.findIndex(f => f.dataset.ctx);
+          if (any >= 0) at = any;
+        }
+        ctxByUser = false; // allow show to switch the frame, then we set the pick
+        show(at, true, { forceCtx: true });
+        setCtxWord(picked, true);
+      } else {
+        ctxByUser = false;
+        show(i, true, { forceCtx: true });
+      }
       sync();
-      startClip(i);  // looking around by hand: an audio step still plays its clip when sound is on
+      startClip(cur);  // looking around by hand: an audio step still plays its clip when sound is on
     }
 
     chips.forEach((c, i) => c.addEventListener('click', () => manual(i)));
-    frames.forEach((f, i) => hit(i).addEventListener('click', () => manual(Math.min(i + 1, frames.length - 1))));
+    frames.forEach((f, i) => {
+      const b = hit(i);
+      if (b && b.classList.contains('dm-hit')) b.addEventListener('click', () => manual(Math.min(i + 1, frames.length - 1)));
+    });
+    if (ctx) {
+      ctx.querySelectorAll('.dm-ctx-w').forEach(b => {
+        b.addEventListener('click', () => {
+          if (!ctxData.words[b.dataset.word]) return;
+          manual(cur, b.dataset.word);
+        });
+      });
+    }
     replayBtn.addEventListener('click', () => { gesture(); auto(0); });
     playBtn.addEventListener('click', () => {
       if (active) { playing = !playing; if (playing) gesture(); sync(); }
@@ -264,6 +350,13 @@
     const playBtn = ctrl.querySelector('[data-act=play]');
     const replayBtn = ctrl.querySelector('[data-act=replay]');
     let started = false, held = false, visible = false;  // held = paused by scrolling away, not by the visitor
+    const soundBtn = ctrl.querySelector('[data-act=sound]');  // R69: only the narrated LexiAI video has sound
+    if (soundBtn) soundBtn.addEventListener('click', () => {
+      v.muted = !v.muted;
+      soundBtn.setAttribute('aria-pressed', String(!v.muted));
+      soundBtn.textContent = v.muted ? '🔊 Sound on' : '🔇 Sound off';
+      if (!v.muted && (v.paused || v.ended)) { if (v.ended) v.currentTime = 0; go(); }
+    });
     ctrl.hidden = false;
     v.controls = false;  // native controls are only the no-JS fallback
     v.muted = true;

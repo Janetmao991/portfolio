@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Startup Teardown No.02 · Clay</title>
+<!-- Fonts are bundled locally in assets/fonts (SIL Open Font License). The Google Fonts link is only a fallback. -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Inter+Tight:wght@500;700;800;900&family=JetBrains+Mono:wght@500;700&family=Instrument+Serif:ital@0;1&display=block" rel="stylesheet">
+<style>
+@font-face{font-family:"TD Newsreader";src:url(assets/fonts/Newsreader.ttf) format("truetype");font-weight:200 800;font-style:normal}
+@font-face{font-family:"TD Newsreader";src:url(assets/fonts/Newsreader-Italic.ttf) format("truetype");font-weight:200 800;font-style:italic}
+@font-face{font-family:"TD Playfair";src:url(assets/fonts/PlayfairDisplay.ttf) format("truetype");font-weight:400 900;font-style:normal}
+@font-face{font-family:"TD Playfair";src:url(assets/fonts/PlayfairDisplay-Italic.ttf) format("truetype");font-weight:400 900;font-style:italic}
+@font-face{font-family:"TD Inter";src:url(assets/fonts/InterTight.ttf) format("truetype");font-weight:100 900;font-style:normal}
+@font-face{font-family:"Instrument Serif";src:url(assets/fonts/InstrumentSerif-Italic.ttf) format("truetype");font-weight:400;font-style:italic}
+@font-face{font-family:"TD Mono";src:url(assets/fonts/JetBrainsMono.ttf) format("truetype");font-weight:100 800;font-style:normal}
+:root{--serif:"TD Newsreader","Newsreader",Georgia,"Times New Roman",serif;--num:"TD Playfair","Playfair Display",Georgia,serif;
+  --sans:"TD Inter","Inter Tight","Helvetica Neue",Arial,sans-serif;--mono:"TD Mono","JetBrains Mono",Menlo,monospace;
+  --red:#D7262B;--ink:#141414;--grey:#8a8a8a;--lime:#B3C248;--cream:#F4F3EE}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:1080px 1440px;margin:0}
+html,body{background:#777}
+a{color:inherit;text-decoration:none}
+.page{width:1080px;height:1440px;position:relative;overflow:hidden;margin:0 auto 40px;break-after:page;page-break-after:always}
+body.single{background:transparent}
+body.single .page{display:none;margin:0}
+body.single .page.on{display:block}
+
+/* ================= COVER ================= */
+.cv{background:var(--cream);color:var(--ink);font-family:var(--sans);padding:56px 64px}
+.cv .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cv .brand{font:700 58px/1 var(--serif);letter-spacing:-.015em}
+.cv .brand i{font-style:italic;font-weight:400;color:var(--red)}
+.cv .meta{font:700 19px/1.55 var(--mono);text-align:right;letter-spacing:.04em}
+.cv .pill{display:inline-flex;align-items:center;gap:14px;margin-top:46px;background:var(--ink);color:var(--lime);
+  border-radius:999px;padding:10px 26px 10px 10px;font:800 25px/1 var(--sans)}
+.cv .pill img{width:46px;height:46px;border-radius:11px}
+.cv h1{margin-top:30px;font:800 94px/1.04 var(--sans);letter-spacing:-.035em}
+.cv h1 .serif{font:400 italic 150px/0.9 "Instrument Serif",var(--serif);letter-spacing:-.01em;color:var(--ink);
+  background:var(--lime);border-radius:24px;padding:0 24px 8px;display:inline-block;transform:translateY(14px)}
+.cv h1 .red{color:var(--red)}
+.cv .art{position:absolute;left:0;right:0;top:628px;height:400px}
+.cv .art svg{display:block}
+.cv .credit{position:absolute;right:64px;top:1026px;font:500 15px/1 var(--mono);color:#777}
+.cv .bottom{position:absolute;left:0;right:0;bottom:0;height:380px;background:var(--ink);color:var(--cream);
+  display:grid;grid-template-columns:1.5fr 1fr;padding:34px 64px 48px;column-gap:54px}
+.cv .intro .lb{font:400 italic 42px/1 "Instrument Serif",var(--serif);color:var(--lime)}
+.cv .intro p{margin-top:16px;font:400 26px/1.5 var(--serif)}
+.cv .intro small{display:block;margin-top:16px;font:500 15px/1.4 var(--mono);color:#a9a9a0;letter-spacing:.02em}
+.cv .facts div{display:flex;justify-content:space-between;align-items:center;height:72px;border-top:2px solid var(--lime);padding:0;
+  font:500 19px/1.2 var(--sans);color:#d8d8cf}
+.cv .facts div span small{display:block;font:500 13px/1.3 var(--mono);color:#9a9a90;margin-top:3px}
+.cv .facts b{font:400 italic 40px/1 "Instrument Serif",var(--serif);color:var(--lime);font-weight:400}
+
+/* ================= INNER ================= */
+.atl{background:#fff;color:var(--ink);padding:66px 92px 0;font-family:var(--serif)}
+.atl .kick{font:700 18px/1 var(--sans);letter-spacing:.28em;color:var(--red);text-transform:uppercase}
+.atl h1{margin-top:18px;font:600 58px/1.06 var(--serif);letter-spacing:-.018em}
+.atl .dek{margin-top:14px;font:400 24.5px/1.42 var(--serif);color:#555}
+.atl .by{margin-top:14px;font:500 15px/1 var(--sans);letter-spacing:.22em;color:#999;text-transform:uppercase}
+.atl .body{margin-top:24px;font:400 22.5px/1.52 var(--serif);color:#222;hyphens:auto}
+.atl .body p{margin-bottom:12px}
+.atl .body p:last-child{margin-bottom:0}
+.atl .body p.dc::first-letter{float:left;font:700 88px/0.8 var(--serif);color:var(--red);margin:8px 10px 0 0}
+.atl .body b{font-weight:700;color:var(--ink)}
+.atl .body i{font-style:italic}
+.atl sup{font:700 15px/1 var(--sans);color:var(--red);margin-left:2px;vertical-align:super}
+.atl .pq{margin-top:20px;border-top:1.5px solid var(--ink);padding-top:16px;display:grid;grid-template-columns:58px 1fr;gap:10px}
+.atl .pq .q{font:700 italic 92px/0.8 var(--num);color:var(--red)}
+.atl .pq p{font:600 26px/1.36 var(--serif);letter-spacing:-.005em}
+.atl .pq p.sm{font-size:23px;line-height:1.4}
+.atl .pq small{display:block;margin-top:8px;font:500 14.5px/1.45 var(--sans);letter-spacing:.14em;color:#888;text-transform:uppercase}
+.atl .notes{position:absolute;left:92px;right:92px;bottom:92px;border-top:1px solid #ccc;padding-top:14px}
+.atl .notes p{font:400 16px/1.45 var(--serif);color:#555;margin-bottom:5px}
+.atl .notes p:last-child{margin-bottom:0}
+.atl .notes sup{font:700 14px/1 var(--sans);color:var(--red);margin-right:6px;vertical-align:baseline}
+.atl .notes a{border-bottom:1px solid #ccc}
+.atl .folio{position:absolute;bottom:44px;left:92px;right:92px;display:flex;justify-content:space-between;
+  font:500 15px/1 var(--sans);letter-spacing:.2em;color:#999;text-transform:uppercase}
+.tag{display:inline-block;font:700 11.5px/1 var(--sans);letter-spacing:.14em;padding:4px 6px 3px;border:1.2px solid currentColor;border-radius:3px;
+  vertical-align:3px;margin-left:6px;text-transform:uppercase;white-space:nowrap}
+.tag.f{color:var(--ink)} .tag.r{color:#666} .tag.e{color:var(--red)} .tag.j{color:#fff;background:var(--red);border-color:var(--red)}
+.tag.g{color:#999;border-style:dashed}
+
+.atl .qlist{margin-top:18px}
+.atl .qlist .it{display:grid;grid-template-columns:52px 1fr;padding:10px 0;border-top:1px solid #ddd}
+.atl .qlist .it:last-child{border-bottom:1px solid #ddd}
+.atl .qlist .n{font:400 italic 38px/1 var(--num);color:var(--red)}
+.atl .qlist .h{font:700 22.5px/1.32 var(--serif)}
+.atl .qlist .d{font:400 20px/1.45 var(--serif);color:#555;margin-top:2px}
+.atl .stats3{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px;margin-top:22px;border-top:1.5px solid var(--ink);border-bottom:1px solid #ddd;padding:16px 0 18px}
+.atl .stats3 .n{font:400 italic 62px/1 var(--num)}
+.atl .stats3 .n.red{color:var(--red)}
+.atl .stats3 .l{margin-top:10px;font:500 15.5px/1.4 var(--sans);letter-spacing:.06em;color:#666}
+.atl .bigstat{display:grid;grid-template-columns:250px 1fr;align-items:center;gap:24px;margin-top:20px;border-top:1.5px solid var(--ink);padding-top:16px}
+.atl .bigstat .n{font:400 italic 84px/0.9 var(--num);color:var(--red);white-space:nowrap}
+.atl .bigstat p{font:600 22px/1.45 var(--serif)}
+.atl .tl{margin-top:20px}
+.atl .tl .row{display:grid;grid-template-columns:150px 28px 1fr;align-items:baseline;padding:7px 0;border-bottom:1px solid #eee}
+.atl .tl .y{font:400 italic 30px/1.1 var(--num)}
+.atl .tl .row.red .y{color:var(--red)}
+.atl .tl .d{width:11px;height:11px;border-radius:50%;background:var(--ink);transform:translateY(-3px)}
+.atl .tl .row.red .d{background:var(--red);width:15px;height:15px}
+.atl .tl .t{font:400 20.5px/1.4 var(--serif);color:#333}
+.atl .tl .t b{font-weight:700;color:var(--ink)}
+.atl .chain{margin-top:30px;position:relative;height:190px}
+.atl .chain .ln{position:absolute;left:120px;right:120px;top:42px;height:2px;background:var(--ink)}
+.atl .chain .node{position:absolute;top:0;width:280px;text-align:center;transform:translateX(-50%)}
+.atl .chain .c{width:84px;height:84px;border-radius:50%;border:2px solid var(--ink);background:#fff;margin:0 auto;
+  display:flex;align-items:center;justify-content:center;font:400 italic 38px/1 var(--num)}
+.atl .chain .node.red .c{background:var(--red);border-color:var(--red);color:#fff}
+.atl .chain .lb{margin-top:14px;font:700 14.5px/1 var(--sans);letter-spacing:.2em;color:#888}
+.atl .chain .rs{margin-top:8px;font:400 21px/1.35 var(--serif)}
+.atl .moats{margin-top:36px;display:grid;grid-template-columns:repeat(7,1fr);column-gap:8px}
+.atl .moat{text-align:center}
+.atl .moat .c{width:64px;height:64px;border-radius:50%;border:2px solid var(--ink);margin:0 auto;position:relative;overflow:hidden}
+.atl .moat.full .c{background:var(--red);border-color:var(--red)}
+.atl .moat.half .c::after{content:"";position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--ink)}
+.atl .moat .nm{margin-top:12px;font:600 19px/1.25 var(--serif)}
+.atl .legend{margin-top:18px;display:flex;gap:30px;font:500 14.5px/1 var(--sans);letter-spacing:.12em;color:#888;text-transform:uppercase}
+.atl .legend i{display:inline-block;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink);margin-right:8px;vertical-align:-2px}
+.atl .legend i.f{background:var(--red);border-color:var(--red)}
+.atl .legend i.h{background:linear-gradient(90deg,var(--ink) 50%,#fff 50%)}
+.atl table.mt{width:100%;border-collapse:collapse;margin-top:20px}
+.atl table.mt th{font:700 13.5px/1.2 var(--sans);letter-spacing:.16em;color:#888;text-align:left;padding:0 14px 10px 0;border-bottom:1.5px solid var(--ink);text-transform:uppercase}
+.atl table.mt td{font:400 19.5px/1.38 var(--serif);padding:9px 14px 9px 0;border-bottom:1px solid #ddd;vertical-align:top}
+.atl table.mt td.k{font-weight:700;width:190px}
+.atl table.mt td.red{color:var(--red);font-weight:700}
+.atl .lead{margin-top:28px;font:700 16px/1 var(--sans);letter-spacing:.24em;color:var(--red);text-transform:uppercase}
+.atl svg{display:block}
+.atl .cap{margin-top:8px;font:500 14px/1.45 var(--sans);letter-spacing:.06em;color:#999}
+.atl .two{display:grid;grid-template-columns:1fr 1fr;column-gap:44px;margin-top:26px}
+.atl .two h3{font:700 15px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
+.atl .two h3.red{color:var(--red);border-color:var(--red)}
+.atl .two ul{list-style:none;margin-top:6px}
+.atl .two li{font:400 21px/1.45 var(--serif);color:#333;padding:10px 0;border-bottom:1px solid #e3e3e3}
+.atl .box{margin-top:18px;border:1.5px solid var(--ink);padding:14px 20px}
+.atl .box .h{font:700 14.5px/1 var(--sans);letter-spacing:.2em;color:var(--red);text-transform:uppercase}
+.atl .box p{margin-top:8px;font:400 19.5px/1.45 var(--serif);color:#333}
+/* sources page */
+.atl .src{column-count:2;column-gap:40px;margin-top:20px}
+.atl .src p{break-inside:avoid;font:400 15.4px/1.42 var(--serif);color:#444;margin-bottom:7.5px;padding-left:34px;text-indent:-34px}
+.atl .src p b{font:700 13px/1 var(--sans);color:var(--red);display:inline-block;width:34px;text-indent:0;letter-spacing:.04em}
+.atl .src a{color:#222;border-bottom:1px solid #ccc;overflow-wrap:anywhere}
+.atl .colophon{position:absolute;left:92px;right:92px;bottom:92px;border-top:1.5px solid var(--ink);padding-top:14px;font:400 16.5px/1.55 var(--serif);color:#666}
+.atl .colophon b{color:var(--red);font:400 italic 28px/1 var(--num);margin-right:10px}
+
+/* verdict + sources */
+.atl .lb{font:700 15px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--red)}
+.atl .cols2{display:grid;grid-template-columns:1fr 1fr;column-gap:44px;margin-top:30px}
+.atl .cols2 .lb{padding-bottom:12px;border-bottom:1.5px solid var(--ink);color:var(--ink)}
+.atl .cols2 > div:first-child .lb{color:var(--red);border-color:var(--red)}
+.atl .cols2 p{margin-top:10px;font:400 20px/1.45 var(--serif);color:#333}
+.atl .method{margin-top:26px;font:400 19px/1.52 var(--serif);color:#333}
+.atl .method p{margin-bottom:10px}
+.atl .method b{font:700 14px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-right:6px}
+.atl ol.srcs{list-style:none;margin-top:14px;column-count:2;column-gap:40px;padding-left:30px;font:400 16px/1.4 var(--serif);color:#444;border-top:1.5px solid var(--ink);padding-top:14px}
+.atl ol.srcs li{break-inside:avoid;margin-bottom:6px;padding-left:4px}
+.atl ol.srcs li b{font:700 12.5px/1 var(--sans);color:var(--red);display:inline-block;width:30px;margin-left:-30px}
+.atl ol.srcs a{color:#222;border-bottom:1px solid #ccc;overflow-wrap:anywhere}
+.atl .colo{position:absolute;left:92px;right:92px;bottom:92px;border-top:1.5px solid var(--ink);padding-top:12px;display:flex;gap:18px;align-items:baseline;font:400 15.5px/1.5 var(--serif);color:#666}
+.atl .colo .fin{color:var(--red);font:400 italic 30px/1 var(--num)}
+body.reader .page{transform:translateX(-50%) scale(var(--rs,1));top:12px}
+/* ================= READER (opt-in: ?reader) ================= */
+html.reader,body.reader{height:100%;overflow:hidden;overscroll-behavior:none}
+body.reader{background:#3a3a3a}
+/* reader viewport: a bounded scroller; the nav lives outside it, so wide pages can never widen the document */
+#rview{display:none}
+body.reader #rview{display:block;position:fixed;left:0;top:0;right:0;bottom:var(--navh,56px);overflow:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+body.reader .page{display:none;margin:0;position:absolute;left:50%;top:0;transform-origin:top center}
+body.reader .page.on{display:block}
+#rnav{display:none}
+body.reader #rnav{display:flex;position:fixed;left:0;right:0;bottom:0;min-height:56px;padding-bottom:env(safe-area-inset-bottom);align-items:center;justify-content:center;gap:22px;
+  background:#141414;color:#eee;font:600 15px/1 var(--sans);letter-spacing:.14em;z-index:10}
+#rnav button{background:none;border:1.5px solid #777;color:#eee;font:inherit;padding:10px 18px;border-radius:999px;cursor:pointer}
+#rnav button:hover{border-color:var(--red);color:#fff}
+#rnav button:disabled{opacity:.35;cursor:default}
+#rnav button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+body.reader #rnav{flex-wrap:wrap;padding:0 8px}
+#rzoom{min-width:7.5em}
+@media (max-width:480px){body.reader #rnav{gap:10px;letter-spacing:.06em}#rnav button{padding:10px 14px}}
+/* zoom modes: default = fit page; .zw = fit width (scroll); .z1 = actual size (scroll) */
+body.reader.zw #rview,body.reader.z1 #rview{overflow:auto}
+body.reader.zw .page,body.reader.z1 .page{margin-top:12px!important;margin-bottom:12px!important}
+body.reader.zw .page,body.reader.z1 .page{position:relative;left:auto;top:auto;transform:none;margin:0 auto;zoom:var(--rs,1)}
+body.reader.z1 .page{margin:0}
+@media (min-width:1104px){body.reader.z1 .page{margin:0 auto}}
+@media print{html,body{background:#fff}.page{margin:0}#rnav{display:none!important}}
+/* ===== Clay No.02 additions ===== */
+.cv{--cream:#F4F3F0;--forest:#035D44;--lime:#EEF773}
+.cv .brand{color:var(--forest)}
+.cv .brand i{color:var(--forest)}
+.cv .meta{color:var(--forest)}
+.cv .pill{background:var(--forest);color:var(--lime)}
+.cv .pill img{border-radius:50%;background:#fff}
+.cv h1 .serif{color:var(--forest)}
+.cv .art{overflow:hidden;height:432px}
+.cv .art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.cv .art::before{content:"";position:absolute;left:0;right:0;top:0;height:80px;background:linear-gradient(var(--cream),rgba(244,243,240,0));z-index:1}
+.cv .credit{color:#fff;opacity:.9;z-index:2;top:1022px}
+.cv .bottom{background:var(--forest)}
+.cv .intro small{color:#b9d3c8}
+.cv .facts div{color:#e3eee8}
+.cv .facts div span small{color:#a9c7bb}
+.atl table.cmp td{font-size:19px;line-height:1.3}
+.atl table.cmp td small{display:block;font:500 12.5px/1.35 var(--sans);letter-spacing:.04em;color:#888;margin-top:3px}
+.atl table.cmp td.red small{color:#c46a6a}
+.atl table.cmp td.na{color:#aaa}
+.atl table.cmp th.red{color:var(--red)}
+.atl table.cmp td.k{width:170px}
+.atl .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.atl .steps > div{border:1.5px solid var(--ink);padding:14px 16px 16px;min-height:116px}
+.atl .steps > div.red{background:var(--red);border-color:var(--red);color:#fff}
+.atl .steps .n{display:block;font:400 italic 34px/1 var(--num);color:var(--red)}
+.atl .steps .red .n{color:#fff}
+.atl .steps b{display:block;margin-top:8px;font:700 20px/1.25 var(--serif)}
+.atl .steps p{margin-top:4px;font:400 17px/1.38 var(--serif);color:#555}
+.atl .steps .red p{color:#fff}
+.atl table.pw{width:100%;border-collapse:collapse;margin-top:24px}
+.atl table.pw th{font:700 13.5px/1.2 var(--sans);letter-spacing:.16em;color:#888;text-align:left;padding:0 10px 10px 0;border-bottom:1.5px solid var(--ink);text-transform:uppercase}
+.atl table.pw th.red{color:var(--red)}
+.atl table.pw td{font:400 18.5px/1.3 var(--serif);padding:9px 10px 9px 0;border-bottom:1px solid #ddd;color:#333;white-space:nowrap}
+.atl table.pw td:first-child{font-weight:700;color:var(--ink);width:250px}
+.atl table.pw tr.hi td{background:#fbeaea}
+.atl table.pw tr.hi td:first-child{color:var(--red);padding-left:8px}
+.atl table.pw i{display:inline-block;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--ink);margin-right:10px;vertical-align:-2px}
+.atl table.pw i.f{background:var(--ink)}
+.atl table.pw i.r{background:var(--red);border-color:var(--red)}
+.atl table.pw i.h{background:linear-gradient(90deg,var(--ink) 50%,#fff 50%)}
+.atl .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.atl .split > div{border:1.5px solid var(--ink);padding:14px 18px}
+.atl .split > div.red{border-color:var(--red)}
+.atl .split .h{font:700 14px/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.atl .split .red .h{color:var(--red)}
+.atl .split p{margin-top:8px;font:400 18.5px/1.42 var(--serif);color:#333}
+.atl .qlist .n{text-align:left}
+.atl .moats{grid-template-columns:repeat(8,1fr);margin-top:40px}
+.atl .moat .c{width:58px;height:58px}
+.atl .moat .nm{font-size:17px;line-height:1.3}
+</style>
+</head>
+<body>
+<!-- 1 · COVER -->
+<section class="page cv" id="p1">
+  <div class="top"><div class="brand">Startup <i>Teardown</i></div><div class="meta">ENGLISH EDITION<br>NO.02 · NOV 2026</div></div>
+  <div class="pill"><img src="assets/clay-icon.png" alt="Clay logo">This issue · Clay</div>
+  <h1>It owns no data.<br>So why is it<br>worth <span class="serif">$7.1B</span>?</h1>
+  <div class="art"><img src="assets/clay-reps-still.jpg" alt="Clay marketing illustration: clay-style machines connected by tubes on a sand-coloured floor"></div>
+  <div class="credit">Illustration: clay.com</div>
+  <div class="bottom">
+    <div class="intro"><div class="lb">What is Clay?</div>
+      <p>Software for sales and marketing teams. Give it a list of companies and it searches 200+ data vendors and the web for the right people, their contact details and buying signals, then writes the results back to your CRM.</p>
+      <small>Research to Oct 16, 2026 · spot-checked Nov 10, 2026 · every figure carries its date</small></div>
+    <div class="facts">
+      <div><span>Founded<small>by Kareem Amin &amp; Nicolae Rusan</small></span><b>2017</b></div>
+      <div><span>Customers<small>company figure, Sep 2026</small></span><b>17,000+</b></div>
+      <div><span>Revenue run-rate<small>CEO, Q3 2026, unaudited</small></span><b>~$200M</b></div>
+      <div><span>Valuation<small>Series D, Sep 2026</small></span><b>$7.1B</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · MEET CLAY -->
+<section class="page atl" id="p2">
+  <div class="kick">Meet Clay</div>
+  <h1>The problem: a list of names is not a pipeline</h1>
+  <p class="dek">Clay sells to the teams that sell to other businesses. It does not own a contact database. It rents from everyone else’s.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <div class="body"><p class="dc">Imagine you sell software to other companies. You have a list of companies that might buy. A name is not enough. Before anyone can pick up the phone, you still need three things:</p></div>
+  <div class="qlist">
+    <div class="it"><span class="n">1</span><div><div class="h">Who to talk to</div><div class="d">The person inside that company who buys what you sell.</div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">How to reach them</div><div class="d">A work email that doesn’t bounce, a phone number that rings.</div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">Why now</div><div class="d">A signal that the timing is right: a new funding round, a hiring spree, a new executive.</div></div></div>
+  </div>
+  <div class="body" style="margin-top:20px"><p>For two decades, sales teams bought these answers from large data companies. The biggest, ZoomInfo, keeps an enormous database of business contacts and sells it on annual contracts priced per seat:<sup>1</sup> every salesperson who logs in costs another licence.</p>
+  <p>Owning the database has two built-in problems. First, it goes stale: people change jobs, get promoted and leave. Second, no single vendor covers everyone, because each is strong in some countries, industries or company sizes and weak in others.</p>
+  <p>Clay’s answer is to own none of it. It plugs into the vendors, asks them in turn, and charges for what it finds. The next two pages show how.</p></div>
+  <div class="bigstat"><div class="n">2–4%</div><p>How fast business contact data decays each month, by co-founder Varun Anand’s estimate: “data decays, I think it’s like two to 4% a month.”<sup>2</sup></p></div>
+  <div class="notes">
+    <p><sup>1</sup>Seat: one paid user licence. ZoomInfo’s seat-based model as described in the research notes (Oct 2026). <sup>2</sup>Summation podcast, Oct 14, 2025, 20:07. A founder’s estimate, not a measured figure. <a href="#p13">S1, S13</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>02 / 13</span></div>
+</section>
+
+<!-- 3 · PRODUCT -->
+<section class="page atl" id="p3">
+  <div class="kick">The product</div>
+  <h1>A spreadsheet where every column asks a question</h1>
+  <p class="dek">Rows are companies or people. Each column sends a vendor, a website or an AI model to fill in one blank, then passes the answer along.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <svg width="896" height="300" viewBox="0 0 896 300" style="margin-top:26px" role="img" aria-label="Diagram: an illustrative Clay table with columns for company, decision-maker, work email and buying signal, each filled from a different source, with finished rows written back to the CRM">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <text x="0" y="14" font-size="12.5" font-weight="700" fill="#888" letter-spacing="2.5">ILLUSTRATIVE TABLE · NOT REAL RECORDS</text>
+      <rect x="0" y="28" width="716" height="44" fill="#141414"/>
+      <text x="14" y="56" font-size="15" font-weight="800" fill="#fff">Company</text>
+      <text x="188" y="56" font-size="15" font-weight="800" fill="#fff">Decision-maker</text>
+      <text x="370" y="56" font-size="15" font-weight="800" fill="#fff">Work email</text>
+      <text x="548" y="56" font-size="15" font-weight="800" fill="#fff">Signal</text>
+      <g font-family="TD Newsreader, Newsreader, Georgia, serif" font-size="17" fill="#141414">
+        <rect x="0" y="72" width="716" height="44" fill="#fff" stroke="#ddd"/>
+        <text x="14" y="100">Acme Robotics</text><text x="188" y="100">VP Sales</text><text x="370" y="100">✓ found (vendor C)</text><text x="548" y="100">raised Series B</text>
+        <rect x="0" y="116" width="716" height="44" fill="#fafafa" stroke="#ddd"/>
+        <text x="14" y="144">Northwind Health</text><text x="188" y="144">Head of RevOps</text><text x="370" y="144">✓ found (vendor A)</text><text x="548" y="144">hiring 4 SDRs</text>
+        <rect x="0" y="160" width="716" height="44" fill="#fff" stroke="#ddd"/>
+        <text x="14" y="188">Lumen Freight</text><text x="188" y="188">CRO</text><text x="370" y="188" fill="#D7262B">✗ no vendor had it</text><text x="548" y="188" fill="#999">none found</text>
+      </g>
+      <line x1="178" y1="28" x2="178" y2="204" stroke="#ccc"/><line x1="360" y1="28" x2="360" y2="204" stroke="#ccc"/><line x1="538" y1="28" x2="538" y2="204" stroke="#ccc"/>
+      <g font-size="12.5" font-weight="700" fill="#D7262B" letter-spacing="1.2">
+        <text x="14" y="232">YOUR LIST</text><text x="188" y="232">PEOPLE VENDOR</text><text x="370" y="232">EMAIL WATERFALL</text><text x="548" y="232">AI WEB RESEARCH</text>
+      </g>
+      <g font-size="13" fill="#666"><text x="14" y="252">CSV or CRM</text><text x="188" y="252">title search</text><text x="370" y="252">see page 4</text><text x="548" y="252">Claygent</text></g>
+      <path d="M720 116 L780 116" stroke="#141414" stroke-width="2"/><path d="M780 109 L792 116 L780 123 Z" fill="#141414"/>
+      <rect x="796" y="72" width="100" height="88" rx="10" fill="#035D44"/>
+      <text x="846" y="110" text-anchor="middle" font-size="15" font-weight="800" fill="#EEF773">CRM</text>
+      <text x="846" y="132" text-anchor="middle" font-size="12" fill="#e6efe9">write-back</text>
+      <text x="796" y="186" font-size="12.5" fill="#666">or an email</text><text x="796" y="204" font-size="12.5" fill="#666">sequence, an</text><text x="796" y="222" font-size="12.5" fill="#666">ad audience</text>
+    </g>
+  </svg>
+  <div class="cap">Simplified from Clay’s product pages and founder interviews as summarised in the research notes (Oct 16, 2026).</div>
+  <div class="body"><p class="dc">The vendors answer questions a database can hold. Claygent, Clay’s AI research agent, answers the ones it can’t: does this company sell to hospitals? Is it hiring sales reps right now? Finished rows go back into the CRM, or into an email sequence or an ad audience.</p>
+  <p>The product has kept growing past the table. In 2026 Clay shipped Workflows, Audiences and a Sequencer, and in April it released Clay MCP, which lets AI assistants and coding agents call Clay directly.<sup>1</sup> The user it is built for has not changed: the operator who builds the sales team’s machinery, not the rep who works the phone.</p></div>
+  <div class="bigstat"><div class="n">~2B</div><p>Workflow runs Clay was on track for in 2025, by CEO Kareem Amin’s count in October 2025.<sup>2</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p>We explicitly are not building for salespeople, actually.</p><small>Varun Anand, co-founder · Summation, Oct 14, 2025, 15:10</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Clay product announcements, Apr–Sep 2026, as logged in the research notes; Clay MCP became available in OpenAI’s Codex in June 2026. <sup>2</sup>LangChain podcast, Oct 8, 2025, 21:59 <span class="tag r">Reported</span>. <a href="#p13">S1, S11, S13</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>03 / 13</span></div>
+</section>
+
+<!-- 4 · WATERFALL -->
+<section class="page atl" id="p4">
+  <div class="kick">The waterfall</div>
+  <h1>Ask vendor A. If it doesn’t know, ask B.</h1>
+  <p class="dek">Clay’s best-known feature turns many patchy databases into one fuller one, and the customer pays only when something is found.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <svg width="896" height="250" viewBox="0 0 896 250" style="margin-top:26px" role="img" aria-label="Diagram: a waterfall that asks vendor A, then B, then C for a work email; A and B have no match and cost nothing, C finds it and one credit is charged; vendor D is never asked">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <text x="0" y="14" font-size="12.5" font-weight="700" fill="#888" letter-spacing="2.5">LOOKING FOR: DANA’S WORK EMAIL</text>
+      <rect x="0" y="40" width="190" height="96" fill="none" stroke="#141414" stroke-width="1.5"/>
+      <text x="95" y="76" text-anchor="middle" font-size="19" font-weight="800" fill="#141414">Vendor A</text>
+      <text x="95" y="104" text-anchor="middle" font-size="15" fill="#888">no match</text>
+      <rect x="235" y="40" width="190" height="96" fill="none" stroke="#141414" stroke-width="1.5"/>
+      <text x="330" y="76" text-anchor="middle" font-size="19" font-weight="800" fill="#141414">Vendor B</text>
+      <text x="330" y="104" text-anchor="middle" font-size="15" fill="#888">no match</text>
+      <rect x="470" y="40" width="190" height="96" fill="#D7262B"/>
+      <text x="565" y="76" text-anchor="middle" font-size="19" font-weight="800" fill="#fff">Vendor C</text>
+      <text x="565" y="104" text-anchor="middle" font-size="15" fill="#fff">✓ found, verified</text>
+      <rect x="706" y="40" width="190" height="96" fill="none" stroke="#bbb" stroke-width="1.5" stroke-dasharray="7 6"/>
+      <text x="801" y="76" text-anchor="middle" font-size="19" font-weight="800" fill="#bbb">Vendor D</text>
+      <text x="801" y="104" text-anchor="middle" font-size="15" fill="#bbb">never asked</text>
+      <path d="M190 88 L224 88" stroke="#141414" stroke-width="2"/><path d="M222 81 L234 88 L222 95 Z" fill="#141414"/>
+      <path d="M425 88 L459 88" stroke="#141414" stroke-width="2"/><path d="M457 81 L469 88 L457 95 Z" fill="#141414"/>
+      <line x1="683" y1="36" x2="683" y2="140" stroke="#D7262B" stroke-width="3"/><text x="683" y="30" text-anchor="middle" font-size="11" font-weight="800" fill="#D7262B" letter-spacing="1.5">STOP</text>
+      <g font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic">
+        <text x="95" y="184" text-anchor="middle" font-size="40" fill="#141414">0</text>
+        <text x="330" y="184" text-anchor="middle" font-size="40" fill="#141414">0</text>
+        <text x="565" y="184" text-anchor="middle" font-size="40" fill="#D7262B">1</text>
+        <text x="801" y="184" text-anchor="middle" font-size="40" fill="#bbb">–</text>
+      </g>
+      <g font-size="12.5" font-weight="700" fill="#888" letter-spacing="1.8">
+        <text x="95" y="210" text-anchor="middle">CREDITS</text><text x="330" y="210" text-anchor="middle">CREDITS</text><text x="565" y="210" text-anchor="middle" fill="#D7262B">CREDIT CHARGED</text><text x="801" y="210" text-anchor="middle" fill="#bbb">STOPPED</text>
+      </g>
+      <text x="0" y="244" font-size="13" fill="#888">Order, vendors and prices vary by country, job title and data type. Simplified.</text>
+    </g>
+  </svg>
+  <div class="body" style="margin-top:22px"><p class="dc">The customer never signs a hundred separate vendor contracts. The skill lies in the order: which vendor to ask first, for which country and which kind of job title, at what price.</p>
+  <p>That routing knowledge is the real asset. Clay sends so much volume that some small vendors depend on it, and it invites any vendor that thinks it has better data to prove it inside the waterfall: “we’re the distribution partner for all these data providers,” Anand said in October 2025.<sup>1</sup> Clay is less a data company than a buyer and router of data.</p></div>
+  <div class="bigstat"><div class="n">~2×</div><p>OpenAI’s enrichment coverage in Clay’s own case study: from the low-40% range with its previous setup to the high-80% range with a multi-vendor waterfall.<sup>2</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">We have integrations with 150 data providers … because of our scale, we can send them a lot more usage. So there’s a lot of smaller companies that rely actually on our usage.</p><small>Kareem Amin, CEO · LangChain, Oct 8, 2025, 34:14</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Summation, Oct 14, 2025, 19:15. <sup>2</sup>Company case study <span class="tag r">Reported</span>; not independently tested. Vendor count: 150 (Oct 2025) and “150+” in Clay’s March 2026 pricing memo; Clay’s 2026 product pages cite 200+ providers. <a href="#p13">S3, S11, S13</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>04 / 13</span></div>
+</section>
+
+<!-- 5 · CUSTOMERS -->
+<section class="page atl" id="p5">
+  <div class="kick">The customers</div>
+  <h1>From 120 customers to 17,000 in under four years</h1>
+  <p class="dek">From one-person agencies to the AI labs, and each pays more on average.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <svg width="896" height="246" viewBox="0 0 896 246" style="margin-top:22px" role="img" aria-label="Bar chart of Clay customers: about 120 in January 2023, about 1,000 in December 2023, 4,500 in November 2024, 10,000 paying in August 2025, 14,000 in January 2026 and more than 17,000 in September 2026">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <line x1="0" y1="200" x2="896" y2="200" stroke="#141414" stroke-width="1.5"/>
+      <rect x="20" y="198" width="96" height="2" fill="#141414"/>
+      <rect x="170" y="189" width="96" height="11" fill="#141414"/>
+      <rect x="320" y="150" width="96" height="50" fill="#141414"/>
+      <rect x="470" y="88" width="96" height="112" fill="#141414"/>
+      <rect x="620" y="44" width="96" height="156" fill="#141414"/>
+      <rect x="770" y="10" width="96" height="190" fill="#D7262B"/>
+      <g font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="26" text-anchor="middle">
+        <text x="68" y="186">~120</text><text x="218" y="177">~1,000</text><text x="368" y="138">4,500+</text><text x="518" y="76">10,000+</text><text x="668" y="32">14,000</text>
+        <text x="818" y="42" fill="#fff" font-size="24">17,000+</text>
+      </g>
+      <g font-size="14" font-weight="700" fill="#555" text-anchor="middle" letter-spacing="1">
+        <text x="68" y="224">JAN 2023</text><text x="218" y="224">DEC 2023</text><text x="368" y="224">NOV 2024</text><text x="518" y="224">AUG 2025</text><text x="668" y="224">JAN 2026</text><text x="818" y="224" fill="#D7262B">SEP 2026</text>
+      </g>
+      <g font-size="12" fill="#999" text-anchor="middle"><text x="518" y="242">paying</text></g>
+    </g>
+  </svg>
+  <div class="cap">Founder and company statements. Definitions vary between “customers” and “paying customers”.</div>
+  <div class="body" style="margin-top:20px"><p class="dc">Clay says 80% of the Forbes AI 50 use it, including Anthropic, OpenAI and Stripe.<sup>1</sup> Three groups drive the business:</p></div>
+  <div class="qlist" style="margin-top:8px">
+    <div class="it"><span class="n">1</span><div><div class="h">Enterprises</div><div class="d">The first job is “always CRM refresh”, cleaning up a large, decaying CRM.<sup>2</sup> Clay reports no lost enterprise accounts and enterprise net retention above 200%. <span class="tag r">Company</span></div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">Small self-serve teams</div><div class="d">They prospect, pause, then return: a “very meaningful” restart rate, says Clay’s pricing lead.<sup>3</sup></div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">Agencies</div><div class="d">Outbound agencies that run Clay for clients: 150 partner agencies by Jan 2026.</div></div></div>
+  </div>
+  <div class="stats3">
+    <div><div class="n red">24%</div><div class="l">of Ramp companies buying sales data use Clay: #3, behind LinkedIn and Apollo · Oct 2026</div></div>
+    <div><div class="n">20%</div><div class="l">of enterprise companies on Ramp use Clay, up from 7% in Oct 2024 · Sep 2026</div></div>
+    <div><div class="n">2.7×</div><div class="l">revenue per customer, ~$4.4K (Nov 2024) to ~$11.8K (Q3 2026) <span class="tag e">Estimate</span></div></div>
+  </div>
+  <div class="notes">
+    <p><sup>1</sup>Series D post, Sep 9, 2026. <sup>2</sup>Zona Zhang, who runs pricing at Clay, Vibe Pricing, Dec 11, 2025, 24:47. <sup>3</sup>Same episode, 14:04. Enterprise retention: Clay blog, Dec 2025–Jan 2026, enterprise accounts only. Ramp’s sample skews to startups and mid-market. Revenue per customer = run-rate ÷ customers, author’s calculation. <a href="#p13">S2, S4, S8, S16</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>05 / 13</span></div>
+</section>
+<!-- 6 · COMPETITION -->
+<section class="page atl" id="p6">
+  <div class="kick">The competition</div>
+  <h1>Clay grows by taking share from the old guard</h1>
+  <p class="dek">The sales-data budget itself is barely growing. The largest incumbent is now shrinking, while Clay’s revenue roughly doubled in nine months.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <table class="mt cmp">
+    <tr><th></th><th class="red">Clay</th><th>Apollo</th><th>ZoomInfo</th></tr>
+    <tr><td class="k">Revenue</td><td class="red">~$200M run-rate<small>Q3 2026, CEO, unaudited</small></td><td>~$150M ARR<sup>1</sup><small>May 2025, Sacra est.</small></td><td>$1.25B<small>FY2025; 2026 guided ~$1.22B</small></td></tr>
+    <tr><td class="k">Growth</td><td class="red">$1M → $100M ARR<small>early 2023 → Dec 2025</small></td><td>+34% YoY<sup>1</sup><small>May 2025, Sacra est.</small></td><td>−3% YoY<small>Q3 2026</small></td></tr>
+    <tr><td class="k">Customers</td><td class="red">17,000+<small>Sep 2026</small></td><td>~40,000 paying<small>Apr 2026, secondary</small></td><td>1,851 at $100K+ ACV<small>Q3 2026, −2% YoY</small></td></tr>
+    <tr><td class="k">Net retention</td><td class="red">&gt;200%<small>enterprise only, company</small></td><td class="na">not disclosed</td><td>88%<small>Q3 2026</small></td></tr>
+    <tr><td class="k">Pricing</td><td class="red">usage meters,<br>unlimited seats</td><td>per seat, from $49<small>a month, 2026 pricing roundup</small></td><td>annual contracts,<br>per seat</td></tr>
+    <tr><td class="k">Ramp adoption<sup>2</sup></td><td class="red">24%</td><td>39%</td><td>17%</td></tr>
+  </table>
+  <div class="body" style="margin-top:22px"><p class="dc">ZoomInfo’s problem is the seat. When customers shrink their sales teams, its revenue shrinks with them. In the second quarter of 2026 its downmarket contract value fell 12% year on year, and in May it cut about 600 jobs, roughly a fifth of staff. Its third-quarter results on November 4 showed revenue down 3% and net retention at 88%.<sup>3</sup> Clay charges for usage, so its revenue does not depend on how many salespeople a customer employs.</p>
+  <p>Apollo is the closer threat. It is cheaper, simpler and owns its data, and more Ramp companies use it than use Clay. Against Apollo, Clay has no established moat (page 9).</p></div>
+  <div class="notes">
+    <p><sup>1</sup>Apollo is private; figures are Sacra estimates and are now 18 months old. <sup>2</sup>Share of Ramp companies buying sales data that use each vendor (Oct 2026); LinkedIn Sales Navigator leads at 48%. <sup>3</sup>ZoomInfo Q2 and Q3 2026 results (Aug 5 and Nov 4, 2026); layoffs per Briefing.com, May 2026. Clay’s ~$100M (Dec 2025) → ~$200M (Q3 2026) is company and CEO statements. <a href="#p13">S4–S8</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>06 / 13</span></div>
+</section>
+
+<!-- 7 · ORIGIN -->
+<section class="page atl" id="p7">
+  <div class="kick">Origin</div>
+  <h1>Four slow years, then a market found by hand</h1>
+  <p class="dek">Clay began as a no-code data tool in search of a buyer. A third co-founder found one in cold-email agencies.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <div class="tl">
+    <div class="row"><span class="y">2017</span><span class="d"></span><span class="t"><b>Kareem Amin</b> and <b>Nicolae Rusan</b>, McGill friends who had sold a small startup to Sailthru in 2012, incorporate Clay to “give the power of programming to more people”</span></div>
+    <div class="row"><span class="y">2017–21</span><span class="d"></span><span class="t">A spreadsheet that can call any data source. Customers like it; growth is “modest”, in its investor Sequoia’s word</span></div>
+    <div class="row"><span class="y">Sep 2021</span><span class="d"></span><span class="t"><b>Varun Anand</b>, an early user who had sent Clay its first paying customers, becomes co-founder; Rusan later leaves</span></div>
+    <div class="row"><span class="y">2022</span><span class="d"></span><span class="t">Focus on sales teams; first true customers are <b>cold-email agencies</b></span></div>
+    <div class="row"><span class="y">Early 2023</span><span class="d"></span><span class="t">About <b>$1M</b> ARR. Until then, no way to pay in the product: invoices sent by hand</span></div>
+    <div class="row"><span class="y">Nov 2024</span><span class="d"></span><span class="t">ARR above <b>$20M</b>, “in the range of truth”, Amin says; ~4,500 customers</span></div>
+    <div class="row"><span class="y">Dec 2025</span><span class="d"></span><span class="t"><b>$100M</b> ARR, per the company <span class="tag r">Company</span></span></div>
+    <div class="row red"><span class="y">Q3 2026</span><span class="d"></span><span class="t">About <b>$200M</b> annualized; target ~$240M by year-end <span class="tag r">CEO</span></span></div>
+  </div>
+  <div class="bigstat"><div class="n">30</div><p>People Anand hand-picked from years of a sales forum’s archives. “The only ones who kind of really understood this were these agency owners, these like cold email agency owners.”<sup>1</sup></p></div>
+  <div class="body" style="margin-top:18px"><p>His “reverse demos” let prospects drive the product. Closing a $200–300-a-month customer once took about seven demos; by early 2023 it took “one call or even none”.<sup>2</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">You couldn’t pay for [Clay] the product until past a million in ARR. Until a million in ARR, I was just sending Stripe invoices to people.</p><small>Varun Anand · In Depth (First Round), Jan 23, 2025, 15:57</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>In Depth, Jan 23, 2025, 05:41; the forum was Modern Sales Pros. <sup>2</sup>Same episode, 08:46. Founding and Rusan: Sequoia (Jun 27, 2024), company bios. “$1M → $100M in two years” is Clay’s own shorthand; the dated milestones span about 35 months. ARR = annual recurring revenue. <a href="#p13">S4, S9, S12, S14</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>07 / 13</span></div>
+</section>
+
+<!-- 8 · GTM ENGINEER -->
+<section class="page atl" id="p8">
+  <div class="kick">The new job</div>
+  <h1>Clay named a profession, then sold it the tools</h1>
+  <p class="dek">The “GTM engineer” builds sales machinery the way a software engineer builds software. Clay says it invented the title in 2023.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <div class="steps">
+    <div><span class="n">1</span><b>Define the target</b><p>Ideal customer: size, industry, tech stack</p></div>
+    <div><span class="n">2</span><b>Pull the list</b><p>Companies and people from search or the CRM</p></div>
+    <div><span class="n">3</span><b>Enrich</b><p>Emails, phones and signals via waterfalls</p></div>
+    <div><span class="n">4</span><b>Research and score</b><p>AI reads websites; formulas rank fit</p></div>
+    <div><span class="n">5</span><b>Reach out</b><p>Personalised email, ads or a rep alert</p></div>
+    <div class="red"><span class="n">6</span><b>Measure, change, rerun</b><p>Edit one step and ship it again, like code</p></div>
+  </div>
+  <div class="body" style="margin-top:22px"><p class="dc">Clay describes its own sales GTM engineers as collapsing the work of three roles into one: the SDR who finds and contacts prospects, the account executive who closes, and the sales engineer who handles the technical questions.<sup>1</sup> A Jan 2026 analysis of ~1,000 postings found GTM-engineer jobs up ~205% a year; about two-thirds named Clay.<sup>2</sup></p>
+  <p>The job and the price list fit together. Amin says Clay chose usage pricing “because we’re trying to get more productivity”. If one GTM engineer replaces three seats, a seat vendor loses two licences; Clay sells more usage.</p>
+  <p>One caution: Kyle Poyar’s data (via a secondary summary) puts 45% of GTM-engineer roles at agencies or consultancies. Outside Clay’s ecosystem, the job is thinner than its marketing suggests. <span class="tag j">Judgment</span></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">So if you have fewer people, we didn’t want that to be something that is an anti-incentive for us.</p><small>Kareem Amin · Invest Like the Best, Jun 16, 2026, 09:13</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Clay blog, “Sales GTM Engineering” (2026); title claim per Clay blog, Nov 10, 2026. <sup>2</sup>Bloomberry, Jan 2026, re-reported by vendor blogs; treat as directional <span class="tag r">Reported</span>. Six-step loop simplified from Clay templates. ILTB timestamp from the audio feed. <a href="#p13">S15, S21–S23</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>08 / 13</span></div>
+</section>
+
+<!-- 9 · MOATS -->
+<section class="page atl" id="p9">
+  <div class="kick">The moat</div>
+  <h1>Eight moats. Only one is dug.</h1>
+  <p class="dek">Against ZoomInfo, Clay has one real moat. Against the cheaper, simpler Apollo, it has none.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <div class="moats">
+    <div class="moat full"><div class="c"></div><div class="nm">Counter-<br>positioning</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Scale<br>economies</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Network<br>effects</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Switching<br>costs</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Brand</div></div>
+    <div class="moat half"><div class="c"></div><div class="nm">Process<br>capability</div></div>
+    <div class="moat"><div class="c"></div><div class="nm">Exclusive<br>resources</div></div>
+    <div class="moat"><div class="c"></div><div class="nm">Regulatory<br>barriers</div></div>
+  </div>
+  <div class="legend"><span><i class="f"></i>Established</span><span><i class="h"></i>Building</span><span><i></i>None</span></div>
+  <div class="cap">Framework: Gokul’s 8 Moats. Ratings are for Clay only and are the author’s reading, Nov 7, 2026 <span class="tag j">Judgment</span></div>
+  <div class="body" style="margin-top:22px"><p class="dc">The one that holds is <b>counter-positioning</b>. ZoomInfo sells its own database and charges per seat; Clay charges for usage and resells every rival’s data. To copy Clay, ZoomInfo would first have to cut its own revenue. Its revenue fell 3% year on year in the third quarter of 2026, while the share of enterprise companies on Ramp using Clay rose from 7% to 20% in the two years to September 2026.<sup>1</sup></p>
+  <p>Against Apollo, Clay has no edge. Apollo is cheaper and simpler, with paid seats from $49 a month,<sup>2</sup> and in 2026 both big CRMs built it into their AI agents: Salesforce and HubSpot each picked Apollo as one of three data partners for their prospecting agents.<sup>3</sup></p></div>
+  <div class="pq"><div class="q">!</div><div><p class="sm">The weak spot is the meter itself. With usage pricing, a mistake costs real money: one user accidentally re-ran a table, burned $1,000 of credits and cancelled.<sup>4</sup></p><small>Weakness</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>ZoomInfo Q3 2026 results, Nov 4, 2026; Ramp vendor data, Oct 2024–Sep 2026. <sup>2</sup>Entry plan per user on annual billing, from a 2026 pricing roundup cited in the research; Apollo’s own pricing page showed no prices when checked on Nov 10, 2026. <sup>3</sup>Salesforce Hunter partners announced Sep–Oct 2026 (launch not confirmed as of Nov 10); HubSpot’s Prospecting Agent, in public beta since Apr 14, 2026. <sup>4</sup>A G2 review, Sep 2026: one user’s account, not a churn measure. <a href="#p13">S7, S8, S18, S20, S25</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>09 / 13</span></div>
+</section>
+<!-- 10 · BUSINESS MODEL -->
+<section class="page atl" id="p10">
+  <div class="kick">The money</div>
+  <h1>Investors pay for the router, not the database</h1>
+  <p class="dek">Clay is valued at about 35 times its revenue run-rate. The incumbent that owns its data trades at about one times.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <svg width="896" height="196" viewBox="0 0 896 196" style="margin-top:24px" role="img" aria-label="Bar chart of valuation divided by revenue: ZoomInfo about 1 times, Apollo about 11 times, Clay about 35 times">
+    <g font-family="TD Inter, Inter Tight, sans-serif">
+      <text x="0" y="14" font-size="12.5" font-weight="700" fill="#888" letter-spacing="2.5">VALUE ÷ REVENUE</text>
+      <text x="0" y="58" font-size="17" font-weight="800" fill="#141414">ZoomInfo</text><rect x="150" y="38" width="18" height="30" fill="#141414"/>
+      <text x="182" y="62" font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="30">~1×</text>
+      <text x="260" y="60" font-size="13" fill="#888">market value, Q3 2026 · author’s calc</text>
+      <text x="0" y="112" font-size="17" font-weight="800" fill="#141414">Apollo</text><rect x="150" y="92" width="218" height="30" fill="#141414"/>
+      <text x="382" y="116" font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="30">~11×</text>
+      <text x="468" y="114" font-size="13" fill="#888">private, Sacra est., Dec 2025</text>
+      <text x="0" y="166" font-size="17" font-weight="800" fill="#D7262B">Clay</text><rect x="150" y="146" width="640" height="30" fill="#D7262B"/>
+      <text x="804" y="170" font-family="TD Playfair, Playfair Display, Georgia, serif" font-style="italic" font-size="30" fill="#D7262B">~35×</text>
+      <text x="164" y="167" font-size="13" font-weight="700" fill="#fff">$7.1B ÷ ~$200M, Sep 2026 · ~30× on the $240M year-end target</text>
+    </g>
+  </svg>
+  <div class="body" style="margin-top:22px"><p class="dc">Until March 2026, Clay was priced like what it said it wasn’t. Its own pricing memo admitted: “we still charge primarily per data point.” It also conceded that its Pro customers had been sold credits “at or below breakeven levels”.<sup>1</sup> The new model splits the bill in two:</p></div>
+  <div class="split">
+    <div><div class="h">Data Credits · the ingredients</div><p>Contact and company data from 150+ vendors. Prices cut 50–90%, to roughly what buyers would pay vendors directly.</p></div>
+    <div class="red"><div class="h">Actions · the work</div><p>Enrichments, AI tasks, API calls and pushes to other tools. A new meter for the orchestration Clay actually adds.</p></div>
+  </div>
+  <div class="body" style="margin-top:18px"><p>Clay called the change “intentionally revenue- and profit-negative in the near term”. It can afford that: it has raised about $317M, and says it was cash-flow positive for parts of 2025 and “earned more in interest than it burned”.<sup>2</sup> Gross margin has never been disclosed. Because every credit carries a vendor bill, we estimate 55–70%, below the 80–90% typical of software. <span class="tag e">Estimate</span></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">There is a meaningful variable cost for every credit that we sell. So we just have a lower margin of error to play with.</p><small>Zona Zhang, pricing · Vibe Pricing, Dec 11, 2025, 28:04</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Clay pricing memo, Mar 11, 2026. New plans: Launch $185, Growth $495 a month (at launch). <sup>2</sup>Tender-offer post, Jan 28, 2026. Valuations: $500M (Jun 2024), $1.25B (Jan 2025), $3.1B (Aug 2025), $5B tender (Jan 2026), $7.1B (Sep 2026). ZoomInfo ≈ $0.9B market value (Q3 average buyback price × shares) ÷ ~$1.22B 2026 revenue. <a href="#p13">S2–S7, S10, S16</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>10 / 13</span></div>
+</section>
+
+<!-- 11 · RISKS -->
+<section class="page atl" id="p11">
+  <div class="kick">The risks</div>
+  <h1>Squeezed from above, from below and upstream</h1>
+  <p class="dek">Clay is not going to run out of money. The danger is that buyers stop needing a router between them and the data.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <div class="qlist">
+    <div class="it"><span class="n">1</span><div><div class="h">From above: agents inside the CRM</div><div class="d">Salesforce named Apollo, ZoomInfo and Demandbase as flagship data partners for Hunter, its outbound sales agent (Sep–Oct 2026). Clay is not one of them. These are the same enterprises whose first Clay project is a CRM clean-up. Hunter was described as planned for general availability in November 2026; we could not confirm launch as of Nov 10.<sup>1</sup></div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">From below: coding agents</div><div class="d">Clay’s pitch is that stitching vendors together is hard: “You could go buy 180 different data providers and build your own, but that’s a lot of work,” its head of sales said in May 2026.<sup>2</sup> Tools like Claude Code shrink that work. Some small users already say they have left.</div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">Upstream: the supply</div><div class="d">LinkedIn forced the scraper Proxycurl to shut in July 2025 and sued ProAPIs that October; France fined Kaspr €240K for LinkedIn-sourced contacts. Clay has not been named, but it does not disclose which vendors carry how much of its volume. <span class="tag g">Gap</span></div></div></div>
+  </div>
+  <div class="body" style="margin-top:18px"><p class="dc">Clay’s response is to go where the agents are. Clay MCP shipped in April 2026, Clay arrived in OpenAI’s Codex in June, and a CLI and a Claude Code plugin followed. Each move assumes the table is becoming optional. ZoomInfo is making the same bet, pitching its data as a “headless context layer” for AI agents.<sup>3</sup></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">For individual specialists, small teams, and agencies, Claude Code simply wins.</p><small>Quinten Kamphuis, who cancelled a $500-a-month plan · YouTube, May 16, 2026, 11:21</small></div></div>
+  <div class="notes">
+    <p><sup>1</sup>Apollo newsroom (Sep 2026); ZoomInfo and Demandbase releases, Oct 15, 2026; destinationCRM, Oct 16, 2026. <sup>2</sup>Becca Lindquist, 20VC, May 2, 2026, 23:25. <sup>3</sup>ZoomInfo Q3 2026 release, Nov 4, 2026. Proxycurl: Social Media Today; ProAPIs: The Record. Kamphuis quote as transcribed in the research notes; the clip was not re-listened for this issue. <a href="#p13">S7, S17–S19, S24</a>.</p>
+  </div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>11 / 13</span></div>
+</section>
+
+<!-- 12 · VERDICT -->
+<section class="page atl" id="p12">
+  <div class="kick">The verdict</div>
+  <h1>A race against the models</h1>
+  <p class="dek">Clay won its first round by owning nothing. The second round is about whether AI agents still need a router.</p>
+  <div class="by">Startup Teardown · No.02 · Clay</div>
+  <div class="cols2">
+    <div><div class="lb">The optimist’s case</div><p>The default checkout for GTM data: 17,000+ customers, enterprise retention above 200%, run-rate adding $11–12M a month through a repricing. Near breakeven; no need to raise.</p></div>
+    <div><div class="lb">The sceptic’s case</div><p>No owned data, no disclosed margin, two meters users find hard to predict. The long tail is leaving for coding agents. Salesforce chose three other data partners. At 35×, little room for error.</p></div>
+  </div>
+  <div class="body" style="margin-top:24px"><p class="dc">Our reading: Clay’s first bet, never to be a data company, has held up better than expected. The risk is not failure. It is being bypassed: CRM agents bundle data from above and coding agents do the stitching from below, leaving Clay a profitable niche tool. The company would survive that. The $7.1B price would not. We put the odds of that outcome at roughly one in three over three years. <span class="tag j">Judgment</span></p></div>
+  <div class="pq"><div class="q">“</div><div><p class="sm">We’re not building a microwave … But we’re building a guitar.</p><small>Kareem Amin · Invest Like the Best, Jun 16, 2026, 40:13</small></div></div>
+  <div class="body" style="margin-top:14px"><p>A high-skill instrument is valuable while the skill is scarce. The question for 2027 is what happens when an agent can play it. <span class="tag j">Judgment</span></p></div>
+  <div class="lb" style="margin-top:22px">Four things to watch</div>
+  <div class="qlist" style="margin-top:6px">
+    <div class="it"><span class="n">1</span><div><div class="h">~$240M by December 2026</div><div class="d">Anand’s year-end target. A miss, or 2027 growth below 2×, would test the multiple.</div></div></div>
+    <div class="it"><span class="n">2</span><div><div class="h">How much revenue Actions bring in</div><div class="d">Whether the new meter becomes a real revenue line, and whether a margin is ever disclosed.</div></div></div>
+    <div class="it"><span class="n">3</span><div><div class="h">Enterprise retention after Hunter</div><div class="d">And whether Salesforce or HubSpot ever adds Clay as a partner.</div></div></div>
+    <div class="it"><span class="n">4</span><div><div class="h">Runs started by agents</div><div class="d">The share of usage arriving through MCP, the CLI or Codex, and what Clay earns per run.</div></div></div>
+  </div>
+  <div class="notes"><p>Odds and readings are the author’s judgment as of Oct 16, 2026; the Hunter partner list was updated on Nov 10, 2026. Monthly run-rate gain derived from $100M (Dec 2025) to ~$200M (Q3 2026). <a href="#p13">S1, S5, S15</a>.</p></div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>12 / 13</span></div>
+</section>
+
+<!-- 13 · SOURCES -->
+<section class="page atl" id="p13">
+  <div class="kick">Sources, gaps &amp; method</div>
+  <h1 style="font-size:56px">What this issue knows, and what it doesn’t</h1>
+  <div class="method">
+    <p><b>Method.</b> Research ran to Oct 16, 2026. On Nov 10, 2026 we updated ZoomInfo to its Q3 2026 results and Hunter’s data partners; no other figure was updated. <span class="tag f">Filing</span> marks public filings, <span class="tag r">Reported</span> company statements and press, <span class="tag e">Estimate</span> the author’s calculations and <span class="tag j">Judgment</span> the author’s opinion. Clay’s 2026 revenue figures are spoken run-rates, not audited or contracted ARR. Quotes come from transcripts, some machine-made; cuts are marked “…”, timestamps are approximate.</p>
+    <p><b>Gaps.</b> Gross margin. Revenue from Actions. Which vendors carry Clay’s volume. Self-serve churn. Current Apollo figures. Hunter’s launch status. How much of Clay’s usage now starts in AI agents.</p>
+    <p><b>Glossary.</b> <i>CRM</i>: customer database such as Salesforce. <i>Enrichment</i>: filling in missing fields. <i>SDR</i>: junior rep who books meetings. <i>ACV</i>: annual contract value. <i>Net retention</i>: this year’s revenue from last year’s customers. <i>MCP</i>: standard for AI agents to call tools.</p>
+  </div>
+  <div class="box"><div class="h">Updated after the research closed</div><p>ZoomInfo’s figures now reflect its Q3 2026 results (Nov 4, 2026), replacing earlier-quarter figures in the research. Hunter’s partners are Apollo, ZoomInfo and Demandbase; the research had listed Apollo only. A remark that many data providers are “built on LinkedIn”, credited to Varun Anand in the research notes, was spoken by the podcast host, so it is not quoted here.</p></div>
+  <ol class="srcs">
+    <li><b>S1</b>Janet Mao, <i>Clay — Deep Dive</i>, Oct 16, 2026, and research notes (unpublished)</li>
+    <li><b>S2</b><a href="https://www.clay.com/blog/series-d">Clay, Series D, Sep 9, 2026</a></li>
+    <li><b>S3</b><a href="https://www.clay.com/blog/clay-pricing-memo-internal">Clay pricing memo, Mar 11, 2026</a></li>
+    <li><b>S4</b>Clay, <a href="https://clay.com/blog/100m-arr">$100M ARR</a> and <a href="https://clay.com/blog/tender-offer-2026">tender</a> posts</li>
+    <li><b>S5</b><a href="https://dealroom.co/news/149747-clay-raises-115m-at-7-1b-valuation-doubling-its-worth-in-a-year/">Dealroom on NYT interview, Sep 2026</a></li>
+    <li><b>S6</b>Sacra, <a href="https://sacra.com/c/clay/">Clay</a> · <a href="https://sacra.com/research/clay-vs-apollo/">Clay vs Apollo</a></li>
+    <li><b>S7</b><a href="https://ir.zoominfo.com/news-releases/news-release-details/zoominfo-announces-third-quarter-2026-financial-results">ZoomInfo Q3 2026, Nov 4</a>; <a href="https://www.businesswire.com/news/home/20260805496533/en/">Q2 2026</a></li>
+    <li><b>S8</b><a href="https://ramp.com/vendors/clay">Ramp vendor data, Oct 2026</a></li>
+    <li><b>S9</b><a href="https://www.sequoiacap.com/article/partnering-with-clay-on-a-mission-to-grow/">Sequoia, Alfred Lin, Jun 27, 2024</a></li>
+    <li><b>S10</b><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=2053989&amp;type=D">SEC EDGAR, Form D, CIK 2053989</a></li>
+    <li><b>S11</b><a href="https://www.youtube.com/watch?v=df5g2iVhT9Q">LangChain, Oct 8, 2025</a></li>
+    <li><b>S12</b><a href="https://www.youtube.com/watch?v=DHNcr5kd6FE">In Depth, Jan 23, 2025</a></li>
+    <li><b>S13</b><a href="https://www.youtube.com/watch?v=KPgkM21rGWg">Summation, Oct 14, 2025</a></li>
+    <li><b>S14</b><a href="https://www.youtube.com/watch?v=K_F0ncVqWIo">Training Data, Nov 19, 2024</a></li>
+    <li><b>S15</b><a href="https://colossus.com/episode/courage-truth-justice/">Invest Like the Best, Jun 16, 2026</a></li>
+    <li><b>S16</b>Vibe Pricing (Zona Zhang), Dec 11, 2025</li>
+    <li><b>S17</b><a href="https://www.youtube.com/watch?v=d_nWswprCqk">20VC (Becca Lindquist), May 2, 2026</a></li>
+    <li><b>S18</b>Hunter: <a href="https://www.apollo.io/newsroom/announcements/apollo-named-flagship-data-partner-for-hunter-salesforces-new-outbound-sales-agent">Apollo</a> · <a href="https://www.zoominfo.com/newsroom/press-releases/zoominfo-flagship-data-partner-salesforce-hunter">ZoomInfo</a> · <a href="https://www.businesswire.com/news/home/20261015145924/en/Demandbase-Named-Flagship-Data-Partner-for-Hunter-Salesforces-New-Outbound-Sales-Agent">Demandbase</a> · <a href="https://www.destinationcrm.com/Articles/CRM-News/CRM-Across-the-Wire/Salesforce-Introduces-Hunter-a-Sales-Agent-177071.aspx">destinationCRM</a></li>
+    <li><b>S19</b><a href="https://www.socialmediatoday.com/news/linkedin-wins-legal-case-data-scrapers-proxycurl/756101/">Social Media Today</a> · <a href="https://therecord.media/linkedin-sues-data-scraping-company">The Record</a></li>
+    <li><b>S20</b><a href="https://www.g2.com/products/clay-com-clay/reviews">G2 reviews of Clay</a></li>
+    <li><b>S21</b><a href="https://bloomberry.com/blog/i-analyzed-1000-gtm-engineering-jobs/">Bloomberry, Jan 2026</a></li>
+    <li><b>S22</b><a href="https://www.onfire.ai/blog/gtm-engineering-data">OnFire on Poyar/Sumble data</a></li>
+    <li><b>S23</b><a href="https://www.clay.com/blog">Clay blog</a>, GTM engineering posts, 2026</li>
+    <li><b>S24</b><a href="https://www.youtube.com/watch?v=ffkGZx0K0gc">Quinten Kamphuis, YouTube</a></li>
+    <li><b>S25</b><a href="https://www.apollo.io/magazine/apollo-selected-as-a-data-provider-for-hubspots-breeze">Apollo × HubSpot Prospecting Agent</a></li>
+  </ol>
+  <div class="colo"><span class="fin">Fin.</span><span>Startup Teardown · English edition No.02 · Independent analysis by Janet Mao, not affiliated with or reviewed by Clay. Cover illustration from clay.com. Figures are as of the dates shown.</span></div>
+  <div class="folio"><span>Startup Teardown · Clay</span><span>13 / 13</span></div>
+</section>
+
+<nav id="rnav" aria-label="Page navigation"><button id="rprev" aria-label="Previous page">←</button><span id="rpos">1 / 13</span><button id="rnext" aria-label="Next page">→</button><button id="rzoom" type="button" aria-label="Zoom: fit page. Activate to change">Fit page</button></nav>
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('section.page'));
+  var q=new URLSearchParams(location.search);
+  var single=q.get('p');
+  if(single){document.body.classList.add('single');var el=document.getElementById('p'+single);if(el)el.classList.add('on');return;}
+  if(!q.has('reader'))return;
+  document.documentElement.classList.add('reader');document.body.classList.add('reader');
+  var rv=document.createElement('div');rv.id='rview';rv.setAttribute('role','region');rv.setAttribute('aria-label','Magazine page');rv.tabIndex=0;
+  pages[0].parentNode.insertBefore(rv,pages[0]);pages.forEach(function(p){rv.appendChild(p);});
+  var nav=document.getElementById('rnav');
+  var cur=0;
+  var modes=[['fit','Fit page'],['zw','Fit width'],['z1','Actual size']],zm=0;
+  var zq=q.get('zoom');if(zq==='width')zm=1;if(zq==='actual')zm=2;
+  try{var zs=sessionStorage.getItem('tdZoom');if(zs!==null&&!zq)zm=+zs||0;}catch(e){}
+  var zb=document.getElementById('rzoom');
+  function fit(){var m=modes[zm][0],s;
+    document.documentElement.style.setProperty('--navh',nav.offsetHeight+'px');
+    if(m==='fit')s=Math.min((rv.clientWidth-24)/1080,(rv.clientHeight-24)/1440,1);
+    else if(m==='zw')s=Math.min((rv.clientWidth-16)/1080,1);
+    else s=1;
+    document.body.classList.toggle('zw',m==='zw');document.body.classList.toggle('z1',m==='z1');
+    document.documentElement.style.setProperty('--rs',s);
+    zb.textContent=modes[zm][1];zb.setAttribute('aria-label','Zoom: '+modes[zm][1].toLowerCase()+'. Activate to change');}
+  zb.onclick=function(){zm=(zm+1)%modes.length;try{sessionStorage.setItem('tdZoom',zm);}catch(e){}fit();};
+  function show(i){cur=Math.max(0,Math.min(pages.length-1,i));pages.forEach(function(s,j){s.classList.toggle('on',j===cur);});document.getElementById('rpos').textContent=(cur+1)+' / '+pages.length;try{history.replaceState(null,'','#p'+(cur+1));}catch(e){}document.getElementById('rprev').disabled=cur===0;document.getElementById('rnext').disabled=cur===pages.length-1;rv.scrollTop=0;rv.scrollLeft=0;}
+  document.getElementById('rprev').onclick=function(){show(cur-1);};
+  document.getElementById('rnext').onclick=function(){show(cur+1);};
+  addEventListener('keydown',function(e){if(e.key==='z'||e.key==='Z'){zb.click();return;}if(e.key==='ArrowRight'||e.key==='PageDown')show(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')show(cur-1);});
+  document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#p"]');if(a){e.preventDefault();show(+a.getAttribute('href').slice(2)-1);}});
+  addEventListener('resize',fit);fit();
+  var m=/#p(\d+)/.exec(location.hash);show(m?+m[1]-1:0);
+})();
+</script>
+<script src="../reader-plus.js"></script>
+</body>
+</html>

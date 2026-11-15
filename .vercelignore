@@ -1,0 +1,7 @@
+_src
+*.md
+*.log
+.env*
+.claude
+.taste-skill
+node_modules

@@ -114,9 +114,10 @@ HL_JS = """<script>
 </script>"""
 
 
-def blurb(cls, text):
-    """A section blurb under the R61 wash: the whole sentence, plain text, each wrapped line washed on its own."""
-    return f'<p class="{cls}"><span class="hl">{text}</span></p>'
+def blurb(cls, text, highlight=True):
+    """A section blurb. highlight=True wraps the R61 wash. The Things I've built priorities sentences pass highlight=False so they stay ordinary readable text. Other blurbs, and link/method underlines, are unchanged."""
+    inner = f'<span class="hl">{text}</span>' if highlight else text
+    return f'<p class="{cls}">{inner}</p>'
 
 
 def contact():
@@ -132,6 +133,7 @@ def foot(root, js=False, extra=""):
     script += extra  # R64: page-only scripts (demo.js)
     if root:  # project and research pages: the entrance motion
         script += f'\n<script src="{root}assets/entrance.js"></script>'
+        script += f'\n<script src="{root}assets/touches.js"></script>\n<script src="{root}assets/inner.js"></script>'  # R68
     return f"""{contact()}
 <footer class="site"><span>Janet Mao · San Francisco · 2026</span><a href="{X}">X @BuiltByJanet</a></footer>
 </div>{script}
@@ -326,10 +328,11 @@ def next_card(slug, root):
 
 
 def title_plate(name, what, meta, links="", lead=""):
+    """Project/research title plate. Put the single date (if any) in `meta`; do not prefix a year badge."""
     return f"""<section class="plate title">
   <h1>{disp(name)}</h1>
   {f'<p class="lead">{lead}</p>' if lead else ''}<p class="what">{what}</p>
-  <p class="meta"><span>2026</span>{meta}</p>{f'<p class="hero-links">{links}</p>' if links else ''}
+  <p class="meta">{meta}</p>{f'<p class="hero-links">{links}</p>' if links else ''}
 </section>"""
 
 
@@ -431,27 +434,27 @@ GRANOLA_NOTES = [  # (n, pill / rule name, one line <= 15 words)
     (3, "Numbers with sources", "Every figure links to where it came from, like Ramp's 64%."),
     (4, "Founders in their own words, with timestamps", "Each quote links to the second it was said."),
 ]
-# R23: the writing framework = a generic template of my two-pager ("Granola — Two-Pager.html", Oct 13 2026, in the vault).
-# (part, page title, [(mark, section name, one line on what goes there)]). Mark "" = an unnumbered element.
-TWO_PAGER = [
-    ("Page 1", "Why it wins", [
-        ("", "Headline", "The company in one plain image, then one sentence: what it won, what the price is for."),
-        ("", "Key numbers", "Four or five figures: valuation, money raised, share, revenue, headcount. Each dated."),
-        ("", "Lede", "What it is, in plain words, ending on the bet."),
-        ("01", "How it started", "The founders and the first move that worked."),
-        ("02", "Advantage and moat", "The edge against each kind of rival, and what is not a moat."),
-        ("03", "Where it stands", "What it has already won, and where that market tops out."),
-    ]),
-    ("Page 2", "What the price pays for", [
-        ("", "The verdict, up front", "The call and its time window, before any argument."),
-        ("04", "The ambition", "The bigger bet, and how the founders' story of it has changed by date."),
-        ("05", "The economics", "Margins and costs: who is profitable, and what will change the pricing."),
-        ("06", "The biggest risk", "The one risk that would end the bet, with odds."),
-        ("", "Verdict", "The call, the time window, and three signals to watch."),
-    ]),
+# The writing framework = the shared spine of the English business-magazine issues
+# (Clay 13 pp, Granola 14 pp), taken from the issue.html page roles both share.
+# Company-specific pages (Clay waterfall / GTM; Granola positioning / model question) are omitted.
+# Moats is named generically: Clay uses Gokul's 8, Granola uses Helmer's 7.
+# Competition appears in both issues but not in the same place relative to Origin; it is
+# listed here after Origin as a shared role, not as a claim that every issue puts it there.
+ISSUE_SPINE = [  # (mark, section name, one line on what goes there)
+    ("01", "Cover", "The question the issue asks, in a headline."),
+    ("02", "What it is", "The company in plain words, and the problem it is for."),
+    ("03", "Product", "How the product works, in concrete terms."),
+    ("04", "Customers", "Who uses it, and how that base has grown."),
+    ("05", "Origin", "How it started, and the first move that worked."),
+    ("06", "Competition", "Where it stands among rivals, and where the pressure is."),
+    ("07", "Moats", "Which advantages are real, and which are not."),
+    ("08", "Business model", "How it makes money, and what the price is paying for."),
+    ("09", "Risks", "What could break the bet."),
+    ("10", "Verdict", "The call, and the time window it is for."),
+    ("11", "Sources", "What this issue knows, and what it doesn’t."),
 ]
 WRITING_RULES = [  # (n, rule, one line <= 15 words)
-    (1, "Two pages, six sections", "Why it wins, then what the price pays for. Nothing else."),
+    (1, "One issue, a shared spine", "Cover to sources. A company may add pages of its own."),
     (2, "Headings are claims", "Each section title states its conclusion, not its topic."),
     (3, "Lead with the point", "Every paragraph opens with what it means; evidence follows."),
     (4, "Quotes with timestamps", "Each founder quote links to the second it was said, and gets one line on what it implies."),
@@ -478,6 +481,11 @@ PAGES = [  # (image key, w, h, title, caption, alt)
      "Granola two-pager, page 2: act two, margins, the lawsuit and a verdict box"),
     ("startup-positioning", 2070, 1017, "The ambition, by date", "Six founder quotes in date order: wider through 2025, narrower in 2026.",
      "Timeline of how Granola described itself from May 2024 to July 2026, with six founder quotes"),
+    # R68: the Clay two-page brief (from the English PDF), used by research-clay.html
+    ("clay-twopager-p1", 1406, 1988, "Page 1 · Why it won", "How it started, the self-filling table, and its one hard edge.",
+     "Clay two-page brief, page 1: the checkout for data, with key numbers, a revenue chart and three sections"),
+    ("clay-twopager-p2", 1406, 1988, "Page 2 · What the $7.1B pays for", "Positioning, the business model, the risk of being bypassed, and a verdict.",
+     "Clay two-page brief, page 2: positioning, pricing, a valuation multiples chart, risks and a verdict box"),
 ]
 
 
@@ -549,7 +557,7 @@ def tree(uid):
     return (f'<div class="tr" data-tree><svg width="0" height="0" aria-hidden="true" style="position:absolute"><filter id="{uid}-rf" x="-5%" y="-5%" width="110%" height="110%">'
             f'<feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="1"/></filter></svg>'
             f'{sources(uid)}<p class="tr-root"><b>How I take a startup apart</b><span>10 questions · one file each</span></p>'
-            f'<ol class="tr-list">{"".join(items)}<li class="tr-end"><a href="#writing">Then: two pages ↓</a></li></ol></div>')
+            f'<ol class="tr-list">{"".join(items)}<li class="tr-end"><a href="#writing">Then: the magazine ↓</a></li></ol></div>')
 
 
 def bet_doc():
@@ -579,44 +587,136 @@ TP_ICONS = {
 TP_KIND = {"Headline": "hl", "Key numbers": "kn", "Lede": "ld", "The verdict, up front": "vu", "Verdict": "vd"}
 
 
-def two_pager():
-    """R23: the page-1 / page-2 skeleton of the two-pager, then the rules derived from it.
-    R28: drawn as a miniature document spread. Each block sits where it sits on the real page and
-    carries a light mock of its shape (stat boxes, paragraph lines, signal ticks).
-    R30: mocks removed. Both sheets are the same list: icon or number, heading, one line, thin rules between."""
+def magazine_issue():
+    """Shared spine of the business-magazine issues, then the writing rules.
+    Same card/row treatment as the old two-pager sheets: number, heading, one line, hairline rules.
+    One sheet (one issue), not a two-page spread."""
     def block(m, name, line):
-        kind = TP_KIND.get(name, "sec")
-        mark = (f'<span class="tp-n">{m}</span>' if m else
-                f'<span class="tp-n tp-ic" aria-hidden="true"><svg viewBox="0 0 16 16">{TP_ICONS[name]}</svg></span>')
-        return (f'<li class="tp-b tp-{kind}">{mark}<p><b>{name}</b><span class="tp-d">{line}</span></p></li>')
-    sheets = "".join(
-        f'<article class="tp-sheet"><header class="tp-k"><span>{part}</span><b>{title}</b></header><ol class="tp-list">'
-        + "".join(block(*r) for r in rows)
-        + f'</ol><footer class="tp-f" aria-hidden="true"><span>Two-pager</span><span>{i} / {len(TWO_PAGER)}</span></footer></article>'
-        for i, (part, title, rows) in enumerate(TWO_PAGER, 1))
+        return (f'<li class="tp-b"><span class="tp-n">{m}</span><p><b>{name}</b><span class="tp-d">{line}</span></p></li>')
+    sheet = (
+        '<article class="tp-sheet"><header class="tp-k"><span>The issue</span><b>A business magazine</b></header><ol class="tp-list">'
+        + "".join(block(*r) for r in ISSUE_SPINE)
+        + '</ol><footer class="tp-f" aria-hidden="true"><span>Startup Teardown</span><span>Cover to sources</span></footer></article>')
     rules = "".join(f"<li><b>{t}.</b> {d}</li>" for _n, t, d in WRITING_RULES)
-    return (f'<div class="tp">{sheets}</div><h3 class="tp-h">Rules</h3><ol class="rules">{rules}</ol>')
+    return (f'<div class="tp">{sheet}</div><h3 class="tp-h">Rules</h3><ol class="rules">{rules}</ol>')
+
+
+
+# Public essays, talks, and frameworks named in ~/.claude/skills/startup-deepdive
+# (SKILL.md, references/expert-frameworks.md, report-template.md, dd-checklists.md,
+# sources-playbook.md). One primary public URL per entry, as stated in those files.
+# Wall Street Prep's URL was not in the skill; official page found 2026-11-11.
+# (group, [(title, author, href, how the skill uses it)])
+SKILL_LIBRARY = [
+    ("The YC circle", [
+        ("What We Look for in Founders", "Paul Graham", "https://paulgraham.com/founders.html",
+         "Used to judge early founders when traction is still thin, and whether this is a real startup."),
+        ("Startup Playbook", "Sam Altman", "https://playbook.samaltman.com/",
+         "Used to read a seed company end to end: the product, the users, and what the team should prove next."),
+        ("How to Evaluate Startup Ideas", "Kevin Hale", "https://www.youtube.com/watch?v=DOtCl5PU8F0",
+         "The rubric for scoring an idea before there is traction."),
+        ("Tarpit ideas", "Dalton Caldwell", "https://www.youtube.com/watch?v=MvZumqI93K4",
+         "Used to stress-test ideas that everyone likes, and whether the founders have a right to win."),
+        ("Earnestness and misfit founders", "Garry Tan", "https://fs.blog/knowledge-project-podcast/garry-tan/",
+         "Used to judge whether a founding team is the real thing, especially unpolished or contrarian founders."),
+        ("If your product is Great, it doesn’t need to be Good", "Paul Buchheit",
+         "https://paulbuchheit.blogspot.com/2010/02/if-your-product-is-great-it-doesnt-need.html",
+         "Used to judge whether a first product is truly focused, and to separate founder quality from the idea."),
+    ]),
+    ("Big-firm GPs", [
+        ("The Only Thing That Matters", "Marc Andreessen / a16z", "https://pmarchive.com/guide_to_startups_part4.html",
+         "Used when the open question is demand: is the market pulling the product, or is the team pushing it?"),
+        ("Revenue Quality & Marketplace Physics", "Bill Gurley / Benchmark",
+         "https://abovethecrowd.com/2011/05/24/all-revenue-is-not-created-equal-the-keys-to-the-10x-revenue-club/",
+         "Used to test whether growth deserves the valuation — unit economics and market quality, not the story."),
+        ("Zero to One: The Seven Questions", "Peter Thiel / Founders Fund",
+         "https://www.youtube.com/watch?v=5_0dVHMpJlo",
+         "Used on category-creating bets: what the company believes that others do not, and whether it can become a monopoly."),
+        ("Founder-problem fit, pre-mortems, and pre-parades", "Roelof Botha / Sequoia",
+         "https://tim.blog/2022/09/01/roelof-botha-transcript/",
+         "Used at seed and Series A: is the founder fused to the problem, and does the timing survive a pre-mortem?"),
+        ("Gene Pool Engineering", "Vinod Khosla",
+         "https://www.khoslaventures.com/posts/gene-pool-engineering-for-entrepreneurs",
+         "Used on technically heavy bets: does the team actually cover the risks that could kill the company?"),
+        ("Spikes, barrels, and ammunition", "Keith Rabois / Founders Fund",
+         "https://www.youtube.com/watch?v=6fQHLK1aIBs",
+         "Used to judge early teams: is there a genuine spike, and can the founder ship?"),
+    ]),
+    ("Angels and the AI era", [
+        ("How to Angel Invest", "Naval Ravikant", "https://nav.al/angel-1",
+         "Used at the angel stage, when there is almost no data and the decision is a read on the founders."),
+        ("AI Market Clarity", "Elad Gil", "https://blog.eladgil.com/p/ai-market-clarity",
+         "Used to judge whether an AI market is investable now — timing and structure, not just the team."),
+        ("Pattern Breakers", "Mike Maples Jr. / Floodgate",
+         "https://patternbreakers.substack.com/p/how-inflections-let-startups-change",
+         "Used on ideas that look too early: a real non-consensus bet, or only contrarian and wrong."),
+        ("Software 3.0", "Sarah Guo / Conviction", "https://colossus.com/article/sarah-guo-conviction/",
+         "Used on AI-native startups: a product in use, or only a capabilities demo."),
+        ("The Unicorn Club", "Aileen Lee / Cowboy Ventures",
+         "https://techcrunch.com/2013/11/02/welcome-to-the-unicorn-club/",
+         "Used to check pattern-match claims about teams against actual base rates."),
+        ("The New Business of AI", "Martin Casado / a16z",
+         "https://a16z.com/the-new-business-of-ai-and-how-its-different-from-traditional-software/",
+         "Used on AI companies to test whether they scale like software or like a services firm."),
+    ]),
+    ("Moats and how the report is built", [
+        ("7 Powers", "Hamilton Helmer", "https://7powers.com/",
+         "The competition scorecard: the company and its top two rivals, scored cell by cell."),
+        ("The 8 Moats of Enduring Software Companies", "Gokul Rajaram",
+         "https://www.thetwentyminutevc.com/gokul-rajaram",
+         "The moat lens used in the Clay issue: eight advantages scored so the real ones stand apart from the rest."),
+        ("Playbook, Power, Bull/Bear", "Acquired (Ben Gilbert & David Rosenthal)", "https://www.acquired.fm/",
+         "Shapes the playbook read and a bull/bear case in which the bear has a real voice."),
+        ("海外独角兽", "拾象", "https://foresightnews.pro/column/detail/101",
+         "Shapes the opening bet and the market section: thesis first, then why now and the kinds of players."),
+        ("Company reports", "Contrary Research", "https://research.contrary.com",
+         "The 11-section skeleton, so a company report never misses a part, and the prose style of the write-up."),
+        ("Date and source on every number", "Sacra", "https://sacra.com",
+         "Every number in the report must carry a date and a source."),
+        ("Venture capital due diligence", "Wall Street Prep",
+         "https://www.wallstreetprep.com/knowledge/venture-capital-diligence/",
+         "The due-diligence checklists the research agents work through: team, product, business model, and risk."),
+    ]),
+]
+
+
+def skill_library():
+    """Restrained bibliography of public sources the Startup Research skill is built on."""
+    groups = []
+    for group, rows in SKILL_LIBRARY:
+        items = []
+        for title, author, href, used in rows:
+            name = f'<a href="{href}" target="_blank" rel="noopener">{title}</a>' if href else title
+            items.append(f'<li><p><b>{name}</b><span class="sk-a">{author}</span><span class="sk-d">{used}</span></p></li>')
+        groups.append(f'<h3 class="tp-h">{group}</h3><ul class="sk-refs">{"".join(items)}</ul>')
+    return '<div class="sk-lib">' + "".join(groups) + "</div>"
 
 
 def startup_page():
     slug, root = "startup-research", "../"
-    meta = "Method and writing · Claude Code agents, podcast-dig transcripts, Obsidian"
+    meta = "2026 · Method and writing · Claude Code agents, podcast-dig transcripts, Obsidian"
     return f"""{head("Startup Research — Janet Mao", P[slug]['what'], root)}
 <body class="project startup" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'work')}
 <main>
-{title_plate("Startup Research", P[slug]['what'], meta, lead="10 questions, 2 pages.")}
+{title_plate("Startup Research", P[slug]['what'], meta, lead="10 questions, one magazine.")}
 <section class="plate" id="framework">
   {ph("01", "The analysis framework", "10 questions")}
   <p class="intro-l">Each question gets its own file and its own method. Open the 8 moats checklist under Competition.</p>
   {tree("tr")}
 </section>
 <section class="plate" id="writing">
-  {ph("02", "The writing framework", "2 pages")}
-  <p class="intro-l">The research runs long. What I publish fits on two pages, always in this order.</p>
-  {two_pager()}
+  {ph("02", "The writing framework", "one issue")}
+  <p class="intro-l">The research runs long. What I publish is a business-magazine issue, built on this spine.</p>
+  {magazine_issue()}
   <p class="see"><a href="../index.html#research">See it applied → Research</a></p>
+  <p class="intro-l">The same research can also be published as a video — one more channel for this work, not a separate method. The Clay analysis is also on <a href="{CLAY_YT}" target="_blank" rel="noopener">YouTube ↗</a>.</p>
+</section>
+<section class="plate" id="learned">
+  {ph("03", "What the skill learned from", "the library")}
+  <p class="intro-l">The skill reads a living library of public essays, talks, and frameworks when it researches a company. Titles link to the source. Founder interviews are pulled first through <a href="podcast-dig.html">podcast-dig</a>, before it searches the open web.</p>
+  {skill_library()}
 </section>
 {next_card(slug, root)}
 </main>
@@ -626,14 +726,15 @@ def startup_page():
 # ---- Revision 23: every startup I've researched, one row each (rameerez-style list), each with its own page.
 # (year, month, title, one line, page slug). Add a row + a page function to list another company.
 RESEARCH = [
-    ("2026", "Oct", "Granola — Deep Dive", "Four beliefs stated before the evidence, each with the data that would prove it wrong.", "research-granola"),
+    ("2026", "Nov", "Startup Teardown No.02 · Clay", "A 13-page English business magazine, drawn from the same Startup Research work.", "research-clay"),
+    ("2026", "Oct", "Startup Teardown No.01 · Granola", "A 14-page English business magazine, drawn from the same Startup Research work.", "research-granola"),
 ]
 
 
-# ---- Revision 38: the finished AI Terms films, one row each, each opening a page of 5 key slides.
-# Only episodes with a final English film in ~/AI-Terms/成片 (ep 4 is still in review, so it is left out).
-# Slides come from the final videos via _src/capture/r38/export_slides.py, which writes the images to
-# assets/ai-terms/films/<slug>/ and the films' own subtitle lines to _src/aiterm_slides.json.
+# ---- Revision 38: the finished AI Terms films, one row each.
+# Ep 1–3 also have a 5-slide page (slides from _src/capture/r38/export_slides.py → assets/ai-terms/films/<slug>/
+# and subtitle lines in _src/aiterm_slides.json). Ep 4 is a published English film on YouTube @JanetMao
+# (title: "04 长上下文vsRAG English"); no 5-slide export is in this repo yet, so its page links out and does not invent stills.
 # (slug, episode, term, one line from the film's closing "one line to remember", what the film explains, film length)
 AITERM_FILMS = [
     ("embedding", 1, "Embedding", "An embedding turns things into meaning coordinates. Once you have them, you can find things by meaning.",
@@ -642,11 +743,31 @@ AITERM_FILMS = [
     ("vector-database", 2, "Vector database", "A warehouse that stores points, and can quickly find the few closest ones.",
      "Same support bot, bigger company: 500 documents have become 10 million chunks, and every chunk is already a point. "
      "Measuring the distance to every one of them for a single question takes over 10 billion multiplications. "
-     "A vector database is the warehouse built to store those points, and find the closest few in a blink.", "11:20"),
+     "A vector database is the warehouse built to store those points, and find the closest few in a blink.", "11:21"),
     ("rag", 3, "RAG", "RAG means retrieve first, then generate. It lets the AI take an open-book exam.",
      "A customer asks: “I’m a member, I bought a chair 10 days ago. Can I still return it?” Ask an AI model with no documents and it can’t be sure, or it gets it wrong. "
-     "RAG is the fix: first find the few relevant passages in your documents, then have the AI answer from them, and cite its sources.", "16:05"),
+     "RAG is the fix: first find the few relevant passages in your documents, then have the AI answer from them, and cite its sources.", "16:06"),
+    # YouTube had no description; the line below is the existing Ep 4 through-line already used on ai-terms.html.
+    ("long-context", 4, "Long context vs RAG", "When to skip retrieval and paste the whole thing in.",
+     "When to skip retrieval and paste the whole thing in.", "13:18"),
 ]
+# Public episodes on https://www.youtube.com/@JanetMao (watch-page upload dates, America/Los_Angeles).
+# Ep 4 watch id updated 2026-11-11: dfvh6xTM6Tc and prior 0gTCd6YHGZs were removed by the uploader; current public film is LvJfLiYkWLo (13:18, title “04 Long Context vs RAG”).
+YT_CHANNEL = "https://www.youtube.com/@JanetMao"
+# Clay two-page brief as a film: "Startup Analysis — Clay", 25:01, uploaded 2026-11-10 10:06 AM PT.
+CLAY_YT = "https://www.youtube.com/watch?v=4vnuaykGEIY"
+AITERM_YT = {
+    "embedding": "https://www.youtube.com/watch?v=0FrafDTlRdI",
+    "vector-database": "https://www.youtube.com/watch?v=xqH57sW9Qpg",
+    "rag": "https://www.youtube.com/watch?v=yyeAfoS6sKw",
+    "long-context": "https://www.youtube.com/watch?v=LvJfLiYkWLo",  # re-upload; dfvh6xTM6Tc and 0gTCd6YHGZs were removed by the uploader
+}
+AITERM_DATE = {  # month of the public YouTube upload, America/Los_Angeles
+    "embedding": "Oct 2026",
+    "vector-database": "Nov 2026",
+    "rag": "Nov 2026",
+    "long-context": "Nov 2026",
+}
 AITERM_SLIDES = json.loads((OUT / "_src" / "aiterm_slides.json").read_text())
 
 
@@ -656,21 +777,31 @@ AITERM_SLIDES = json.loads((OUT / "_src" / "aiterm_slides.json").read_text())
 # R58: no framework lists on the homepage. Each group head carries a short grey blurb with an underlined link to the
 # method / project page; the frameworks themselves live on startup-research.html and ai-terms.html.
 def research_section():
-    row = lambda href, date, t: (f'<li><a href="projects/{href}.html"><span class="rs-dt">{date}</span><span class="rs-t">{t}</span>'
+    row = lambda href, date, t: (f'<li><a href="{href}"><span class="rs-dt">{date}</span><span class="rs-t">{t}</span>'
                                  f'<span class="go" aria-hidden="true">→</span></a></li>')
-    startups = "".join(row(href, f"{m} {y}", t) for y, m, t, _x, href in RESEARCH)
-    films = "".join(row(f"research-aiterm-{s}", "Oct 2026", f"Ep {n} · {t}") for s, n, t, _x, _w, _l in AITERM_FILMS)
+    startups = "".join(row(f"projects/{href}.html", f"{m} {y}", t) for y, m, t, _x, href in RESEARCH)
+    # Homepage shows only the latest approved films; the full set lives on the collection page.
+    HOME_AITERM_LATEST = 3
+    latest = sorted(AITERM_FILMS, key=lambda f: f[1], reverse=True)[:HOME_AITERM_LATEST]
+    films = "".join(row(f"projects/research-aiterm.html#ep-{s}", AITERM_DATE[s], f"Ep {n} · {t}") for s, n, t, *_ in latest)
     nc = len(RESEARCH)
-    return f"""<section class="plate rs hl-sec" id="research">
+    return f"""<section class="plate rs" id="research">
   {ph("", "Research", f'{nc} {"company" if nc == 1 else "companies"} · {len(AITERM_FILMS)} films', icon="research")}
-  {blurb("rs-what", "Startups I've researched, and AI terms I've explained on film.")}
+  {blurb("rs-what", "Startups I've researched, and AI terms I've explained on film.", highlight=False)}
   <div class="rs-g" id="research-startups">
-    <div class="rs-h"><h3>Startups <span>{nc}</span></h3><p>Written with my <a href="projects/startup-research.html">Startup Research</a> method.</p></div>
+    <div class="rs-h"><h3>Startups <span>{nc}</span></h3><p>Written with my <a href="projects/startup-research.html">Startup Research</a> method. The same research can also be published as a video.</p></div>
     <ul class="rs-rows">{startups}</ul>
+    <p class="rs-all"><a href="projects/research-startups.html">View all startup teardowns →</a></p>
   </div>
   <div class="rs-g" id="research-ai-terms">
-    <div class="rs-h"><h3>AI Term Explainer <span>{len(AITERM_FILMS)}</span></h3><p>One AI word per film, in plain language. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
-    <ul class="rs-rows">{films}</ul>
+    <div class="rs-h"><h3>AI Term Explainer <span>{len(AITERM_FILMS)}</span></h3><p>One AI word per film, in plain language. Watch on <a href="{YT_CHANNEL}" target="_blank" rel="noopener">YouTube</a>. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
+    <ul class="dl-films">
+      <li><a href="projects/research-aiterm.html#ep-long-context"><span class="dl-still"><img src="assets/ai-terms/films/long-context/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 4 · 13:18</span></span><span class="dl-ft">Long context vs RAG</span><span class="dl-fm">When to skip retrieval and paste the whole thing in.</span></a></li>
+      <li><a href="projects/research-aiterm.html#ep-rag"><span class="dl-still"><img src="assets/ai-terms/films/rag/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 3 · 16:06</span></span><span class="dl-ft">RAG</span><span class="dl-fm">An open-book exam for the AI.</span></a></li>
+      <li><a href="projects/research-aiterm.html#ep-vector-database"><span class="dl-still"><img src="assets/ai-terms/films/vector-database/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 2 · 11:21</span></span><span class="dl-ft">Vector database</span><span class="dl-fm">A warehouse that finds the closest points fast.</span></a></li>
+      <li><a href="projects/research-aiterm.html#ep-embedding"><span class="dl-still"><img src="assets/ai-terms/films/embedding/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 1 · 10:30</span></span><span class="dl-ft">Embedding</span><span class="dl-fm">Meaning turned into coordinates.</span></a></li>
+    </ul>
+    <p class="rs-all"><a href="projects/research-aiterm.html">View all episodes →</a></p>
   </div>
 </section>"""
 
@@ -704,57 +835,168 @@ def slideshow(slug, term, root):
             f'<button class="ss-fs" type="button" data-ss-full>Full screen</button></div></div>')
 
 
-def research_aiterm_page(slug):
+def research_aiterm_collection_page():
+    """All approved AI Term Explainer films on one page, with their public YouTube links.
+    The shared production method stays on ai-terms.html (series-level, not per episode)."""
     root = "../"
-    _s, n, term, line, what, length = next(f for f in AITERM_FILMS if f[0] == slug)
-    meta = f'AI Term Explainer, episode {n} · English film, {length} · Made with my&nbsp;<a href="ai-terms.html">AI Term Explainer loop</a>'
-    return f"""{head(f"{term} — AI Term Explainer — Janet Mao", line, root)}
+    items = []
+    for s, n, term, line, _what, length in AITERM_FILMS:
+        yt = AITERM_YT[s]
+        items.append(
+            f'<li id="ep-{s}">'
+            f'<div class="ep-top"><span class="rs-dt">{AITERM_DATE[s]}</span>'
+            f'<h2 class="ep-t">Ep {n} · {term}</h2>'
+            f'<span class="ep-min">{length}</span></div>'
+            f'<p class="ep-l">{line}</p>'
+            f'<p class="ep-watch"><a href="{yt}" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>'
+            f'</li>'
+        )
+    watch = (
+        f'<a href="{YT_CHANNEL}" target="_blank" rel="noopener">YouTube @JanetMao <span class="link-go" aria-hidden="true">↗</span></a>'
+        f'<a href="ai-terms.html">How the films are made →</a>'
+    )
+    what = "One AI word per film, in plain language. Every approved English episode is listed here."
+    meta = f'2026 · {len(AITERM_FILMS)} episodes · English films'
+    return f"""{head("AI Term Explainer — Janet Mao", what, root)}
 <body class="project research" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
 <p class="back"><a href="../index.html#research-ai-terms">← All research</a></p>
-{title_plate(term, what, meta)}
-<section class="plate" id="slides">
-  {ph("", "The film in 5 slides", "Problem · what it is · how · business · takeaway")}
-  {slideshow(slug, term, root)}
+{title_plate("AI Term Explainer", what, meta, watch, lead="All episodes, in one place.")}
+<section class="plate" id="episodes">
+  {ph("01", "The films", f"{len(AITERM_FILMS)} episodes")}
+  <p class="funnel-n">Each film has its own through-line and a link to the published English version. How the series is made is on the <a href="ai-terms.html">AI Term Explainer</a> page — one method for the whole series.</p>
+  <ul class="ep-list">{''.join(items)}</ul>
 </section>
 <p class="back"><a href="../index.html#research-ai-terms">← All research</a><a href="ai-terms.html">How the films are made →</a></p>
 </main>
-{foot(root)}""".replace("</body>", f'<script src="{root}assets/slides.js"></script>\n</body>')
+{foot(root)}"""
 
 
-def research_granola_page():
-    """R23: the former worked example from startup-research.html (R7–R22), moved here unchanged."""
+def research_startups_collection_page():
+    """All Startup Teardown issues in one place, newest first. Method stays on startup-research.html."""
     root = "../"
-    what = "Granola, the $1.5B AI notetaker: four beliefs stated before the evidence, written up in two pages."
-    meta = 'October 2026 · Written with my&nbsp;<a href="startup-research.html">Startup Research framework</a>'
-    return f"""{head("Granola — Deep Dive — Janet Mao", what, root)}
-<body class="project startup" data-root="{root}">
+    # One-liners are the distinctive opening of each issue page's existing `what`.
+    issues = [
+        ("clay", "Nov 2026", "Startup Teardown No.02 · Clay", "13 pages",
+         "A 13-page English business magazine on Clay, the $7.1B sales-data platform that owns no data.",
+         "research-clay.html", CLAY_YT),
+        ("granola", "Oct 2026", "Startup Teardown No.01 · Granola", "14 pages",
+         "A 14-page English business magazine on Granola, the $1.5B AI notetaker.",
+         "research-granola.html", None),
+    ]
+    items = []
+    for slug, date, title, pages, line, href, yt in issues:
+        watch = f'<a href="{href}">Read the issue →</a>'
+        if yt:
+            watch += f'<a href="{yt}" target="_blank" rel="noopener">Watch on YouTube ↗</a>'
+        items.append(
+            f'<li id="{slug}">'
+            f'<div class="ep-top"><span class="rs-dt">{date}</span>'
+            f'<h2 class="ep-t"><a href="{href}">{title}</a></h2>'
+            f'<span class="ep-min">{pages}</span></div>'
+            f'<p class="ep-l">{line}</p>'
+            f'<p class="ep-watch">{watch}</p>'
+            f'</li>'
+        )
+    watch_bar = '<a href="startup-research.html">The framework →</a>'
+    what = "English business-magazine issues, written with my Startup Research method. Every published issue is listed here."
+    meta = f'2026 · {len(issues)} issues · English magazines'
+    return f"""{head("Startup Teardowns — Janet Mao", what, root)}
+<body class="project research" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
 <p class="back"><a href="../index.html#research-startups">← All research</a></p>
-{title_plate("Granola — Deep Dive", what, meta, lead="10 questions, 53,000 words, 2 pages.")}
-<section class="plate" id="bet">
-  {ph("01", "The opening, annotated", "4 rules")}
-  {bet_doc()}
-</section>
-<section class="plate" id="example">
-  {ph("02", "Granola, in two pages", "2 pages")}
-  <dl class="funnel"><div><dt>10</dt><dd>research files</dd></div><div><dt>8</dt><dd>podcast transcripts</dd></div><div><dt>53,000</dt><dd>words</dd></div><div class="to"><dt>2</dt><dd>pages</dd></div></dl>
-  <p class="funnel-n">The 8 podcast transcripts were pulled with <a href="podcast-dig.html">podcast-dig</a>.</p>
-  <div class="pgs">{page_fig(0, root)}{page_fig(1, root)}</div>
-  <blockquote class="said"><p>“AI made the research cheap. Deciding what matters is still the job.”</p><footer>From my thread on <a href="{X}">X @BuiltByJanet</a></footer></blockquote>
-</section>
-<section class="plate">
-  {ph("03", "Lined up by date")}
-  <p class="intro-l">The best finding came from putting every founder interview in date order: the ambition widened through 2025, then narrowed in 2026.</p>
-  {page_fig(2, root)}
+{title_plate("Startup Teardowns", what, meta, watch_bar, lead="All issues, in one place.")}
+<section class="plate" id="issues">
+  {ph("01", "The issues", f"{len(issues)} issues")}
+  <p class="funnel-n">Each issue is a business magazine, written with the same <a href="startup-research.html">Startup Research</a> method. Open the issue to read it page by page.</p>
+  <ul class="ep-list">{''.join(items)}</ul>
 </section>
 <p class="back"><a href="../index.html#research-startups">← All research</a><a href="startup-research.html">The framework →</a></p>
 </main>
+{foot(root)}"""
+
+
+def research_aiterm_episode_redirect(slug):
+    """Old per-episode URLs keep working: send them to the collection anchor."""
+    s, n, term, *_ = next(f for f in AITERM_FILMS if f[0] == slug)
+    to = f"research-aiterm.html#ep-{s}"
+    label = f"Ep {n} · {term}"
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{label} — AI Term Explainer — Janet Mao</title><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>location.replace({to!r});</script>
+<meta http-equiv="refresh" content="0; url={to}">
+<link rel="canonical" href="{to}"><meta name="robots" content="noindex">
+</head><body><p>This episode is listed on the AI Term Explainer collection: <a href="{to}">{label}</a>.</p></body></html>
+"""
+
+
+def research_granola_page():
+    """Startup Teardown No.01 · Granola: the 14-page English magazine is the main showcase.
+    The two-page brief remains in the repo (assets/screens) but is not shown. No Granola film is listed in source, so none is invented."""
+    root = "../"
+    issue = f"{root}assets/magazines/granola/issue.html?reader"
+    title = "Startup Teardown No.01 · Granola"
+    what = "A 14-page English business magazine on Granola, the $1.5B AI notetaker. Written with my Startup Research method from the Sep–Oct 2026 research; figures are dated as in the issue, not updated as of November 2026."
+    meta = 'October 2026 · Written with my&nbsp;<a href="startup-research.html">Startup Research framework</a>'
+    open_issue = f'<a href="{issue}">Open the magazine <span class="link-go" aria-hidden="true">↗</span></a>'
+    return f"""{head(title + " — Janet Mao", what, root)}
+<body class="project startup granola" data-root="{root}">
+<div class="page narrow">
+{nav(root, 'research')}
+<main>
+<p class="back"><a href="research-startups.html">← All startup teardowns</a></p>
+{title_plate(title, what, meta, open_issue, lead="A 14-page English business magazine.")}
+<section class="plate" id="issue">
+  {ph("01", "The issue", "14 pages")}
+  <p class="funnel-n">Page by page, with previous/next, keyboard arrows, and zoom. The 8 podcast transcripts behind the research were pulled with <a href="podcast-dig.html">podcast-dig</a>. {open_issue}</p>
+  <div class="mag-embed">
+    <iframe src="{issue}" title="Startup Teardown No.01 · Granola, 14-page magazine reader" width="1080" height="1440" loading="lazy" referrerpolicy="no-referrer"></iframe>
+  </div>
+</section>
+<p class="back"><a href="research-startups.html">← All startup teardowns</a><a href="startup-research.html">The framework →</a></p>
+</main>
 {foot(root, js=True)}"""
+
+
+def research_clay_page():
+    """Startup Teardown No.02 · Clay: the 13-page English magazine is the main showcase.
+    The existing YouTube film is supplemental. Two-page brief files stay in assets/ but are not shown."""
+    root = "../"
+    issue = f"{root}assets/magazines/clay/issue.html?reader"
+    title = "Startup Teardown No.02 · Clay"
+    what = "A 13-page English business magazine on Clay, the $7.1B sales-data platform that owns no data. Written with my Startup Research method; figures are dated as in the issue."
+    meta = 'November 2026 · Written with my&nbsp;<a href="startup-research.html">Startup Research framework</a>'
+    open_issue = f'<a href="{issue}">Open the magazine <span class="link-go" aria-hidden="true">↗</span></a>'
+    watch = f'<a href="{CLAY_YT}" target="_blank" rel="noopener">Watch on YouTube <span class="link-go" aria-hidden="true">↗</span></a>'
+    return f"""{head(title + " — Janet Mao", what, root)}
+<body class="project startup clay" data-root="{root}">
+<div class="page narrow">
+{nav(root, 'research')}
+<main>
+<p class="back"><a href="research-startups.html">← All startup teardowns</a></p>
+{title_plate(title, what, meta, open_issue + watch, lead="A 13-page English business magazine.")}
+<section class="plate" id="issue">
+  {ph("01", "The issue", "13 pages")}
+  <p class="funnel-n">Page by page, with previous/next, keyboard arrows, and zoom. The podcast transcripts behind the research were pulled with <a href="podcast-dig.html">podcast-dig</a>. {open_issue}</p>
+  <div class="mag-embed">
+    <iframe src="{issue}" title="Startup Teardown No.02 · Clay, 13-page magazine reader" width="1080" height="1440" loading="lazy" referrerpolicy="no-referrer"></iframe>
+  </div>
+</section>
+<section class="plate" id="film">
+  {ph("02", "On film")}
+  <p class="funnel-n">The same research, as a film. {watch}</p>
+  <div class="yt-embed">
+    <iframe src="https://www.youtube-nocookie.com/embed/4vnuaykGEIY" title="Startup Analysis — Clay" width="560" height="315" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</section>
+<p class="back"><a href="research-startups.html">← All startup teardowns</a><a href="startup-research.html">The framework →</a></p>
+</main>
+{foot(root, js=True)}"""
+
 
 
 # ---------------------------------------------------------------- LexiAI (revision 16: one callout per crop, on the R15 page)
@@ -930,11 +1172,11 @@ DEMOS = {
          "lexiai-senses", (1680, 1368), (70, 720, 1500, 165), False),  # R66: Chinese gloss lines cut out (was 1680x1480)
         ("Save the word", "One tap puts the word in my Notebook, where reviews and practice pick it up.",
          "lexiai-lookup-saved", (1840, 1020), (1356, 746, 294, 92), True),
-        ("Paste a sentence", "Reading something? Paste the whole line, then tap the word you're unsure of.",
-         "lexiai-context", (1488, 1150), (668, 196, 132, 92), True,
+        ("Paste a sentence", "Paste the whole line. LexiAI spots the likely unfamiliar word.",
+         "lexiai-ctx:clip", (0, 0), (0, 0, 0, 0), False,
          "There are three, four new products coming out at a pretty rapid clip here from Nest.", "Check"),
-        ("Read the sense", "LexiAI names the sense used in this sentence: a speed, not the usual video excerpt.",
-         "lexiai-context", (1488, 1150), (798, 800, 582, 304), False),
+        ("Tap another", "Not the word you meant? Tap another.",
+         "lexiai-ctx:pretty", (0, 0), (0, 0, 0, 0), True),
         ("Save it", "One tap saves the word with its sentence, filed as sense iii of clip.",
          "lexiai-context-saved", (1488, 196), (1024, 64, 344, 88), True),
         ("Hear it in podcasts", "Saved words collect real podcast lines, timestamped. With sound on, this one plays: \u201cI was appalled by my fasting blood glucose\u2026\u201d",
@@ -974,15 +1216,32 @@ DEMO_AUDIO = {"lexiai": {"lexiai-podcasts": "podcast-demo.mp3"}}
 # R67: picture only. The synthesized Samantha voice sounded choppy, so the audio track was dropped (ffmpeg -an, video stream
 # copied as is; the R66 file with sound is in _src/r67-snapshot/). See R67_REPORT.md.
 # (file stem in assets/<slug>/, width, height, length, one line under it)
-DEMO_VIDEO = {"lexispeak": ("see-it-run", 1280, 800, "0:57",
-                            "Free Talk with Alex, played start to finish, then the coaching report.")}
+# R70: LexiSpeak's silent screen recording is replaced by a narrated walkthrough like LexiAI's (HyperFrames,
+# ~/HyperFrames Video/videos/speaking-studio-demo; voice ElevenLabs Robert, captions burned in). see-it-run.mp4 kept on disk.
+DEMO_VIDEO = {"lexispeak": ("narrated", 1600, 900, "1:46",
+                            "From words I know to words I say: a narrated walkthrough of the real screens.", True),
+              # R69: LexiAI gets a narrated walkthrough (HyperFrames, ~/HyperFrames Video/videos/lexiai-demo; voice ElevenLabs
+              # Robert, captions burned in). It sits right under the title. R69b: Janet dropped the guided step demo from the page (DEMOS["lexiai"] kept for reference).
+              "lexiai": ("narrated", 1600, 900, "1:50",
+                         "What a word means in the sentence you read: a narrated walkthrough of the real screens.", True),
+              # R71: Writing Station narrated walkthrough (HyperFrames, ~/HyperFrames Video/videos/writing-station-demo;
+              # voice ElevenLabs Robert, captions burned in). Replaces the step demo (DEMOS["writing-station"] kept for reference).
+              "writing-station": ("narrated", 1600, 900, "1:12",
+                                  "Write every day, and make my words stick: a narrated walkthrough of the real screens.", True)}
 
 
 def video_demo_html(slug, name, root):
     """R66: a recorded run. Muted autoplay at 40% in view (demo.js), Pause / Replay; reduced motion waits for Play.
     R67: the file has no sound, so there is no Sound on button."""
-    stem, w, h, length, line = DEMO_VIDEO[slug]
+    stem, w, h, length, line, *snd = DEMO_VIDEO[slug]
     src = f"{root}assets/{slug}/{stem}"
+    if snd:  # R69: narrated video with sound: muted autoplay, Sound on unmutes
+        return f"""
+  <section class="dm dm-rec dm-narr" data-demo-video aria-label="Narrated walkthrough of {name}">
+    <h2>Watch it in 2 minutes</h2><p>A narrated walkthrough of the real screens, with captions. It starts muted; tap Sound on to hear it.</p>
+    <div class="dm-stage dm-vstage"><video src="{src}.mp4" poster="{src}.jpg" width="{w}" height="{h}" muted playsinline controls preload="metadata" aria-label="{name}: {line}"></video><button class="dm-big" type="button" data-act="play" aria-label="Play the video" hidden>▶ Play</button></div>
+    <div class="dm-bar"><p class="dm-vcap">{line} <span>{length}</span></p><div class="dm-ctrl" hidden><button class="dm-sound" type="button" data-act="sound" aria-pressed="false">🔊 Sound on</button><button type="button" data-act="play">Play</button><button type="button" data-act="replay">Replay</button></div></div>
+  </section>"""
     return f"""
   <section class="dm dm-rec" data-demo-video aria-label="Screen recording of the {name} demo">
     <h2>See it run</h2><p>A screen recording of the demo app, picture only. Pause or replay it anytime.</p>
@@ -991,18 +1250,73 @@ def video_demo_html(slug, name, root):
   </section>"""
 
 
+# LexiAI "See it run": after the sentence is pasted, an in-demo card shows the real product behaviour.
+# LexiAI first picks a likely-unfamiliar word (clip — meaning already shown on this page from the product card).
+# The visitor can then tap another supported word. pretty uses the official LexiAI demo sample for “pretty”
+# in “pretty rapid” (fixture.ts); it is not a recorded tap on this podcast sentence. Only those two words
+# have meanings here; other words are not tappable. English only; no accuracy claims.
+LEXI_CTX_SENTENCE = "There are three, four new products coming out at a pretty rapid clip here from Nest."
+LEXI_CTX_AUTO = "clip"
+LEXI_CTX_WORDS = {
+    "clip": {
+        "meaning": 'A speed or rate of movement or progress, usually used in phrases like "at a rapid clip" or "at a good clip."',
+        "usual": "a short video excerpt, or a small fastener",
+    },
+    "pretty": {
+        "meaning": "Fairly; to quite a high degree (informal adverb before an adjective).",
+        "usual": "attractive, nice to look at",
+    },
+}
+
+
+def lexiai_ctx_markup():
+    """One sentence card shared by the two context steps. Meanings are filled in by demo.js."""
+    import html as _html
+    bits = []
+    for tok in re.findall(r"\w+|[^\w\s]+|\s+", LEXI_CTX_SENTENCE):
+        low = tok.lower()
+        if low in LEXI_CTX_WORDS:
+            bits.append(f'<button type="button" class="dm-ctx-w" data-word="{_html.escape(low)}">{_html.escape(tok)}</button>')
+        else:
+            bits.append(_html.escape(tok))
+    data = _html.escape(json.dumps({"auto": LEXI_CTX_AUTO, "words": LEXI_CTX_WORDS}, ensure_ascii=False), quote=False)
+    return (
+        f'<div class="dm-ctx" hidden>'
+        f'<script type="application/json" data-ctx-data>{data}</script>'
+        f'<div class="dm-ctx-card">'
+        f'<p class="dm-ctx-label" data-ctx-label></p>'
+        f'<p class="dm-ctx-s">{"".join(bits)}</p>'
+        f'<p class="dm-ctx-note">In this demo, only <i>clip</i> and <i>pretty</i> can be opened. '
+        f'<i>clip</i> uses the meaning already shown on this page; <i>pretty</i> uses the LexiAI demo sample for “pretty rapid,” not a recorded tap on this sentence.</p>'
+        f'<p class="dm-ctx-k">Here, <i data-ctx-word></i> means</p>'
+        f'<p class="dm-ctx-def" data-ctx-meaning></p>'
+        f'<div class="dm-ctx-pair"><div><p class="dm-ctx-h">Not the usual meaning</p><p data-ctx-usual></p></div>'
+        f'<div><p class="dm-ctx-h">But in this sentence</p><p data-ctx-here></p></div></div>'
+        f'</div></div>'
+    )
+
+
 def demo_html(slug, name, steps, alts, root):
     """The guided demo (R64). Frame 0 shows without JS; demo.js fits the frames, moves the cursor and runs the steps."""
     frames, chips, caps, sounds = "", "", "", DEMO_AUDIO.get(slug, {})
+    has_ctx = False
     for i, (label, cap, key, (w, h), (x, y, bw, bh), press, *typing) in enumerate(steps):
-        src = f"{root}assets/{slug}/{key}"
-        data = f' data-type="{typing[0].replace(chr(34), "&quot;")}" data-btn="{typing[1]}"' if typing else ""
-        data += f' data-audio="{key}"' if key in sounds else ""
-        frames += (f'<div class="dm-frame{" on" if i == 0 else ""}"{" data-press" if press else ""}{data}>'
-                   f'<div class="dm-pic" data-w="{w}" data-h="{h}"><picture><source srcset="{src}.webp" type="image/webp">'
-                   f'<img src="{src}.png" alt="{alts.get(key, label)}" width="{w}" height="{h}" loading="lazy" decoding="async"></picture>'
-                   f'<button class="dm-hit" type="button" tabindex="-1" aria-label="Next step" style="left:{x / w * 100:.2f}%;top:{y / h * 100:.2f}%;'
-                   f'width:{bw / w * 100:.2f}%;height:{bh / h * 100:.2f}%"></button></div></div>')
+        ctx_word = key.split(":", 1)[1] if key.startswith("lexiai-ctx:") else ""
+        if ctx_word:
+            has_ctx = True
+            data = f' data-ctx="{ctx_word}"'
+            if typing:
+                data += f' data-type="{typing[0].replace(chr(34), "&quot;")}" data-btn="{typing[1]}"'
+            frames += f'<div class="dm-frame{" on" if i == 0 else ""}"{" data-press" if press else ""}{data}></div>'
+        else:
+            src = f"{root}assets/{slug}/{key}"
+            data = f' data-type="{typing[0].replace(chr(34), "&quot;")}" data-btn="{typing[1]}"' if typing else ""
+            data += f' data-audio="{key}"' if key in sounds else ""
+            frames += (f'<div class="dm-frame{" on" if i == 0 else ""}"{" data-press" if press else ""}{data}>'
+                       f'<div class="dm-pic" data-w="{w}" data-h="{h}"><picture><source srcset="{src}.webp" type="image/webp">'
+                       f'<img src="{src}.png" alt="{alts.get(key, label)}" width="{w}" height="{h}" loading="lazy" decoding="async"></picture>'
+                       f'<button class="dm-hit" type="button" tabindex="-1" aria-label="Next step" style="left:{x / w * 100:.2f}%;top:{y / h * 100:.2f}%;'
+                       f'width:{bw / w * 100:.2f}%;height:{bh / h * 100:.2f}%"></button></div></div>')
         chips += f'<li><button class="dm-step" type="button"{" aria-current=step" if i == 0 else ""}>{i + 1} · {label}</button></li>'
         caps += f'<p aria-hidden="true">{cap}</p>'
     # R65: one <audio> per clip, preload=none until the visitor turns sound on; the hint sits on the stage, so nothing moves
@@ -1012,7 +1326,7 @@ def demo_html(slug, name, steps, alts, root):
     return f"""
   <section class="dm" data-demo aria-label="Guided demo of {name}">
     <h2>See it run</h2><p>A guided run through the real screens. Pause it, replay it, or tap any step to look around.{" It starts muted; tap Sound on to hear the clips." if sounds else ""}</p>
-    <div class="dm-stage">{frames}<div class="dm-type" aria-hidden="true"><span class="dm-typed"></span><span class="dm-send"></span></div><span class="dm-cursor" aria-hidden="true"></span>{hint}</div>{audio}
+    <div class="dm-stage">{frames}{lexiai_ctx_markup() if has_ctx else ""}<div class="dm-type" aria-hidden="true"><span class="dm-typed"></span><span class="dm-send"></span></div><span class="dm-cursor" aria-hidden="true"></span>{hint}</div>{audio}
     <div class="dm-caps">{caps}<p class="dm-cap" aria-live="polite">{steps[0][1]}</p></div>
     <div class="dm-bar"><ol class="dm-steps">{chips}</ol><div class="dm-ctrl" hidden>{sound}<button type="button" data-act="play">Play demo</button><button type="button" data-act="replay">Replay</button></div></div>
   </section>"""
@@ -1044,7 +1358,7 @@ def redirect_page(new):
 """
 
 
-def callout_page(slug, name, summary, highlights, built, base, url="", coda="", css="", lead="", js=False):
+def callout_page(slug, name, summary, highlights, built, base, url="", coda="", css="", lead="", js=False, doc_title=None):
     """One plate: title + summary, highlights (heading, sentence, crops with one numbered callout each), built-with line.
     base = the widest crop in PNG px; narrower crops are drawn at the same scale so text sizes match down the page.
     url = the live app for "Try it live"; empty keeps the placeholder link, None leaves the button out.
@@ -1078,13 +1392,14 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
             alts[key] = alt
         items += f'\n  <section class="lx-h"><h2>{h}</h2><p>{line}</p><figure class="lx-shot">{pics}</figure></section>'
     live = f'<a class="try-live" href="{url}" target="_blank" rel="noopener">Try it live →</a>' if url else '' if url is None else '<a class="try-live" href="#">Try it live →</a>'
-    return f"""{head(f"{name} — Janet Mao", summary, root).replace("</head>", LEXI_CSS + css + "\n</head>")}
+    doc = doc_title or f"{name} — Janet Mao"
+    return f"""{head(doc, summary, root).replace("</head>", LEXI_CSS + css + "\n</head>")}
 <body class="project" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'work')}
 <main>
 <article class="plate lx">
-  <header class="lx-top"><h1>{name}</h1><p>{summary}</p></header>{f'{chr(10)}  {lead}' if lead else ""}{items}{f'{chr(10)}  {coda}' if coda.startswith("<") else f'{chr(10)}  <p class="lx-coda">{coda}</p>' if coda else ""}{demo_html(slug, name, DEMOS[slug], alts, root) if slug in DEMOS else video_demo_html(slug, name, root) if slug in DEMO_VIDEO else ""}
+  <header class="lx-top"><h1>{name}</h1><p>{summary}</p></header>{video_demo_html(slug, name, root) if slug in DEMO_VIDEO and len(DEMO_VIDEO[slug]) > 5 else ""}{f'{chr(10)}  {lead}' if lead else ""}{items}{f'{chr(10)}  {coda}' if coda.startswith("<") else f'{chr(10)}  <p class="lx-coda">{coda}</p>' if coda else ""}{("" if slug in DEMO_VIDEO else demo_html(slug, name, DEMOS[slug], alts, root)) if slug in DEMOS else video_demo_html(slug, name, root) if slug in DEMO_VIDEO and len(DEMO_VIDEO[slug]) <= 5 else ""}  
   <footer class="lx-foot"><p>{built}</p>{live}</footer>
 </article>
 {next_card(slug, root)}
@@ -1099,13 +1414,9 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
 #   ai-long-context-ep4/审片/机检.md (machine check of the final cut, v7) and 审片/审片-2026-10-31.md (review of v5).
 AT_SUMMARY = "Short films that explain one AI word in plain language, made by a loop of agents that check each other."
 P["ai-terms"] = dict(name="AI Term Explainer", what=AT_SUMMARY)
-# (episode, term, one line from the episode's through-line, length of the finished English video in ~/AI-Terms/成片)
-EPISODES = [
-    ("Ep 1", "Embedding", "A sentence becomes a point on a map of meaning.", "10:30"),
-    ("Ep 2", "Vector database", "The warehouse that stores those points and finds the nearest ones.", "11:20"),
-    ("Ep 3", "RAG", "An open-book exam: look it up first, then answer.", "16:05"),
-    ("Ep 4", "Long context vs RAG", "When to skip retrieval and paste the whole thing in.", "Chinese only so far"),
-]
+# View of the canonical AITERM_FILMS list, for the method-page episode coda.
+# Add new public episodes only to AITERM_FILMS + AITERM_YT + AITERM_DATE, and only once a YouTube URL is verified and approved.
+EPISODES = [(f"Ep {n}", term, line, length, s) for s, n, term, line, _what, length in AITERM_FILMS]
 
 # ---- Revision 34: the 10-step explainer framework, before the loop (what each film says, then how it's made).
 # Translated from ~/.claude/skills/ai-term-explainer/SKILL.md ("10 步框架") and references/framework.md.
@@ -1154,11 +1465,10 @@ def framework_tree(uid="fw"):
             cls = f'tr-n tr-{"l" if k % 2 == 0 else "r"}{" tr-follow" if j else ""}'
             items.append(f'<li class="{cls}" style="--k:{k}"><span class="tr-dot" aria-hidden="true"></span><span class="tr-arm" aria-hidden="true"></span>'
                          f'<div class="tr-c">{svg}<div class="tr-t"><h3 class="tr-h"><span class="tr-num">{n}</span>{name}</h3>'
-                         f'<p class="tr-q">{q}</p><p class="fw-ex"><span class="sr">In Ep 3: </span>{ex}</p></div></div></li>')
+                         f'<p class="tr-q">{q}</p></div></div></li>')
             k += 1
     head_, line, ex = FW_CLOSE
-    items.append(f'<li class="tr-end fw-end"><p><b>{head_}</b><span>{line}</span>'
-                 f'<span class="fw-ex"><span class="sr">In Ep 3: </span>{ex}</span></p></li>')
+    items.append(f'<li class="tr-end fw-end"><p><b>{head_}</b><span>{line}</span></p></li>')
     return (f'<div class="tr fw" data-tree><svg width="0" height="0" aria-hidden="true" style="position:absolute"><filter id="{uid}-rf" x="-5%" y="-5%" width="110%" height="110%">'
             f'<feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="1"/></filter></svg>'
             f'<ol class="tr-list">{"".join(items)}</ol></div>')
@@ -1167,7 +1477,7 @@ def framework_tree(uid="fw"):
 def framework_section():
     return ('<section class="lx-h" id="framework"><h2>What each film says</h2>'
             '<p>Every episode answers the same 10 questions in the same order: where it’s used before what it is, the tech before the money, '
-            'and the risks last. In grey, how Ep 3, RAG, answered each one.</p>'
+            'and the risks last.</p>'
             f'{framework_tree()}</section>')
 
 
@@ -1176,7 +1486,10 @@ def framework_section():
 LP_MAKE = [  # (name, icon, three short lines for the wide card; the tall card joins them into two)
     ("Script", f'<path d="M10 5h14l6 6v24H10z" fill="#fff"/><path d="M24 5v6h6M15 16h10M15 21h10M15 26h6" fill="none"/>'
                f'<path d="M15 31h10" fill="none" stroke="{_G}" stroke-width="2.2"/>',
-     ["10-step framework,", "every number sourced.", "Janet approves it."]),
+     # Skill 2026-11-11: after writing/revising SCRIPT.md, a non-writing agent plays a
+     # non-technical reader, then the script goes to Janet. Fourth line so the wording
+     # fits; all five Make cards share the same taller height.
+     ["10-step framework,", "every number sourced.", "A non-tech agent", "checks it."]),
     ("Board", f'<rect x="5" y="6" width="30" height="20" rx="2" fill="#fff"/><path d="M12 26l-4 9M28 26l4 9" fill="none"/>'
               f'<path d="M10 19c3-5 6 3 9-2s6 2 10-4" fill="none" stroke="{_G}" stroke-width="2"/>',
      ["5 hand-drawn boards;", "never the same one", "twice in a row."]),
@@ -1234,17 +1547,20 @@ def _lp_defs():
 
 def _lp_wide():
     import math
+    # 96 + one 14px line so Script's fourth line fits; all five Make cards match.
+    # Check loop and Janet shift down by the same 14px; viewBox grows to keep the bottom margin.
+    card_h = 110
     s = [_lp_defs(), '<text class="lp-k" x="0" y="14">Make</text>']
     for i, (name, ic, lines) in enumerate(LP_MAKE):
         x, y = i * 155, 26
-        s.append(f'<g class="lp-o" style="--k:{i}"><rect class="lp-card" x="{x}" y="{y}" width="140" height="96" rx="8"/>'
+        s.append(f'<g class="lp-o" style="--k:{i}"><rect class="lp-card" x="{x}" y="{y}" width="140" height="{card_h}" rx="8"/>'
                  f'<text class="lp-pn" x="{x + 44}" y="{y + 29}"><tspan class="lp-num">{i + 1}</tspan> {name}</text>'
                  f'{_lp_text(x + 12, y + 56, lines, "lp-s")}</g>{_lp_icon(x + 12, y + 12, ic, i)}')
         if i < 4:
-            s.append(_ln(f"M{x + 142} {y + 48}h11", i))
-    s.append(_ln("M690 122v28H380v17", 5))
-    s.append('<text class="lp-k lp-o" style="--k:5" x="390" y="162">Check</text>')
-    cx, cy, rx, ry = 380, 290, 150, 100
+            s.append(_ln(f"M{x + 142} {y + card_h // 2}h11", i))
+    s.append(_ln("M690 136v28H380v17", 5))
+    s.append('<text class="lp-k lp-o" style="--k:5" x="390" y="176">Check</text>')
+    cx, cy, rx, ry = 380, 304, 150, 100
     pt = lambda deg: (cx + rx * math.cos(math.radians(deg)), cy + ry * math.sin(math.radians(deg)))
     centers = [(cx, cy - ry), (cx + rx, cy), (cx, cy + ry), (cx - rx, cy)]
     arcs = [(-52, -15), (15, 52), (128, 165), (195, 232)]
@@ -1252,16 +1568,16 @@ def _lp_wide():
         s.append(_lp_pill(px, py, 170, 42, name, sub, 6 + 2 * j, key=j == 1))
         (x1, y1), (x2, y2) = pt(arcs[j][0]), pt(arcs[j][1])
         s.append(_ln(f"M{x1:.1f} {y1:.1f}A{rx} {ry} 0 0 1 {x2:.1f} {y2:.1f}", 7 + 2 * j))
-    s.append('<g class="lp-o" style="--k:13"><text class="lp-c" x="380" y="282" text-anchor="middle">up to 3 rounds</text>'
-             + _lp_text(380, 298, ["new reviewer if", "&gt;3 shots changed"], "lp-s", "middle", 13) + "</g>")
-    s.append(f'<g class="lp-o" style="--k:8">{_lp_text(626, 277, LP_NOTE, "lp-note", dy=14)}</g>')
-    s.append(_ln("M144 290h-29", 14))
-    s.append('<g class="lp-o" style="--k:14"><rect class="lp-card lp-j" x="0" y="268" width="112" height="44" rx="8"/>'
-             '<text class="lp-pn" x="56" y="286" text-anchor="middle">Janet watches</text>'
-             '<text class="lp-ps" x="56" y="300" text-anchor="middle">leftovers listed</text></g>')
-    s.append('<path class="lp-learn lp-o" style="--k:15" d="M40 266V126" marker-end="url(#ID-ahg)"/>')
-    s.append(f'<g class="lp-o" style="--k:15">{_lp_text(50, 190, LP_LEARN, "lp-note")}</g>')
-    return f'<svg class="lp-svg lp-w" viewBox="0 0 760 420" aria-hidden="true">{"".join(s).replace("ID-", "lpw-")}</svg>'
+    s.append('<g class="lp-o" style="--k:13"><text class="lp-c" x="380" y="296" text-anchor="middle">up to 3 rounds</text>'
+             + _lp_text(380, 312, ["new reviewer if", "&gt;3 shots changed"], "lp-s", "middle", 13) + "</g>")
+    s.append(f'<g class="lp-o" style="--k:8">{_lp_text(626, 291, LP_NOTE, "lp-note", dy=14)}</g>')
+    s.append(_ln("M144 304h-29", 14))
+    s.append('<g class="lp-o" style="--k:14"><rect class="lp-card lp-j" x="0" y="282" width="112" height="44" rx="8"/>'
+             '<text class="lp-pn" x="56" y="300" text-anchor="middle">Janet watches</text>'
+             '<text class="lp-ps" x="56" y="314" text-anchor="middle">leftovers listed</text></g>')
+    s.append('<path class="lp-learn lp-o" style="--k:15" d="M40 280V140" marker-end="url(#ID-ahg)"/>')
+    s.append(f'<g class="lp-o" style="--k:15">{_lp_text(50, 204, LP_LEARN, "lp-note")}</g>')
+    return f'<svg class="lp-svg lp-w" viewBox="0 0 760 434" aria-hidden="true">{"".join(s).replace("ID-", "lpw-")}</svg>'
 
 
 def _lp_list():
@@ -1314,32 +1630,14 @@ AT_REVIEW = (
     '<p class="rv-row"><b>0:24–0:30</b> Chunk → coordinates → vector database · drawn as three boxes with text. Fails; draw instead: scissors cutting paper, '
     'a coordinate pin, a cabinet with drawers</p></div>')
 
+# Episode-specific review cards (AT_MACHINE, AT_REVIEW) and the Ep 3/Ep 4 before–after and final-frame
+# case studies stay in the source above, but are not shown on the overview: that page describes the shared
+# method, not how one episode was made. One contact sheet remains, as an illustration of the shared review step.
 AT_HIGHLIGHTS = [
     ("What the reviewer sees",
      "Every cut is sampled into contact sheets, one frame every 2 seconds. The reviewer reads only these, the subtitle timeline and the real data.",
-     [("at-sheet", "Contact sheet from the English Ep 3, RAG: six frames of the opening, 0:00 to 0:14, each stamped with its timecode in the top-left corner", (1464, 558),
+     [("at-sheet", "Contact sheet of six film frames, each stamped with its timecode in the top-left corner", (1464, 558),
        (492, 282, 480, 270), "One frame every 2 seconds, timecoded")]),
-    ("Machine check first",
-     "film_check.py flags long still shots, blank frames, banned blue and camera push-ins. On Ep 4 the first re-check after fixes found one red, "
-     "8.8 seconds without change at 2:34. A pink underline fixed it, and the next check came back like this.",
-     [("card", AT_MACHINE, "Re-check after fixes: no red lights")]),
-    ("A reviewer who never saw the making",
-     "A fresh agent checks text and cropping, screens against handwritten numbers, every number’s source, picture against voice, brand rules, pacing, "
-     "and whether a non-technical viewer could restate the term. It scores the cut and ranks three fixes. The review below found the logic "
-     "error at 2:33 and the math error at 5:21; both were fixed.",
-     [("card", AT_REVIEW, "A score, and three fixes ranked first")]),
-    ("Fixed, then checked again",
-     "The reviewer flagged 0:24–0:30 of Ep 4, where chunk, coordinates and vector database were three words in boxes. Now they are drawn: scissors cut a page, "
-     "points land on a plot, a database stores them. After the re-render, a frame is pulled at that timecode to confirm. "
-     "Ep 4 is in Chinese for now, so the labels in these two frames are translated.",
-     [("at-before", "Before: three hand-drawn boxes with arrows, labeled chunk, coordinates and vector DB, then a pink question mark", (920, 210),
-       (30, 28, 760, 106), "Before: three words in boxes", 90),
-      ("at-after", "After: the same three steps drawn as scissors cutting a page, dots on a plot and a database cylinder, labeled chunk, coordinates and vector DB underneath", (920, 210),
-       (30, 16, 690, 186), "After: scissors, points, a database", 90)]),
-    ("The finished film",
-     "Ep 3, RAG, ends on the one line to keep and where to read next. Janet watches every cut before it ships, and what worked goes back into the skill.",
-     [("at-final", "Last frame of the English RAG episode: RAG = retrieve, then generate. An open-book exam for the AI, with a reading list from IBM, Pinecone and Anthropic", (1920, 1080),
-       (14, 420, 856, 220), "The one line to remember")]),
 ]
 AT_BUILT = "Built with Claude Code (a custom skill and fresh reviewer agents), HyperFrames and GSAP, Kokoro and Qwen3-TTS voices · Designed and built by me"
 AT_CSS = """
@@ -1441,12 +1739,16 @@ AT_CSS = """
 
 
 def ai_terms_page():
-    eps = "".join(f'<li><span class="ep-n">{n}</span><span class="ep-t"><b>{t}</b><span>{d}</span></span><span class="ep-l">{l}</span></li>'
-                  for n, t, d, l in EPISODES)
+    eps = "".join(
+        f'<li><span class="ep-n">{n}</span><span class="ep-t"><b><a href="research-aiterm.html#ep-{s}">{t}</a></b><span>{d}</span></span>'
+        f'<span class="ep-l">{l} · <a href="{AITERM_YT[s]}" target="_blank" rel="noopener">Watch on YouTube ↗</a></span></li>'
+        for n, t, d, l, s in EPISODES)
     coda = (f'<div class="lx-coda"><h3>Episodes</h3><ol class="eps">{eps}</ol>'
-            f'<p class="see"><a href="../index.html#research-ai-terms">See the finished films →</a></p></div>')  # R38
+            f'<p class="see">The English films are on <a href="{YT_CHANNEL}" target="_blank" rel="noopener">YouTube @JanetMao</a>. '
+            f'<a href="research-aiterm.html">See all episodes →</a></p></div>')
     return callout_page("ai-terms", "AI Term Explainer", AT_SUMMARY, AT_HIGHLIGHTS, AT_BUILT, base=1464, url=None,
                         coda=coda, css=AT_CSS, js=True,
+                        doc_title="How the films are made — AI Term Explainer — Janet Mao",
                         lead=framework_section() + '\n  <section class="lx-h" id="loop"><h2>How each film is made</h2>'
                              '<p>Five steps to make it, then a check loop before I watch it.</p>' + loop_diagram() + '</section>')
 
@@ -1670,7 +1972,7 @@ def hero_story():
 # (code, slug, one line). Since R32 the home page has no cards: the lines are the map nodes' descriptions and the
 # codes feed the next-project links. Codes are project initials + the year it started (all 2026). Lines are taken from each page's own text.
 CATALOG = [
-    ("LX-26", "lexiai", "An advanced learner's dictionary and vocabulary notebook."),
+    ("LX-26", "lexiai", "An advanced learner's dictionary for understanding and using words in context."),
     ("LS-26", "lexispeak", "Conversation practice that grades my recorded voice."),
     ("WS-26", "writing-station", "A daily English journal, reviewed one sentence at a time."),
     ("PD-26", "podcast-dig", "Exact quotes from long podcasts, searchable in my Obsidian vault."),
@@ -1842,7 +2144,8 @@ def map_section():
     rest = "Hover or tab to a project to see how it connects. Click to open it."
     return f'''<section class="plate fits hl-sec" id="work">
   {ph("01", "Things I've built", f"{len(MAP_NODES)} projects", icon="built")}
-  {blurb("fit-in", "None of these stands alone. The English tools share one word notebook, and one pool of podcast transcripts feeds both my English practice and my startup research.")}
+  {blurb("fit-in", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.", highlight=False)}
+  <p class="dl-loop-row"><button type="button" class="dl-btn dl-ghost" id="dl-loop">Follow one word through the loop</button></p>
   {_map_desktop(lines)}
   {_map_mobile(lines)}
   <p class="fit-note" id="fit-note" aria-live="polite" data-rest="{rest}">{rest}</p>
@@ -1861,14 +2164,16 @@ def index_page():
 <main>
 <section class="plate hero" id="about">
   <div class="hero-t">
-    <h1>Hi! I'm <mark>Janet</mark></h1>
+    <h1 class="dl-rise"><span>Hi!</span> <span>I'm</span> <span><mark>Janet</mark></span></h1>
+    <p class="hero-id">I build tools for <span class="dl-nw"><span class="dl-rot" aria-hidden="true"><span class="dl-rot-w">learning English with AI</span></span><span class="dl-sr">learning English with AI</span>,</span> and I dive deep into startups.</p>
     <p>I like cool, fancy things.</p>
     <p>But I'd rather make something I use every day.</p>
     <p>As a former VC and startup core member, I'm always diving into startups.</p>
-    <p>I build these projects for lifelong learning.</p>
+    <p>I build these projects for <span class="dl-w" tabindex="0">lifelong<span class="dl-def" role="tooltip"><b>lifelong</b><i>adjective</i>lasting or continuing through the whole of your life</span></span> learning.</p>
     <p>None of them stands alone.</p>
-    <p>They connect as one system, woven into how I learn.</p>
-    <p class="links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
+    <p>They connect as one system, <span class="dl-w" tabindex="0">woven<span class="dl-def" role="tooltip"><b>woven</b><i>past participle of weave</i>closely joined into something, like threads in cloth</span></span> into how I learn.</p>
+    <p class="dl-cta"><a class="dl-btn" href="#work">See what I built <span aria-hidden="true">↓</span></a></p>
+        <p class="links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
   <div class="hero-v"><div class="fx">
     <div class="forest" aria-hidden="true">{hero_story()}</div>
@@ -1878,7 +2183,7 @@ def index_page():
 {map_section()}
 {research_section()}
 </main>
-{foot("")}""".replace("</head>", HL_JS + "\n</head>").replace("</body>", '<script src="assets/hero.js"></script>\n<script src="assets/eyes.js"></script>\n<script src="assets/pollen.js"></script>\n<script src="assets/map.js"></script>\n</body>')
+{foot("")}""".replace("</head>", HL_JS + "\n</head>").replace("</body>", '<script src="assets/hero.js"></script>\n<script src="assets/eyes.js"></script>\n<script src="assets/pollen.js"></script>\n<script src="assets/map.js"></script>\n<script src="assets/entrance.js"></script>\n<script src="assets/delight.js"></script>\n<script src="assets/touches.js"></script>\n</body>')
 
 
 if __name__ == "__main__":
@@ -1887,8 +2192,10 @@ if __name__ == "__main__":
     for s in ORDER:
         page ={"startup-research": startup_page, "ai-terms": ai_terms_page, "lexiai": lexiai_page, "lexispeak": lexispeak_page, "writing-station": writing_station_page, "podcast-dig": podcast_dig_page}.get(s)
         (OUT / "projects" / f"{s}.html").write_text(page() if page else project_page(s))
-    extra = {"research": research_redirect, "research-granola": research_granola_page,
-             **{f"research-aiterm-{s}": (lambda s=s: research_aiterm_page(s)) for s, *_ in AITERM_FILMS}}
+    extra = {"research": research_redirect, "research-granola": research_granola_page, "research-clay": research_clay_page,
+             "research-startups": research_startups_collection_page,
+             "research-aiterm": research_aiterm_collection_page,
+             **{f"research-aiterm-{s}": (lambda s=s: research_aiterm_episode_redirect(s)) for s, *_ in AITERM_FILMS}}
     for s, page in extra.items():
         (OUT / "projects" / f"{s}.html").write_text(page())
     for old, new in REDIRECTS.items():
