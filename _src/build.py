@@ -750,6 +750,10 @@ AITERM_FILMS = [
     # YouTube had no description; the line below is the existing Ep 4 through-line already used on ai-terms.html.
     ("long-context", 4, "Long context vs RAG", "When to skip retrieval and paste the whole thing in.",
      "When to skip retrieval and paste the whole thing in.", "13:18"),
+    ("tool-use", 5, "Tool use", "The model writes a note; the harness runs the tool and hands back the receipt.",
+     "The model writes a note; the harness runs the tool and hands back the receipt.", "17:43"),
+    ("mcp", 6, "MCP", "One universal plug: write a tool once, and every AI can use it.",
+     "One universal plug: write a tool once, and every AI can use it.", "5:36"),
 ]
 # Public episodes on https://www.youtube.com/@JanetMao (watch-page upload dates, America/Los_Angeles).
 # Ep 4 watch id updated 2026-11-11: dfvh6xTM6Tc and prior 0gTCd6YHGZs were removed by the uploader; current public film is LvJfLiYkWLo (13:18, title “04 Long Context vs RAG”).
@@ -761,12 +765,16 @@ AITERM_YT = {
     "vector-database": "https://www.youtube.com/watch?v=xqH57sW9Qpg",
     "rag": "https://www.youtube.com/watch?v=yyeAfoS6sKw",
     "long-context": "https://www.youtube.com/watch?v=LvJfLiYkWLo",  # re-upload; dfvh6xTM6Tc and 0gTCd6YHGZs were removed by the uploader
+    "tool-use": "https://www.youtube.com/watch?v=av1_Vw-MRwg",
+    "mcp": "https://www.youtube.com/watch?v=1bqJFH19aC4",
 }
 AITERM_DATE = {  # month of the public YouTube upload, America/Los_Angeles
     "embedding": "Oct 2026",
     "vector-database": "Nov 2026",
     "rag": "Nov 2026",
     "long-context": "Nov 2026",
+    "tool-use": "Nov 2026",
+    "mcp": "Nov 2026",
 }
 AITERM_SLIDES = json.loads((OUT / "_src" / "aiterm_slides.json").read_text())
 
@@ -796,6 +804,8 @@ def research_section():
   <div class="rs-g" id="research-ai-terms">
     <div class="rs-h"><h3>AI Term Explainer <span>{len(AITERM_FILMS)}</span></h3><p>One AI word per film, in plain language. Watch on <a href="{YT_CHANNEL}" target="_blank" rel="noopener">YouTube</a>. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
     <ul class="dl-films">
+      <li><a href="projects/research-aiterm.html#ep-mcp"><span class="dl-still"><img src="assets/ai-terms/films/mcp/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 6 · 5:36</span></span><span class="dl-ft">MCP</span><span class="dl-fm">One plug for every AI.</span></a></li>
+      <li><a href="projects/research-aiterm.html#ep-tool-use"><span class="dl-still"><img src="assets/ai-terms/films/tool-use/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 5 · 17:43</span></span><span class="dl-ft">Tool use</span><span class="dl-fm">How AI goes from talking to doing.</span></a></li>
       <li><a href="projects/research-aiterm.html#ep-long-context"><span class="dl-still"><img src="assets/ai-terms/films/long-context/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 4 · 13:18</span></span><span class="dl-ft">Long context vs RAG</span><span class="dl-fm">When to skip retrieval and paste the whole thing in.</span></a></li>
       <li><a href="projects/research-aiterm.html#ep-rag"><span class="dl-still"><img src="assets/ai-terms/films/rag/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 3 · 16:06</span></span><span class="dl-ft">RAG</span><span class="dl-fm">An open-book exam for the AI.</span></a></li>
       <li><a href="projects/research-aiterm.html#ep-vector-database"><span class="dl-still"><img src="assets/ai-terms/films/vector-database/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 2 · 11:21</span></span><span class="dl-ft">Vector database</span><span class="dl-fm">A warehouse that finds the closest points fast.</span></a></li>
