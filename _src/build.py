@@ -2273,7 +2273,7 @@ def about_page():
   </div>
 </section>"""
     return page5("about", "About", "Janet Mao is an AI builder in San Francisco and a former VC. She builds tools for learning English with AI, and dives deep into startups.",
-                 "About me", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "190 252 450 428")
+                 "About me", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "160 168 440 440")
 
 
 if __name__ == "__main__":

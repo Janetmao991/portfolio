@@ -7,11 +7,13 @@
 - Drawing: Janet at her desk, seen from behind — headphones, laptop looking up a word, her six projects pinned on a board with string, the Golden Gate out of the window, the Clay / Granola teardowns on the desk.
 
 ## The system
-- One saturated colour + near-white (#f7f7f5). Trials: green #1e5e3b (default), vermilion #c63d1e, ink blue #1f4387 — `?c=red` / `?c=blue` to preview.
+- One saturated colour + near-white (#f7f7f5). Golden Gate red #c0362c by default; any other colour can be previewed with `?hex=rrggbb`, a pale wash behind the drawing with `?bg=wash`.
 - One serif family: Fraunces (soft). Five sizes: small 15, body 17–19, lead 20–27, head 32–54, display 52–128.
 - Home is a field of the colour with the drawing in near-white; inner pages are near-white with the drawing in the colour; every page closes on a field of the colour (contact).
 - The drawing lives in `_src/desk.svg`; inner pages show a crop of it (board → work, books → research, Janet → about).
 - Motion (Emil Kowalski's rules): one entrance per visit (h1 → sub → menu, shrinking gaps), the menu points at the drawing (rest dims, one small move), slow ambient steam/fog/leaves, laptop types real words from LexiAI. Transform + opacity only; reduced motion keeps everything visible.
 
 ## Janet's corrections (learn-taste)
-_(none yet — added as she reviews)_
+- 2026-11-18 Colour brighter than the first deep green; then: no big field of colour — near-white ground, colour only in type and the drawing's lines. Chosen: Golden Gate red #c0362c on white (the bridge in her window; she lives in SF).
+- 2026-11-18 More creative homepage motion, like zarazhang.com (lamp lights the menu) and gregskril.com (one line draws itself, eyes follow the cursor) → intro types the greeting and pen-draws the room; menu items tie a thread to their thing in the drawing; her eyes follow the pointer and blink.
+- 2026-11-18 A cute cartoon of herself from her photo: front-facing, turned round in her chair, arms folded on its back; loose bun with flyaway hairs, straight brows, almond eyes, closed smile, small dark studs, white stand-collar zip jacket. Same single-colour line style as the room.

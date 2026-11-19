@@ -2,9 +2,9 @@
    Sits on top of style.css: the tokens below re-point the old rules, the rest restyles what they can't reach.
    Three colour trials: html[data-palette="red" | "blue"]; green is the default. */
 :root {
-  --c: #1e5e3b;          /* the one colour */
-  --c-deep: #13241a;     /* running text: the colour, nearly black */
-  --c-wash: #e4ebe4;     /* the colour at 12%, for a quiet field */
+  --c: #c0362c;          /* the one colour: Golden Gate red (Janet, R72d) */
+  --c-deep: #2a1916;     /* running text: the colour, nearly black */
+  --c-wash: #f5e3e0;     /* the colour at 12%, for a quiet field */
   --paper: #f7f7f5;      /* near-white */
   --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
   --ease-out: cubic-bezier(.23, 1, .32, 1);
@@ -175,7 +175,7 @@ html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; 
   .h5[data-on="work"] .desk .threads path { stroke-dasharray: 1; animation: r5-draw 560ms var(--ease-out) both; }
   @keyframes r5-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   .h5[data-on="research"] .desk .o-research { transform: translateY(-5px); }
-  .desk .o-about .head { transition: transform 420ms var(--ease-out); transform-box: view-box; transform-origin: 300px 404px; transform: rotate(calc(var(--look, 0deg) + var(--tilt, 0deg))); }
+  .desk .o-about .head { transition: transform 420ms var(--ease-out); transform-box: fill-box; transform-origin: 50% 100%; transform: rotate(calc(var(--look, 0deg) + var(--tilt, 0deg))); }
   .h5[data-on="about"] .desk { --tilt: -5deg; }
   .h5[data-on="contact"] .desk .o-contact { transform: translateY(-9px) rotate(-2deg); transform-origin: 628px 420px; }
 }
@@ -267,4 +267,12 @@ html.intro .h5-links { animation-delay: 1.15s; }
 .h5-str.on circle { transition: transform 260ms var(--ease-out) 380ms; transform: scale(1); }
 @media (prefers-reduced-motion: reduce) {
   .h5-str path { stroke-dashoffset: 0; } .h5-str.on path { animation: none; } .h5-str.on circle { transition: none; }
+}
+
+/* R72d her eyes follow the pointer and blink; the flyaway hairs sway */
+.desk .pupils { transform: translate(var(--ex, 0), var(--ey, 0)); transition: transform 180ms var(--ease-out); }
+.desk .eyes { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 70ms ease-in; }
+.desk .eyes.blink { transform: scaleY(.12); }
+@media (prefers-reduced-motion: no-preference) {
+  .desk .fly { transform-box: fill-box; transform-origin: 50% 100%; animation: r5-sway 4.5s ease-in-out infinite alternate; }
 }

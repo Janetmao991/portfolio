@@ -53,7 +53,7 @@
     Object.entries(ORDER).forEach(([cls, t0]) => {
       art.querySelectorAll(`g[filter] .${cls} :is(path, rect, ellipse, circle)`).forEach((el, i) => {
         if (el.closest('.st')) return;
-        el.setAttribute('pathLength', '1');
+        if (!el.hasAttribute('pathLength')) { el.setAttribute('pathLength', '1'); el.dataset.pl = ''; }
         el.classList.add('dw');
         el.style.setProperty('--d', `${t0 + Math.min(i, 8) * 28}ms`);
       });
@@ -61,7 +61,10 @@
     const done = () => {
       html.classList.remove('intro');
       h1.textContent = text; h1.removeAttribute('aria-label');
-      art.querySelectorAll('.dw').forEach(el => el.classList.remove('dw'));
+      art.querySelectorAll('.dw').forEach(el => {
+        el.classList.remove('dw'); el.style.removeProperty('--d');
+        if ('pl' in el.dataset) { el.removeAttribute('pathLength'); delete el.dataset.pl; }
+      });
     };
     const t = setTimeout(done, 2700);
     const skip = () => { clearTimeout(t); done(); };
@@ -71,7 +74,7 @@
 
   // R72c the menu ties a thread to the thing it names in the drawing (a nod to the project map)
   const str = document.querySelector('.h5-str');
-  const TO = { work: [56, 178], research: [58, 400], about: [236, 362], contact: [592, 404] };
+  const TO = { work: [30, 172], research: [58, 400], about: [250, 318], contact: [592, 404] };
   if (h5 && str && art) {
     const path = str.querySelector('path'), pin = str.querySelector('circle');
     let shown = null;
@@ -98,8 +101,9 @@
     addEventListener('resize', untie);
   }
 
-  // R72c she glances toward the pointer (mouse only, and only a few degrees)
+  // R72d she looks at the pointer (eyes follow, head leans a little) and blinks now and then
   const head = art && art.querySelector('.o-about .head');
+  const eyes = art && art.querySelector('.o-about .eyes');
   if (head && !reduce) {
     let raf = 0;
     addEventListener('pointermove', ev => {
@@ -107,10 +111,18 @@
       raf = requestAnimationFrame(() => {
         raf = 0;
         const hb = head.getBoundingClientRect();
-        const dx = (ev.clientX - (hb.left + hb.width / 2)) / (innerWidth / 2);
-        art.style.setProperty('--look', `${Math.max(-1, Math.min(1, dx)) * 6}deg`);
+        const dx = Math.max(-1, Math.min(1, (ev.clientX - (hb.left + hb.width / 2)) / (innerWidth / 2)));
+        const dy = Math.max(-1, Math.min(1, (ev.clientY - (hb.top + hb.height / 2)) / (innerHeight / 2)));
+        art.style.setProperty('--look', `${dx * 4}deg`);
+        art.style.setProperty('--ex', `${dx * 2.4}px`);
+        art.style.setProperty('--ey', `${dy * 1.8}px`);
       });
     }, { passive: true });
+    const blink = () => {
+      if (!document.hidden) { eyes.classList.add('blink'); setTimeout(() => eyes.classList.remove('blink'), 140); }
+      setTimeout(blink, 3200 + Math.random() * 3600);
+    };
+    setTimeout(blink, 2900);
   }
 
   // the laptop: type a word, show its line, wait, erase, next word
