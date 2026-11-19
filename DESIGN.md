@@ -13,6 +13,14 @@
 - The drawing lives in `_src/desk.svg`; inner pages show a crop of it (board → work, books → research, Janet → about).
 - Motion (Emil Kowalski's rules): one entrance per visit (h1 → sub → menu, shrinking gaps), the menu points at the drawing (rest dims, one small move), slow ambient steam/fog/leaves, laptop types real words from LexiAI. Transform + opacity only; reduced motion keeps everything visible.
 
+## Current homepage (R73, direction D — Janet: "这个感觉我喜欢")
+Few words: her name small, one line, four big menu words (Work · Research · About · Contact), X/GitHub/Email.
+Her KlingAI cartoon portrait is the picture, on a warm sun disc; the irises were painted out and are drawn live, so her
+eyes follow the pointer, look at the word you point at (which a highlighter sweeps), and blink now and then.
+Her head is the pointer on every page (assets/head-cursor.js). Rejected on the way: full colour field, red, the
+hand-drawn room, the KlingAI desk scene (too student-like), product screenshots on the home (odd), a giant name
+(too much), a dictionary-entry home (too plain, too many words).
+
 ## Janet's corrections (learn-taste)
 - 2026-11-18 Colour brighter than the first deep green; then: no big field of colour — near-white ground, colour only in type and the drawing's lines. Chosen: Golden Gate red #c0362c on white (the bridge in her window; she lives in SF).
 - 2026-11-18 More creative homepage motion, like zarazhang.com (lamp lights the menu) and gregskril.com (one line draws itself, eyes follow the cursor) → intro types the greeting and pen-draws the room; menu items tie a thread to their thing in the drawing; her eyes follow the pointer and blink.

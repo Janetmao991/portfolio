@@ -141,6 +141,7 @@ def foot(root, js=False, extra=""):
     if root:  # project and research pages: the entrance motion
         script += f'\n<script src="{root}assets/entrance.js"></script>'
         script += f'\n<script src="{root}assets/touches.js"></script>\n<script src="{root}assets/inner.js"></script>'  # R68
+    script += f'\n<script src="{root}assets/head-cursor.js" data-root="{root}"></script>'
     return f"""{contact()}
 <footer class="site"><span>Janet Mao · San Francisco · 2026</span><a href="{X}">X @BuiltByJanet</a></footer>
 </div>{script}
@@ -2226,24 +2227,59 @@ def page5(slug, title, desc, h1, lead, body, crop, scripts=""):
 
 
 def index_page():
-    menu = "".join(f'<li><a href="{h}" data-o="{o}" data-say="{say}"><span class="m5-l">{l}</span><span class="m5-d">{d}</span></a></li>' for h, o, l, d, say in HOME_MENU)
-    words = json.dumps(LAPTOP_WORDS, ensure_ascii=False)
-    return f"""{head("Janet Mao — AI builder", "Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.", "")}
-<body class="v5 home5" data-root="">
-<main class="h5">
-  <div class="h5-t">
-    <h1>Hi! I'm Janet</h1>
-    <p class="h5-sub">I build tools for learning English with AI, and I dive deep into startups.</p>
-    <nav class="h5-menu" aria-label="Sections"><ul>{menu}</ul></nav>
-    <p class="h5-links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
+    """R73 (direction D, chosen by Janet): few words, four big menu words, her cartoon portrait whose eyes follow
+    the pointer and look at the word you point at; her head is the pointer (assets/head-cursor.js)."""
+    title = "Janet Mao — AI builder"
+    desc = "Janet Mao is an AI builder in San Francisco and a former VC. She builds tools for learning English with AI, and takes startups apart."
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#f7f5f1">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..700,50&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+{OLD_HASH}
+</head>
+<body class="home6">
+<main class="d6">
+  <div class="t">
+    <h1 class="name">Janet Mao</h1>
+    <p class="tag">AI builder · former VC · San Francisco</p>
+    <nav aria-label="Sections"><ul>
+      <li><a href="work.html"><span>Work</span></a></li>
+      <li><a href="research.html"><span>Research</span></a></li>
+      <li><a href="about.html"><span>About</span></a></li>
+      <li><a href="about.html#contact"><span>Contact</span></a></li>
+    </ul></nav>
+    <p class="links"><a href="{X}">X</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
-  <figure class="h5-art">{desk()}</figure>
+  <figure class="me">
+    <svg id="face" viewBox="0 0 720 841" role="img" aria-label="Janet, drawn as a cartoon, smiling; her eyes follow your pointer">
+      <defs><mask id="open" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="841"><image href="assets/janet-eyes-mask.png" x="0" y="0" width="720" height="841"/></mask></defs>
+      <image href="assets/janet-bust.webp" x="0" y="0" width="720" height="841"/>
+      <g mask="url(#open)" id="eyes">
+        <g class="pupil" data-cx="190" data-cy="457"><circle cx="190" cy="457" r="25" fill="#141110"/><circle cx="196" cy="447" r="5.5" fill="#fff"/></g>
+        <g class="pupil" data-cx="385" data-cy="420"><circle cx="385" cy="420" r="25" fill="#141110"/><circle cx="391" cy="410" r="5.5" fill="#fff"/></g>
+        <rect class="lid" x="130" y="424" width="122" height="72" fill="#f8d7c9"/>
+        <rect class="lid" x="326" y="384" width="126" height="72" fill="#f8dccd"/>
+      </g>
+    </svg>
+  </figure>
 </main>
-<script type="application/json" id="laptop-words">{words}</script>
-<script src="assets/v5.js"></script>
+<script src="assets/home.js"></script>
+<script src="assets/head-cursor.js" data-root=""></script>
 </body>
 </html>
-""".replace("</head>", OLD_HASH + "\n" + INTRO_ON + "\n</head>")
+"""
 
 
 def work_page():
