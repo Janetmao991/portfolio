@@ -605,3 +605,24 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
 .js-l.js-br { --bx: -120px; } .js-r.js-br { --bx: 120px; }
 .js-l.js-br .js-word { padding-right: 104px; } .js-r.js-br .js-word { padding-left: 104px; }
 @media (max-width: 760px) { .js-l.js-br, .js-r.js-br { --bx: 16px; } .js-l.js-br .js-word, .js-r.js-br .js-word { padding: 0 0 0 14px; } }
+
+/* R73n — the "Meanwhile" note: an overlapping chapter, taped beside the chapter it ran alongside */
+.js-note { grid-row: 1 / span 2; align-self: center; position: relative; width: min(100%, 300px); padding: 22px 22px 18px; margin: 0 34px;
+  background-color: #fffdf8; background-image: radial-gradient(rgba(29, 26, 24, .11) 1.1px, transparent 1.3px); background-size: 20px 20px;
+  border: 2px solid var(--c-deep); border-radius: 16px; box-shadow: 5px 6px 0 var(--c-deep); transform: rotate(-3deg); z-index: 2; } /* taste-skill-ignore: flat print offset, like the project cards */
+.js-r .js-note { grid-column: 1; justify-self: end; }
+.js-l .js-note { grid-column: 3; justify-self: start; transform: rotate(3deg); }
+.js-note::before { content: ""; position: absolute; top: -14px; left: 50%; width: 92px; height: 26px; margin-left: -46px; background: rgba(170, 220, 196, .8); transform: rotate(4deg);
+  clip-path: polygon(0 6%, 3% 0, 97% 4%, 100% 0, 99% 30%, 100% 62%, 97% 100%, 4% 96%, 0 100%, 2% 66%, 0 34%); }
+.jn-when { margin: 0; font-size: 14.5px; font-style: italic; color: var(--ink-soft); }
+.jn-what { margin: 4px 0 12px; font-size: 21px; line-height: 1.2; letter-spacing: -.01em; }
+.js-note .js-pill { grid-row: auto; font-size: 15px; padding: 7px 14px; }
+.js-note .js-card { margin-top: 14px; max-width: none; padding: 16px 18px; border-radius: 14px; }
+@media (prefers-reduced-motion: no-preference) {
+  .js-on-arm .js:not(.seen) .js-note { opacity: 0; transform: rotate(-8deg) translateY(16px); }
+  .js.seen .js-note { transition: opacity 500ms var(--ease-out) 200ms, transform 600ms var(--ease-out) 200ms; }
+}
+@media (max-width: 760px) {
+  .js-r .js-note, .js-l .js-note { grid-column: 2; grid-row: auto; justify-self: start; margin: 18px 0 6px 6px; transform: rotate(-2deg); }
+}
+@media (min-width: 761px) { .js-r .js-note { margin-right: 110px; } .js-l .js-note { margin-left: 110px; } }

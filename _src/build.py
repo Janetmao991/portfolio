@@ -2350,32 +2350,51 @@ JOURNEY = [
     ("invest", "Investing", "2016 – 2022 · Qianhai · Goldhouse", "15+ pre-IPO deals", [
         ("Goldhouse Capital · Investment Manager", "Apr 2018 – Dec 2022", ["Led a team through 15+ pre-IPO investments in TMT.", "Led an $8M investment in a social media company, which grew to 4M daily users and 30M+ registered users while we held it.", "Executed a $25M raise for the exclusive maker of nano-silver conductive film."]),
         ("Qianhai Equity Exchange · Investment Manager", "Jul 2016 – Apr 2018", ["Chosen by the CEO to lead due diligence on 10+ pre-IPO companies, $5M invested."])]),
-    ("found", "Founding", "2020 – 2022 · West Bank Digital", "$3M a year", ("invest", True, "alongside Goldhouse"), [
+    ("found", "Founding", "2020 – 2022 · West Bank Digital", "$3M a year", ("invest", "note", "Meanwhile, 2020 – 2022"), [
         ("Shenzhen West Bank Digital Technology · Co-Founder & Product Manager", "Jan 2020 – Aug 2022", ["Led app development for China's largest financial newspaper.", "Built a financial database for its bank customers, bringing $3M in annual subscription revenue."])]),
     ("study", "Studying", "2024 · USC Marshall", "MBA, Dean's List", [
         ("University of Southern California, Marshall School of Business", "2024", ["MBA (STEM), Dean's List."])]),
     ("operate", "Operating", "2024 – now · Your Choice Investment", "$10M first year", [
         ("Your Choice Investment · US Representative & Finance Manager", "Oct 2024 – now", ["Hand-picked by the board to run a data center company in Indiana; negotiated a service agreement that brought $10M in first-year revenue.", "Set up operations and finance for HKEX compliance.", "Led buy-side due diligence on a $10M infrastructure acquisition."])]),
-    ("build", "Building", "now · AI builder", "6 tools, one system", ("operate", False, "alongside my day job"), [
+    ("build", "Building", "now · AI builder", "6 tools, one system", ("operate", "tag", "alongside my day job"), [
         ("Tools I use every day", "now", ["LexiAI, LexiSpeak, Writing Station and podcast-dig, working as one system for learning English.", "Startup teardowns (Clay, Granola) and AI Term Explainer films.", "An agentic equity research workflow and a personal agent OS, built on Claude Code and MCP."])]),
 ]
 
 
 def journey_section():
-    rows = []
-    for i, row in enumerate(JOURNEY):
+    """R73n (Janet: the branching lines looked messy): one wavy line, five chapters. A chapter that ran at the same
+    time as another hangs off it as a taped note ("Meanwhile, …"); Building keeps a small "alongside" tag."""
+    def card_html(k, parts):
+        return f'<div class="js-card" id="jc-{k}" hidden>' + "".join(
+            f'<div class="jc-part"><h4>{org}</h4><p class="jd">{dates}</p><ul>{"".join(f"<li>{x}</li>" for x in pts)}</ul></div>'
+            for org, dates, pts in parts) + '</div>'
+    rows, notes = [], {}
+    for row in JOURNEY:
+        k, word, sub, hook, *rest = row
+        if len(rest) == 2 and rest[0][1] == "note":
+            notes[rest[0][0]] = (k, word, sub, hook, rest[0][2], rest[1])
+    i = 0
+    for row in JOURNEY:
         k, word, sub, hook, *rest = row
         branch, parts = (rest[0], rest[1]) if len(rest) == 2 else (None, rest[0])
-        side = "l" if i % 2 == 0 else "r"
-        bat = (f' data-branch="{branch[0]}" data-rejoin="{"1" if branch[1] else "0"}"') if branch else ""
-        bnote = f'<span class="js-along">{branch[2]}</span>' if branch else ""
-        card = "".join(f'<div class="jc-part"><h4>{org}</h4><p class="jd">{dates}</p><ul>{"".join(f"<li>{x}</li>" for x in pts)}</ul></div>' for org, dates, pts in parts)
-        rows.append(f"""<li class="js js-{side}{' js-br' if branch else ''}" data-k="{k}"{bat}>
-    <div class="js-word"><h3>{word}</h3><p>{sub}</p>{bnote}</div>
+        if branch and branch[1] == "note":
+            continue
+        side = "l" if i % 2 == 0 else "r"; i += 1
+        tag = f'<span class="js-along">{branch[2]}</span>' if branch else ""
+        note = ""
+        if k in notes:
+            nk, nword, nsub, nhook, when, nparts = notes[k]
+            org = nsub.split(" · ", 1)[-1]
+            note = (f'<aside class="js-note" aria-label="{when}"><p class="jn-when">{when}</p>'
+                    f'<p class="jn-what">Co-founded {org}</p>'
+                    f'<button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{nk}">{nhook}</button>'
+                    f'{card_html(nk, nparts)}</aside>')
+        rows.append(f"""<li class="js js-{side}{' has-note' if note else ''}" data-k="{k}">
+    <div class="js-word"><h3>{word}</h3><p>{sub}</p>{tag}</div>
     <span class="js-dot" aria-hidden="true"></span>
-    <div class="js-art" data-art="{k}"></div>
+    {note}
     <button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{k}">{hook}</button>
-    <div class="js-card" id="jc-{k}" hidden>{card}</div>
+    {card_html(k, parts)}
   </li>""")
     return f"""<section class="s5 jn" id="journey">
   <h2>My journey</h2>
@@ -2413,4 +2432,15 @@ if __name__ == "__main__":
         (OUT / "projects" / f"{s}.html").write_text(page())
     for old, new in REDIRECTS.items():
         (OUT / "projects" / f"{old}.html").write_text(redirect_page(new))
+    # R73n: stamp CSS/JS links with a version so browsers never keep a stale copy after a change
+    import hashlib
+    def ver(name):
+        f = OUT / "assets" / name
+        return hashlib.md5(f.read_bytes()).hexdigest()[:8] if f.exists() else "0"
+    stamps = {n: ver(n) for n in ["style.css", "v5.css", "home.css", "v5.js", "home.js", "head-cursor.js", "inner.js", "demo.js", "entrance.js", "touches.js", "motion.js", "map.js", "delight.js"]}
+    for page in [OUT / "index.html", *OUT.glob("*.html"), *(OUT / "projects").glob("*.html")]:
+        t = page.read_text()
+        t2 = re.sub(r'(assets/)([\w.-]+\.(?:css|js))(\?v=\w+)?"', lambda m: f'{m.group(1)}{m.group(2)}?v={stamps[m.group(2)]}"' if m.group(2) in stamps else m.group(0), t)
+        if t2 != t:
+            page.write_text(t2)
     print("built index.html +", ", ".join(f"projects/{s}.html" for s in [*ORDER, *extra]), "+ redirects", ", ".join(f"{o} -> {n}" for o, n in REDIRECTS.items()))
