@@ -34,7 +34,7 @@ FONTS = lambda root: f'<link rel="preload" href="{root}assets/fonts/work-sans-la
 # R72 (v5 redesign): one serif family, Fraunces (soft), for everything; one saturated colour on near-white. assets/v5.css sits on top of style.css.
 V5_FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
             '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..700,50&display=swap" rel="stylesheet">')
-DESK_SVG = (Path(__file__).resolve().parent / "desk.svg").read_text().strip()
+DESK_SVG = (Path(__file__).resolve().parent / "scene.svg").read_text().strip()  # R72j: her KlingAI scene + live overlays (desk.svg = the earlier hand-drawn room)
 # R43: project and research pages fade in on scroll (assets/entrance.js). This runs in <head>, before first paint: motion on
 # unless reduced motion / no IntersectionObserver; if entrance.js never arrives, the class comes off after 2.5s so nothing stays hidden.
 ENTRANCE_ON = ('<script>(function(h){if(matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window))return;'
@@ -2201,8 +2201,8 @@ def desk(uid="", crop=None, cls="desk"):
     if uid:
         svg = (svg.replace('id="', f'id="{uid}-').replace('url(#', f'url(#{uid}-').replace('aria-labelledby="', f'aria-labelledby="{uid}-'))
     if crop:
-        svg = svg.replace('viewBox="0 0 720 680"', f'viewBox="{crop}"', 1)
-    return svg.replace('class="desk"', f'class="{cls}"', 1)
+        svg = svg.replace('viewBox="0 45 2000 1423"', f'viewBox="{crop}"', 1)
+    return svg.replace('class="desk', f'class="{cls}', 1)
 
 
 def strip_ph(html):
@@ -2251,14 +2251,14 @@ def work_page():
     body = body.replace(blurb("fit-in", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.", highlight=False), "")
     return page5("work", "Things I've built", "Six tools Janet Mao built for learning English with AI and for researching startups, and how they connect as one system.",
                  "Things I've built", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.",
-                 body, "48 82 252 188", '\n<script src="assets/map.js"></script>\n<script src="assets/delight.js"></script>')
+                 body, "130 120 545 400", '\n<script src="assets/map.js"></script>\n<script src="assets/delight.js"></script>')
 
 
 def research_page():
     body = strip_ph(research_section()).replace('<section class="plate rs" id="research">', '<section class="s5 rs" id="research">')
     body = body.replace(blurb("rs-what", "Startups I've researched, and AI terms I've explained on film.", highlight=False), "")
     return page5("research", "Research", "Startups Janet Mao has researched, and AI terms she has explained on film.",
-                 "Research", "Startups I've researched, and AI terms I've explained on film.", body, "40 330 168 104")
+                 "Research", "Startups I've researched, and AI terms I've explained on film.", body, "420 930 330 290")
 
 
 def about_page():
@@ -2272,7 +2272,7 @@ def about_page():
   </div>
 </section>"""
     return page5("about", "About", "Janet Mao is an AI builder in San Francisco and a former VC. She builds tools for learning English with AI, and dives deep into startups.",
-                 "About me", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "160 168 440 440")
+                 "About me", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "600 540 640 620")
 
 
 if __name__ == "__main__":

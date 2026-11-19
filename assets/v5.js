@@ -30,7 +30,12 @@
   // home: hover or focus a menu item, the drawing points at it
   const h5 = document.querySelector('.h5');
   if (h5) {
-    const set = o => { if (o) h5.dataset.on = o; else delete h5.dataset.on; };
+    const hole = h5.querySelector('.spot-hole');
+    const SPOT = { work: [130, 120, 545, 400], research: [420, 1020, 330, 200], about: [610, 560, 560, 720], contact: [1620, 1060, 260, 190] };
+    const set = o => {
+      if (o) h5.dataset.on = o; else delete h5.dataset.on;
+      if (hole && SPOT[o]) ['x', 'y', 'width', 'height'].forEach((k, i) => hole.setAttribute(k, SPOT[o][i]));
+    };
     h5.querySelectorAll('.h5-menu a[data-o]').forEach(a => {
       a.addEventListener('pointerenter', () => set(a.dataset.o));
       a.addEventListener('focus', () => set(a.dataset.o));
@@ -112,9 +117,11 @@
       clearTimeout(hideT);
       if (!text) { hideT = setTimeout(() => bubble.classList.remove('on'), 140); return; }
       bt.textContent = text;
-      const w = bt.getComputedTextLength(), x1 = 212, y0 = 262, y1 = 296, x0 = x1 - w - 30;
-      bt.setAttribute('x', x0 + 15); bt.setAttribute('y', 284);
-      bb.setAttribute('d', `M${x0 + 12} ${y0}H${x1 - 12}Q${x1} ${y0} ${x1} ${y0 + 12}V${y1 - 12}Q${x1} ${y1} ${x1 - 12} ${y1}H${x1 - 22}L${x1 + 8} ${y1 + 18}L${x1 - 38} ${y1}H${x0 + 12}Q${x0} ${y1} ${x0} ${y1 - 12}V${y0 + 12}Q${x0} ${y0} ${x0 + 12} ${y0}Z`);
+      const D = bubble.dataset, x1 = +(D.x1 || 212), y0 = +(D.y0 || 262), y1 = +(D.y1 || 296), pad = (y1 - y0) * .45;
+      const w = bt.getComputedTextLength(), x0 = x1 - w - pad * 2;
+      bt.setAttribute('x', x0 + pad); bt.setAttribute('y', +(D.ty || 284));
+      const r = (y1 - y0) * .36, t = (y1 - y0) / 34;
+      bb.setAttribute('d', `M${x0 + r} ${y0}H${x1 - r}Q${x1} ${y0} ${x1} ${y0 + r}V${y1 - r}Q${x1} ${y1} ${x1 - r} ${y1}H${x1 - 22 * t}L${x1 + 8 * t} ${y1 + 18 * t}L${x1 - 38 * t} ${y1}H${x0 + r}Q${x0} ${y1} ${x0} ${y1 - r}V${y0 + r}Q${x0} ${y0} ${x0 + r} ${y0}Z`);
       bubble.classList.add('on');
       if (ms) hideT = setTimeout(() => bubble.classList.remove('on'), ms);
     };
@@ -164,11 +171,11 @@
       ev.preventDefault();
       h5.dataset.on = a.dataset.o;
       // bring the thing to the middle of the screen while the camera closes in on it
-      const P = { work: [135, 123], research: [125, 392], about: [300, 318], contact: [627, 418] }[a.dataset.o];
+      const P = (art.classList.contains('scene') ? { work: [400, 325], research: [575, 1130], about: [880, 820], contact: [1740, 1150] } : { work: [135, 123], research: [125, 392], about: [300, 318], contact: [627, 418] })[a.dataset.o];
       if (P) {
         const pt = art.createSVGPoint(); [pt.x, pt.y] = P;
         const e = pt.matrixTransform(art.getScreenCTM());
-        h5.style.setProperty('--fx', `${P[0] / 7.2}%`); h5.style.setProperty('--fy', `${P[1] / 6.8}%`);
+        const vb = art.viewBox.baseVal; h5.style.setProperty('--fx', `${(P[0] - vb.x) / vb.width * 100}%`); h5.style.setProperty('--fy', `${(P[1] - vb.y) / vb.height * 100}%`);
         h5.style.setProperty('--tx', `${innerWidth / 2 - e.x}px`); h5.style.setProperty('--ty', `${innerHeight / 2 - e.y}px`);
       }
       h5.classList.add('flying');

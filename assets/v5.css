@@ -346,3 +346,24 @@ html.intro .desk .me-pic { animation: r5-rise 700ms var(--ease-out) 900ms both; 
 }
 .h5 { overflow: clip; }
 .h5.flying .desk [class^="o-"] { opacity: 1; }
+
+/* R72j — her KlingAI scene is the homepage picture; overlays fix its words and keep the laptop live */
+.desk.scene { color: #1c1818; }
+.scene .spot { fill: #f7f7f5; opacity: 0; transition: opacity 260ms var(--ease-out); pointer-events: none; }
+.h5[data-on] .scene .spot { opacity: .62; }
+.h5.flying .scene .spot { opacity: 0; }
+.scene .bb { stroke-width: 5; }
+.scene .bt { font-size: 40px; }
+.scene .hw, .scene .pr { fill: #1c1818; }
+.h5[data-on="work"] { --fx: 20%; --fy: 19.7%; }
+.h5[data-on="research"] { --fx: 28.8%; --fy: 76%; }
+.h5[data-on="about"] { --fx: 44%; --fy: 54.5%; }
+.h5[data-on="contact"] { --fx: 87%; --fy: 77.7%; }
+html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both; --rise: 14px; }
+.h5-art .scene { max-height: 92svh; margin-bottom: 0; border-radius: 28px; }
+@media (max-width: 860px) { .h5-art { aspect-ratio: auto; } .h5-art .scene { border-radius: 18px; } }
+.p5-art .scene { border-radius: 18px; }
+.scene .cards text { font-size: 27px; } .scene .sp2 { font-size: 29px; }
+.scene .hw { font-size: 50px; font-style: italic; } .scene .pr { font-size: 25px; }
+.h5-art:has(.scene) { align-self: center; }
+.h5-art .scene { max-height: 86svh; }
