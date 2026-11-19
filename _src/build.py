@@ -2238,7 +2238,6 @@ def index_page():
     <p class="h5-links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
   <figure class="h5-art">{desk()}</figure>
-  <svg class="h5-str" aria-hidden="true"><path pathLength="1"/><circle r="4.5"/></svg>
 </main>
 <script type="application/json" id="laptop-words">{words}</script>
 <script src="assets/v5.js"></script>

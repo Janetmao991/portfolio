@@ -322,3 +322,8 @@ html.intro .desk .me-pic { animation: r5-rise 700ms var(--ease-out) 900ms both; 
 /* she is the one talking: she never dims */
 .h5[data-on] .desk .me-pic { opacity: 1; }
 .desk .bt { font-size: 16px; }
+
+/* R72h — Janet: no thread across the page. The named thing lifts a little instead. */
+@media (prefers-reduced-motion: no-preference) {
+  .h5[data-on="work"] .desk .o-work { transform: translate(10px, -10px) scale(.72); }
+}
