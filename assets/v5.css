@@ -1,0 +1,222 @@
+/* Portfolio v5 (R72) — one saturated colour on near-white, one serif family (Fraunces, soft), one big drawing.
+   Sits on top of style.css: the tokens below re-point the old rules, the rest restyles what they can't reach.
+   Three colour trials: html[data-palette="red" | "blue"]; green is the default. */
+:root {
+  --c: #1e5e3b;          /* the one colour */
+  --c-deep: #13241a;     /* running text: the colour, nearly black */
+  --c-wash: #e4ebe4;     /* the colour at 12%, for a quiet field */
+  --paper: #f7f7f5;      /* near-white */
+  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+  --m: clamp(20px, 4.4vw, 72px);          /* the one pair of page margins */
+  --t-small: 15px;
+  --t-body: clamp(17px, 1rem + .2vw, 19px);
+  --t-lead: clamp(20px, 1.1rem + .8vw, 27px);
+  --t-head: clamp(32px, 1.3rem + 2.6vw, 54px);
+  --t-display: clamp(52px, 2rem + 6vw, 128px);
+}
+html[data-palette="red"] { --c: #c63d1e; --c-deep: #2b1410; --c-wash: #f6e3dc; --paper: #f9f7f4; }
+html[data-palette="blue"] { --c: #1f4387; --c-deep: #111a2e; --c-wash: #e1e7f2; --paper: #f7f7f4; }
+
+.v5 {
+  --display: var(--serif); --sans: var(--serif);
+  --accent: var(--c); --accent-hover: var(--c-deep); --deep: var(--c); --tint: var(--c-wash);
+  --ink: var(--c-deep); --ink-soft: color-mix(in srgb, var(--c-deep) 72%, var(--paper));
+  --bg-outer: var(--paper); --bg-panel: var(--paper); --ui: var(--paper); --rule: transparent;
+  background: var(--paper); color: var(--c-deep);
+  font-family: var(--serif); font-size: var(--t-body); line-height: 1.55;
+  font-optical-sizing: auto; font-variation-settings: "SOFT" 50;
+}
+.v5 h1, .v5 h2, .v5 h3 { font-family: var(--serif); font-weight: 420; letter-spacing: -.02em; }
+.v5 ::selection { background: var(--c); color: var(--paper); }
+.v5 a { color: var(--c); }
+.v5 :focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
+
+/* ---------- the drawing ---------- */
+.desk { display: block; width: 100%; height: auto; overflow: visible; --gr: var(--paper); color: var(--c); }
+.desk .g { fill: var(--gr); }
+.desk .p { fill: currentColor; }
+.desk .gs { stroke: var(--gr); }
+.desk text { font-family: var(--serif); font-size: 12px; font-variation-settings: "SOFT" 50; }
+.desk .hw { font-size: 20px; font-style: italic; }
+.desk .pr { font-size: 9.5px; }
+.desk .sp { font-size: 10px; text-anchor: middle; }
+
+/* ---------- home: one screen ---------- */
+.home5 { background: var(--c); color: var(--paper); }
+.home5 ::selection { background: var(--paper); color: var(--c); }
+.h5 {
+  min-height: 100svh; display: grid; grid-template-columns: minmax(0, 4.4fr) minmax(0, 7.6fr);
+  gap: 0 clamp(24px, 3vw, 56px); padding: 0 var(--m); align-items: end;
+}
+.h5-t { align-self: center; padding: 64px 0; }
+.h5 h1 { font-size: clamp(48px, 5.6vw, 104px); line-height: .95; letter-spacing: -.035em; font-weight: 400; }
+.h5-sub { margin: 28px 0 0; font-size: var(--t-lead); line-height: 1.35; max-width: 26ch; }
+.h5-menu ul { list-style: none; margin: clamp(36px, 6svh, 64px) 0 0; padding: 0; display: grid; gap: 14px; }
+.h5-menu a { display: inline-grid; color: var(--paper); text-decoration: none; }
+.m5-l { font-size: clamp(30px, 1rem + 2vw, 46px); line-height: 1.08; letter-spacing: -.02em; }
+.m5-d { font-size: var(--t-small); line-height: 1.4; margin-top: 2px; }
+.h5-menu a:focus-visible { outline-color: var(--paper); outline-offset: 6px; }
+.h5-links { display: flex; flex-wrap: wrap; gap: 6px 28px; margin: clamp(32px, 6svh, 56px) 0 0; font-size: var(--t-small); }
+.h5-links a { color: var(--paper); text-underline-offset: .25em; }
+.h5-art { margin: 0; align-self: end; display: flex; justify-content: center; }
+.h5-art .desk { --gr: var(--c); color: var(--paper); width: 100%; max-height: 104svh; margin-bottom: -4svh; }
+.home5 .h5 :focus-visible { outline-color: var(--paper); }
+
+@media (max-width: 860px) {
+  .h5 { grid-template-columns: 1fr; align-items: start; padding-top: 12px; }
+  .h5-art { order: -1; aspect-ratio: 720 / 590; overflow: hidden; align-items: flex-start; }
+  .h5-art .desk { width: 100%; max-height: none; margin: 0; }
+  .h5-t { padding: 8px 0 48px; }
+  .h5 h1 { font-size: clamp(48px, 13vw, 72px); }
+}
+
+/* ---------- inner pages ---------- */
+.v5 .page { max-width: none; padding: 0 var(--m); display: block; }
+.v5 .page > main { display: block; }
+.n5 { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 32px; padding: 28px 0; }
+.n5-home { font-size: 24px; letter-spacing: -.02em; color: var(--c); text-decoration: none; }
+.n5 nav { display: flex; flex-wrap: wrap; gap: 4px 28px; }
+.n5 nav a { color: var(--c); text-decoration: none; font-size: 18px; text-underline-offset: .3em; text-decoration-thickness: 1.5px; }
+.n5 nav a[aria-current] { text-decoration-line: underline; }
+
+.p5-head { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: end; gap: 24px clamp(24px, 5vw, 96px); padding: clamp(32px, 6vw, 96px) 0 clamp(48px, 7vw, 120px); }
+.p5-head h1 { font-size: var(--t-display); line-height: .95; letter-spacing: -.035em; font-weight: 400; color: var(--c); }
+.p5-lead { margin: 28px 0 0; font-size: var(--t-lead); line-height: 1.35; max-width: 32ch; }
+.p5-art .desk { max-height: 46svh; width: 100%; }
+@media (max-width: 760px) {
+  .p5-head { grid-template-columns: 1fr; }
+  .p5-art { order: -1; max-width: 360px; }
+}
+
+/* the old plates become plain sections on the page */
+.v5 .plate { background: none; box-shadow: none; /* taste-skill-ignore: removes the old shadow */ border-radius: 0; padding: 0; }
+.v5 .ph { margin: 0 0 32px; padding: 0; border: 0; }
+.v5 .ph h2 { font-size: var(--t-head); font-weight: 420; letter-spacing: -.02em; text-transform: none; color: var(--c); line-height: 1.05; }
+.v5 .ph .pm { font-size: var(--t-small); }
+.v5 .ph .ti { display: none; }
+.s5 { padding-bottom: clamp(96px, 12vw, 200px); }
+
+/* the closing field: contact in the one colour */
+.v5 .plate.dark { background: var(--c); color: var(--paper); margin: 0 calc(-1 * var(--m)); padding: clamp(64px, 9vw, 140px) var(--m); border-radius: 0; }
+.v5 .dark h2 { font-size: var(--t-display); font-weight: 400; letter-spacing: -.035em; color: var(--paper); }
+.v5 .dark .mail { font-size: var(--t-lead); margin-top: 20px; }
+.v5 .dark .mail a { color: var(--paper); }
+.v5 .dark .round a { color: var(--paper); border-color: var(--paper); }
+.v5 footer.site { margin: 0 calc(-1 * var(--m)); padding: 20px var(--m) 28px; background: var(--c); color: var(--paper); font-size: var(--t-small); }
+.v5 footer.site a { color: var(--paper); }
+
+/* project map: one colour */
+.v5 svg.ic g[stroke] { stroke: var(--c); }
+.v5 svg.ic [fill="#fff"], .v5 svg.ic [fill="#ffffff"] { fill: var(--paper); }
+.v5 svg.ic [fill]:not([fill="#fff"]):not([fill="none"]):not([fill="#ffffff"]) { fill: var(--c); }
+
+/* about */
+.ab h2 { font-size: var(--t-head); color: var(--c); margin-bottom: 32px; }
+.ab-t { max-width: 34em; }
+.ab-t p { margin: 0 0 .9em; }
+.ab-id { font-size: var(--t-lead); line-height: 1.35; }
+.b5 { display: inline-flex; gap: .4em; align-items: center; padding: 14px 24px; background: var(--c); color: var(--paper) !important; text-decoration: none; border-radius: 999px; font-size: var(--t-body); }
+.ab-cta { margin-top: 32px !important; }
+.desk.crop { overflow: hidden; }
+.p5-art { display: flex; justify-content: flex-end; }
+.p5-art .desk { width: auto; max-width: 100%; height: clamp(220px, 34vw, 440px); }
+.v5 #contact.dark h2 { font-size: var(--t-head); font-weight: 400; color: var(--paper); }
+
+/* the project map, set in the page's type: nodes are words and drawings, not boxed cards */
+.v5 .nd { background: transparent; border-color: transparent; width: 220px; }
+.v5 .nd::after { display: none; }
+.v5 .nd:hover, .v5 .nd:focus-visible { box-shadow: none; border-color: transparent; }
+.v5 .nd b { font-size: 20px; font-weight: 450; }
+.v5 .nd small { font-size: 15px; color: var(--c-deep); }
+.v5 .fit .wl { font-family: var(--serif); font-size: 14px; }
+.v5 .fit .wl.br { font-size: 14px; }
+.v5 .fit-k { font-size: 15px; letter-spacing: 0; text-transform: none; font-weight: 450; color: var(--c); }
+.v5 .fit-note { font-size: var(--t-body); color: var(--c-deep); border-top: 0; }
+.v5 .fm-n { background: transparent; }
+.v5 .fm-n b { font-size: 19px; font-weight: 450; }
+.v5 .fm-n small, .v5 .fm-e li, .v5 .fm-br span, .v5 .fm-k { font-size: 15px; }
+.v5 .fm-c { background: var(--c-wash); }
+
+/* ---------- motion (R72): Emil Kowalski's rules — transform + opacity, ease-out, short, never hides content without CSS ---------- */
+@keyframes r5-rise { from { opacity: 0; transform: translateY(var(--rise, 10px)); } }
+@keyframes r5-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .h5 h1, .p5-head h1 { animation: r5-rise 640ms var(--ease-out) both; --rise: 18px; }
+  .h5-art, .p5-art { animation: r5-rise 900ms var(--ease-out) 60ms both; }
+  .h5-sub, .p5-lead { animation: r5-rise 560ms var(--ease-out) 110ms both; }
+  .h5-menu li { animation: r5-rise 520ms var(--ease-out) var(--d) both; --rise: 8px; }
+  .h5-menu li:nth-child(1) { --d: 190ms; } .h5-menu li:nth-child(2) { --d: 245ms; }
+  .h5-menu li:nth-child(3) { --d: 290ms; } .h5-menu li:nth-child(4) { --d: 325ms; }
+  .h5-links { animation: r5-fade 420ms var(--ease-out) 380ms both; }
+
+  /* the room breathes, slowly */
+  .desk .st { stroke-dasharray: .34 .66; animation: r5-steam 3.4s linear infinite; }
+  .desk .st.s2 { animation-duration: 4.1s; animation-delay: -1.3s; }
+  @keyframes r5-steam { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  .desk .fog { animation: r5-drift 13s ease-in-out infinite alternate; }
+  .desk .fog.f2 { animation-duration: 17s; animation-delay: -6s; }
+  @keyframes r5-drift { to { transform: translateX(14px); } }
+  .desk .leaf { transform-box: view-box; transform-origin: 604px 256px; animation: r5-sway 6.5s ease-in-out infinite alternate; }
+  .desk .leaf.l2 { animation-delay: -2.2s; } .desk .leaf.l3 { animation-delay: -4s; }
+  @keyframes r5-sway { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }
+}
+.desk .pr { transition: opacity 220ms var(--ease-out); }
+
+/* the menu points at the drawing: the rest dims, the named thing makes one move */
+.desk [class^="o-"] { transition: opacity 220ms var(--ease-out), transform 260ms var(--ease-out); transform-box: view-box; }
+.h5[data-on] .desk [class^="o-"] { opacity: .28; }
+.h5[data-on="work"] .desk .o-work, .h5[data-on="research"] .desk .o-research,
+.h5[data-on="about"] .desk .o-about, .h5[data-on="about"] .desk .o-laptop,
+.h5[data-on="contact"] .desk .o-contact, .h5[data-on="contact"] .desk .o-mug { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .h5[data-on="work"] .desk .threads path { stroke-dasharray: 1; animation: r5-draw 560ms var(--ease-out) both; }
+  @keyframes r5-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  .h5[data-on="research"] .desk .o-research { transform: translateY(-5px); }
+  .desk .o-about .head { transition: transform 300ms var(--ease-out); transform-box: view-box; transform-origin: 300px 404px; }
+  .h5[data-on="about"] .desk .o-about .head { transform: rotate(-5deg); }
+  .h5[data-on="contact"] .desk .o-contact { transform: translateY(-9px) rotate(-2deg); transform-origin: 628px 420px; }
+}
+
+/* press and hover on the menu: tens of times a visit at most, so small and quick */
+.h5-menu a, .b5 { transition: transform 160ms var(--ease-out); }
+.h5-menu .m5-l { display: inline-block; transition: transform 220ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .h5-menu a:hover .m5-l { transform: translateX(6px); }
+  .h5-menu a:hover .m5-l, .b5:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: .18em; }
+}
+.h5-menu a:active, .b5:active { transform: scale(.98); }
+
+/* short laptop screens: the home must still be one screen */
+@media (min-width: 861px) and (max-height: 820px) {
+  .h5-t { padding: 32px 0; }
+  .h5 h1 { font-size: clamp(44px, 9.5svh, 96px); }
+  .h5-sub { margin-top: 2.4svh; font-size: clamp(18px, 2.7svh, 24px); }
+  .h5-menu ul { margin-top: 4svh; gap: 1.2svh; }
+  .m5-l { font-size: clamp(24px, 4.6svh, 40px); }
+  .h5-links { margin-top: 3.6svh; }
+}
+
+/* very wide screens: keep the composition together */
+.h5 { max-width: 1920px; margin: 0 auto; }
+.m5-d { font-size: clamp(15px, .55rem + .4vw, 19px); }
+.v5 .page { max-width: 1920px; margin: 0 auto; }
+
+/* phones (mobile-native): no grey tap flash, no double-tap wait on controls; press feedback lives on :active */
+html { -webkit-tap-highlight-color: transparent; }
+.v5 a, .v5 button { touch-action: manipulation; }
+
+/* research list and films in the page's sizes */
+.v5 .rs-h h3 { font-size: var(--t-lead); color: var(--c); font-weight: 420; }
+.v5 .rs-h p, .v5 .rs-all, .v5 .rs-all a { font-size: var(--t-body); color: var(--c-deep); }
+.v5 .rs-rows a { font-size: var(--t-body); }
+.v5 .rs-dt, .v5 .rs-rows .go { font-size: var(--t-small); color: var(--c-deep); }
+.v5 .dl-ft { font-size: 19px; }
+.v5 .dl-fm { font-size: var(--t-small); color: var(--c-deep); }
+.v5 .dl-ep { font-size: 13px; background: var(--c); color: var(--paper); }
+.v5 .dl-play { color: var(--c); }
+.v5 .ink-soft, .v5 .ph .pm { color: var(--c-deep); }
+
+/* a crop shown large keeps the drawing's line weight, not a magnified one */
+.p-work .desk.crop :is(path, rect, ellipse, circle), .p-research .desk.crop :is(path, rect, ellipse, circle) { vector-effect: non-scaling-stroke; }

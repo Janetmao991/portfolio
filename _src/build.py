@@ -31,6 +31,10 @@ from pathlib import Path
 OUT = Path(__file__).resolve().parent.parent
 # self-hosted (assets/fonts): Work Sans (variable) for everything (R43; the italic file loads only where italics are used)
 FONTS = lambda root: f'<link rel="preload" href="{root}assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>'
+# R72 (v5 redesign): one serif family, Fraunces (soft), for everything; one saturated colour on near-white. assets/v5.css sits on top of style.css.
+V5_FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+            '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..700,50&display=swap" rel="stylesheet">')
+DESK_SVG = (Path(__file__).resolve().parent / "desk.svg").read_text().strip()
 # R43: project and research pages fade in on scroll (assets/entrance.js). This runs in <head>, before first paint: motion on
 # unless reduced motion / no IntersectionObserver; if entrance.js never arrives, the class comes off after 2.5s so nothing stays hidden.
 ENTRANCE_ON = ('<script>(function(h){if(matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window))return;'
@@ -61,17 +65,20 @@ def head(title, desc, root):
 <meta property="og:description" content="{desc}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f7f7f5">
 {FONTS(root)}
-<link rel="stylesheet" href="{root}assets/style.css">{chr(10) + ENTRANCE_ON if root else ""}
+<link rel="stylesheet" href="{root}assets/style.css">
+{V5_FONTS}
+<link rel="stylesheet" href="{root}assets/v5.css">{chr(10) + ENTRANCE_ON if root else ""}
 </head>"""
 
 
 def nav(root, current=""):
     """The slim top plate: initial + name, three tabs (R23 added Research)."""
     cur = lambda k: ' aria-current="page"' if k == current else ""
-    return f"""<header class="plate nav">
-  <a class="home" href="{root}index.html"><span class="av" aria-hidden="true">J</span>Janet Mao</a>
-  <nav><a href="{root}index.html#about"{cur('about')}>About</a><a href="{root}index.html#work"{cur('work')}>Projects</a><a href="{root}index.html#research"{cur('research')}>Research</a></nav>
+    return f"""<header class="n5">
+  <a class="n5-home" href="{root}index.html">Janet Mao</a>
+  <nav aria-label="Site"><a href="{root}work.html"{cur('work')}>Things I've built</a><a href="{root}research.html"{cur('research')}>Research</a><a href="{root}about.html"{cur('about')}>About</a></nav>
 </header>"""
 
 
@@ -359,7 +366,7 @@ def project_page(slug):
     plates.append(f'<section class="plate">\n  {ph("05", "Decisions", "3")}\n  <ul class="dec">{dl}</ul>\n</section>')
     body = "\n".join(plates)
     return f"""{head(f"{p['name']} — Janet Mao", p['what'], root)}
-<body class="project" data-root="{root}">
+<body class="v5 project" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'work')}
 <main>
@@ -696,7 +703,7 @@ def startup_page():
     slug, root = "startup-research", "../"
     meta = "2026 · Method and writing · Claude Code agents, podcast-dig transcripts, Obsidian"
     return f"""{head("Startup Research — Janet Mao", P[slug]['what'], root)}
-<body class="project startup" data-root="{root}">
+<body class="v5 project startup" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'work')}
 <main>
@@ -710,7 +717,7 @@ def startup_page():
   {ph("02", "The writing framework", "one issue")}
   <p class="intro-l">The research runs long. What I publish is a business-magazine issue, built on this spine.</p>
   {magazine_issue()}
-  <p class="see"><a href="../index.html#research">See it applied → Research</a></p>
+  <p class="see"><a href="../research.html">See it applied → Research</a></p>
   <p class="intro-l">The same research can also be published as a video — one more channel for this work, not a separate method. The Clay analysis is also on <a href="{CLAY_YT}" target="_blank" rel="noopener">YouTube ↗</a>.</p>
 </section>
 <section class="plate" id="learned">
@@ -818,12 +825,12 @@ def research_section():
 
 def research_redirect():
     """R52: projects/research.html → index.html#research. #ai-terms / #startups map to their homepage groups."""
-    to = "../index.html#research"
+    to = "../research.html"
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Research — Janet Mao</title><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-<script>location.replace("{to}" + ({{"#ai-terms": "-ai-terms", "#startups": "-startups"}}[location.hash] || ""));</script>
+<script>location.replace("{to}" + ({{"#ai-terms": "#research-ai-terms", "#startups": "#research-startups"}}[location.hash] || ""));</script>
 <meta http-equiv="refresh" content="0; url={to}"><link rel="canonical" href="{to}"><meta name="robots" content="noindex">
-</head><body><p>Research moved to the homepage: <a href="{to}">Janet Mao → Research</a>.</p></body></html>
+</head><body><p>Research has its own page: <a href="{to}">Janet Mao → Research</a>.</p></body></html>
 """
 
 
@@ -868,18 +875,18 @@ def research_aiterm_collection_page():
     what = "One AI word per film, in plain language. Every approved English episode is listed here."
     meta = f'2026 · {len(AITERM_FILMS)} episodes · English films'
     return f"""{head("AI Term Explainer — Janet Mao", what, root)}
-<body class="project research" data-root="{root}">
+<body class="v5 project research" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
-<p class="back"><a href="../index.html#research-ai-terms">← All research</a></p>
+<p class="back"><a href="../research.html#research-ai-terms">← All research</a></p>
 {title_plate("AI Term Explainer", what, meta, watch, lead="All episodes, in one place.")}
 <section class="plate" id="episodes">
   {ph("01", "The films", f"{len(AITERM_FILMS)} episodes")}
   <p class="funnel-n">Each film has its own through-line and a link to the published English version. How the series is made is on the <a href="ai-terms.html">AI Term Explainer</a> page — one method for the whole series.</p>
   <ul class="ep-list">{''.join(items)}</ul>
 </section>
-<p class="back"><a href="../index.html#research-ai-terms">← All research</a><a href="ai-terms.html">How the films are made →</a></p>
+<p class="back"><a href="../research.html#research-ai-terms">← All research</a><a href="ai-terms.html">How the films are made →</a></p>
 </main>
 {foot(root)}"""
 
@@ -914,18 +921,18 @@ def research_startups_collection_page():
     what = "English business-magazine issues, written with my Startup Research method. Every published issue is listed here."
     meta = f'2026 · {len(issues)} issues · English magazines'
     return f"""{head("Startup Teardowns — Janet Mao", what, root)}
-<body class="project research" data-root="{root}">
+<body class="v5 project research" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
-<p class="back"><a href="../index.html#research-startups">← All research</a></p>
+<p class="back"><a href="../research.html#research-startups">← All research</a></p>
 {title_plate("Startup Teardowns", what, meta, watch_bar, lead="All issues, in one place.")}
 <section class="plate" id="issues">
   {ph("01", "The issues", f"{len(issues)} issues")}
   <p class="funnel-n">Each issue is a business magazine, written with the same <a href="startup-research.html">Startup Research</a> method. Open the issue to read it page by page.</p>
   <ul class="ep-list">{''.join(items)}</ul>
 </section>
-<p class="back"><a href="../index.html#research-startups">← All research</a><a href="startup-research.html">The framework →</a></p>
+<p class="back"><a href="../research.html#research-startups">← All research</a><a href="startup-research.html">The framework →</a></p>
 </main>
 {foot(root)}"""
 
@@ -954,7 +961,7 @@ def research_granola_page():
     meta = 'October 2026 · Written with my&nbsp;<a href="startup-research.html">Startup Research framework</a>'
     open_issue = f'<a href="{issue}">Open the magazine <span class="link-go" aria-hidden="true">↗</span></a>'
     return f"""{head(title + " — Janet Mao", what, root)}
-<body class="project startup granola" data-root="{root}">
+<body class="v5 project startup granola" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
@@ -983,7 +990,7 @@ def research_clay_page():
     open_issue = f'<a href="{issue}">Open the magazine <span class="link-go" aria-hidden="true">↗</span></a>'
     watch = f'<a href="{CLAY_YT}" target="_blank" rel="noopener">Watch on YouTube <span class="link-go" aria-hidden="true">↗</span></a>'
     return f"""{head(title + " — Janet Mao", what, root)}
-<body class="project startup clay" data-root="{root}">
+<body class="v5 project startup clay" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'research')}
 <main>
@@ -1404,7 +1411,7 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
     live = f'<a class="try-live" href="{url}" target="_blank" rel="noopener">Try it live →</a>' if url else '' if url is None else '<a class="try-live" href="#">Try it live →</a>'
     doc = doc_title or f"{name} — Janet Mao"
     return f"""{head(doc, summary, root).replace("</head>", LEXI_CSS + css + "\n</head>")}
-<body class="project" data-root="{root}">
+<body class="v5 project" data-root="{root}">
 <div class="page narrow">
 {nav(root, 'work')}
 <main>
@@ -2163,42 +2170,115 @@ def map_section():
 </section>'''
 
 
-# R51: the "How I work" About plate is gone; the hero carries id="about" so the nav's About tab lands on the greeting.
-def index_page():
-    caps = "".join(f'<span class="fx-cap" style="--t:{t}s;--u:{u}s">{c}</span>' if u else f'<span class="fx-cap last" style="--t:{t}s">{c}</span>'
-                   for c, t, u in HERO_CAPTIONS)
-    return f"""{head("Janet Mao — AI builder", "Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.", "")}
-<body class="home" data-root="">
+# R72 (v5 redesign): the homepage is one screen — a greeting, a menu of four, and one big drawing of Janet at her desk.
+# Hovering a menu item lights the matching part of the drawing (data-o). The old sections moved to work.html,
+# research.html and about.html; old #work / #research / #about links are forwarded by OLD_HASH.
+OLD_HASH = """<script>(function(h){var m={"#work":"work.html","#research":"research.html","#research-startups":"research.html#research-startups","#research-ai-terms":"research.html#research-ai-terms","#about":"about.html","#contact":"about.html#contact"};if(m[h])location.replace(m[h])})(location.hash)</script>"""
+HOME_MENU = [  # (href, data-o, label, one line)
+    ("work.html", "work", "Things I've built", "Six tools that work as one system"),
+    ("research.html", "research", "Research", "Startup teardowns and AI term films"),
+    ("about.html", "about", "About me", "Why I build what I use every day"),
+    ("about.html#contact", "contact", "Contact", "Email, X and GitHub"),
+]
+LAPTOP_WORDS = [  # the laptop in the drawing looks these up, one after another (assets/home5.js)
+    ("lifelong", "/ˈlaɪf.lɒŋ/ · adjective"), ("woven", "/ˈwəʊ.vən/ · adjective"), ("appall", "/əˈpɔːl/ · verb"),
+    ("clip", "/klɪp/ · noun, sense iii"), ("bludgeon", "/ˈblʌdʒ.ən/ · verb"),
+]
+HERO_STORY = [  # the old hero's words, now the About page
+    "I like cool, fancy things.",
+    "But I'd rather make something I use every day.",
+    "As a former VC and startup core member, I'm always diving into startups.",
+    'I build these projects for <span class="dl-w" tabindex="0">lifelong<span class="dl-def" role="tooltip"><b>lifelong</b><i>adjective</i>lasting or continuing through the whole of your life</span></span> learning.',
+    "None of them stands alone.",
+    'They connect as one system, <span class="dl-w" tabindex="0">woven<span class="dl-def" role="tooltip"><b>woven</b><i>past participle of weave</i>closely joined into something, like threads in cloth</span></span> into how I learn.',
+]
+
+
+def desk(uid="", crop=None, cls="desk"):
+    """The drawing. uid keeps ids unique when it appears twice; crop = a viewBox to show one corner of it."""
+    svg = DESK_SVG
+    if uid:
+        svg = (svg.replace('id="', f'id="{uid}-').replace('url(#', f'url(#{uid}-').replace('aria-labelledby="', f'aria-labelledby="{uid}-'))
+    if crop:
+        svg = svg.replace('viewBox="0 0 720 680"', f'viewBox="{crop}"', 1)
+    return svg.replace('class="desk"', f'class="{cls}"', 1)
+
+
+def strip_ph(html):
+    """Drop a section's old heading strip; on the v5 pages the page title names it."""
+    return re.sub(r'<div class="ph">.*?</div>', "", html, count=1, flags=re.S)
+
+
+def page5(slug, title, desc, h1, lead, body, crop, scripts=""):
+    return f"""{head(f"{title} — Janet Mao", desc, "")}
+<body class="v5 sub5 p-{slug}" data-root="">
 <div class="page">
-{nav("", "")}
+{nav("", slug)}
 <main>
-<section class="plate hero" id="about">
-  <div class="hero-t">
-    <h1 class="dl-rise"><span>Hi!</span> <span>I'm</span> <span><mark>Janet</mark></span></h1>
-    <p class="hero-id">I build tools for <span class="dl-nw"><span class="dl-rot" aria-hidden="true"><span class="dl-rot-w">learning English with AI</span></span><span class="dl-sr">learning English with AI</span>,</span> and I dive deep into startups.</p>
-    <p>I like cool, fancy things.</p>
-    <p>But I'd rather make something I use every day.</p>
-    <p>As a former VC and startup core member, I'm always diving into startups.</p>
-    <p>I build these projects for <span class="dl-w" tabindex="0">lifelong<span class="dl-def" role="tooltip"><b>lifelong</b><i>adjective</i>lasting or continuing through the whole of your life</span></span> learning.</p>
-    <p>None of them stands alone.</p>
-    <p>They connect as one system, <span class="dl-w" tabindex="0">woven<span class="dl-def" role="tooltip"><b>woven</b><i>past participle of weave</i>closely joined into something, like threads in cloth</span></span> into how I learn.</p>
-    <p class="dl-cta"><a class="dl-btn" href="#work">See what I built <span aria-hidden="true">↓</span></a></p>
-        <p class="links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
-  </div>
-  <div class="hero-v"><div class="fx">
-    <div class="forest" aria-hidden="true">{hero_story()}</div>
-    <p class="fx-c" aria-hidden="true">{caps}</p>
-  </div><p class="vh">A short drawing: a girl is bored at her desk with a closed book. She opens it, and a forest grows out of the pages. Leaves fall from the trees and turn into English words while she leans in to read.</p></div>
-</section>
-{map_section()}
-{research_section()}
+<header class="p5-head">
+  <div class="p5-t"><h1>{h1}</h1><p class="p5-lead">{lead}</p></div>
+  <div class="p5-art" aria-hidden="true">{desk(slug, crop, "desk crop")}</div>
+</header>
+{body}
 </main>
-{foot("")}""".replace("</head>", HL_JS + "\n</head>").replace("</body>", '<script src="assets/hero.js"></script>\n<script src="assets/eyes.js"></script>\n<script src="assets/pollen.js"></script>\n<script src="assets/map.js"></script>\n<script src="assets/entrance.js"></script>\n<script src="assets/delight.js"></script>\n<script src="assets/touches.js"></script>\n</body>')
+{foot("")}""".replace("</body>", f"{scripts}\n<script src=\"assets/v5.js\"></script>\n</body>")
+
+
+def index_page():
+    menu = "".join(f'<li><a href="{h}" data-o="{o}"><span class="m5-l">{l}</span><span class="m5-d">{d}</span></a></li>' for h, o, l, d in HOME_MENU)
+    words = json.dumps(LAPTOP_WORDS, ensure_ascii=False)
+    return f"""{head("Janet Mao — AI builder", "Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.", "")}
+<body class="v5 home5" data-root="">
+<main class="h5">
+  <div class="h5-t">
+    <h1>Hi! I'm Janet</h1>
+    <p class="h5-sub">I build tools for learning English with AI, and I dive deep into startups.</p>
+    <nav class="h5-menu" aria-label="Sections"><ul>{menu}</ul></nav>
+    <p class="h5-links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
+  </div>
+  <figure class="h5-art">{desk()}</figure>
+</main>
+<script type="application/json" id="laptop-words">{words}</script>
+<script src="assets/v5.js"></script>
+</body>
+</html>
+""".replace("</head>", OLD_HASH + "\n</head>").replace('<meta name="theme-color" content="#f7f7f5">', '<meta name="theme-color" content="#1e5e3b">')
+
+
+def work_page():
+    body = strip_ph(map_section()).replace('<section class="plate fits hl-sec" id="work">', '<section class="s5 fits" id="work">')
+    body = body.replace(blurb("fit-in", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.", highlight=False), "")
+    return page5("work", "Things I've built", "Six tools Janet Mao built for learning English with AI and for researching startups, and how they connect as one system.",
+                 "Things I've built", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.",
+                 body, "48 82 252 188", '\n<script src="assets/map.js"></script>\n<script src="assets/delight.js"></script>')
+
+
+def research_page():
+    body = strip_ph(research_section()).replace('<section class="plate rs" id="research">', '<section class="s5 rs" id="research">')
+    body = body.replace(blurb("rs-what", "Startups I've researched, and AI terms I've explained on film.", highlight=False), "")
+    return page5("research", "Research", "Startups Janet Mao has researched, and AI terms she has explained on film.",
+                 "Research", "Startups I've researched, and AI terms I've explained on film.", body, "44 326 186 112")
+
+
+def about_page():
+    story = "".join(f"<p>{t}</p>" for t in HERO_STORY)
+    body = f"""<section class="s5 ab" id="about">
+  <h2>Hi! I'm Janet</h2>
+  <div class="ab-t">
+    <p class="ab-id">I build tools for learning English with AI, and I dive deep into startups.</p>
+    {story}
+    <p class="ab-cta"><a class="b5" href="work.html">See what I built <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>"""
+    return page5("about", "About", "Janet Mao is an AI builder in San Francisco and a former VC. She builds tools for learning English with AI, and dives deep into startups.",
+                 "About me", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "190 252 450 428")
 
 
 if __name__ == "__main__":
     (OUT / "projects").mkdir(exist_ok=True)
     (OUT / "index.html").write_text(index_page())
+    for name, page in {"work": work_page, "research": research_page, "about": about_page}.items():
+        (OUT / f"{name}.html").write_text(page())
     for s in ORDER:
         page ={"startup-research": startup_page, "ai-terms": ai_terms_page, "lexiai": lexiai_page, "lexispeak": lexispeak_page, "writing-station": writing_station_page, "podcast-dig": podcast_dig_page}.get(s)
         (OUT / "projects" / f"{s}.html").write_text(page() if page else project_page(s))

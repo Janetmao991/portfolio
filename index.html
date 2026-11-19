@@ -10,167 +10,170 @@
 <meta property="og:description" content="Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1e5e3b">
 <link rel="preload" href="assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
-<script>
-(() => {
-  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  document.documentElement.classList.add('hl-arm');
-  let ready = false; const held = [];
-  const play = h => h.closest('.plate').classList.add('hl-on');
-  const release = () => { if (ready) return; ready = true; held.splice(0).forEach(play); };
-  addEventListener('scroll', release, { once: true, passive: true }); setTimeout(release, 6500);
-  const go = () => {
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (!e.isIntersecting) return;
-      io.unobserve(e.target); ready ? play(e.target) : held.push(e.target);
-    }), { rootMargin: '0px 0px -25% 0px', threshold: 1 });
-    document.querySelectorAll('.hl-sec .ph h2').forEach(h => io.observe(h));
-  };
-  document.readyState === 'loading' ? addEventListener('DOMContentLoaded', go) : go();
-})();
-</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..700,50&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/v5.css">
+<script>(function(h){var m={"#work":"work.html","#research":"research.html","#research-startups":"research.html#research-startups","#research-ai-terms":"research.html#research-ai-terms","#about":"about.html","#contact":"about.html#contact"};if(m[h])location.replace(m[h])})(location.hash)</script>
 </head>
-<body class="home" data-root="">
-<div class="page">
-<header class="plate nav">
-  <a class="home" href="index.html"><span class="av" aria-hidden="true">J</span>Janet Mao</a>
-  <nav><a href="index.html#about">About</a><a href="index.html#work">Projects</a><a href="index.html#research">Research</a></nav>
-</header>
-<main>
-<section class="plate hero" id="about">
-  <div class="hero-t">
-    <h1 class="dl-rise"><span>Hi!</span> <span>I'm</span> <span><mark>Janet</mark></span></h1>
-    <p class="hero-id">I build tools for <span class="dl-nw"><span class="dl-rot" aria-hidden="true"><span class="dl-rot-w">learning English with AI</span></span><span class="dl-sr">learning English with AI</span>,</span> and I dive deep into startups.</p>
-    <p>I like cool, fancy things.</p>
-    <p>But I'd rather make something I use every day.</p>
-    <p>As a former VC and startup core member, I'm always diving into startups.</p>
-    <p>I build these projects for <span class="dl-w" tabindex="0">lifelong<span class="dl-def" role="tooltip"><b>lifelong</b><i>adjective</i>lasting or continuing through the whole of your life</span></span> learning.</p>
-    <p>None of them stands alone.</p>
-    <p>They connect as one system, <span class="dl-w" tabindex="0">woven<span class="dl-def" role="tooltip"><b>woven</b><i>past participle of weave</i>closely joined into something, like threads in cloth</span></span> into how I learn.</p>
-    <p class="dl-cta"><a class="dl-btn" href="#work">See what I built <span aria-hidden="true">↓</span></a></p>
-        <p class="links"><a href="https://x.com/BuiltByJanet">X @BuiltByJanet</a><a href="https://github.com/Janetmao991">GitHub</a><a href="mailto:qing.mao.2024@marshall.usc.edu">Email</a></p>
+<body class="v5 home5" data-root="">
+<main class="h5">
+  <div class="h5-t">
+    <h1>Hi! I'm Janet</h1>
+    <p class="h5-sub">I build tools for learning English with AI, and I dive deep into startups.</p>
+    <nav class="h5-menu" aria-label="Sections"><ul><li><a href="work.html" data-o="work"><span class="m5-l">Things I've built</span><span class="m5-d">Six tools that work as one system</span></a></li><li><a href="research.html" data-o="research"><span class="m5-l">Research</span><span class="m5-d">Startup teardowns and AI term films</span></a></li><li><a href="about.html" data-o="about"><span class="m5-l">About me</span><span class="m5-d">Why I build what I use every day</span></a></li><li><a href="about.html#contact" data-o="contact"><span class="m5-l">Contact</span><span class="m5-d">Email, X and GitHub</span></a></li></ul></nav>
+    <p class="h5-links"><a href="https://x.com/BuiltByJanet">X @BuiltByJanet</a><a href="https://github.com/Janetmao991">GitHub</a><a href="mailto:qing.mao.2024@marshall.usc.edu">Email</a></p>
   </div>
-  <div class="hero-v"><div class="fx">
-    <div class="forest" aria-hidden="true"><svg class="fx-story" viewBox="0 6 260 184" aria-hidden="true">
-<defs><radialGradient id="bf-glow"><stop offset="0" stop-color="#dfe5dd"/><stop offset=".55" stop-color="#dfe5dd" stop-opacity=".55"/><stop offset="1" stop-color="#dfe5dd" stop-opacity="0"/></radialGradient><radialGradient id="au-m"><stop offset="0" stop-color="#c4e6d4"/><stop offset=".5" stop-color="#c4e6d4" stop-opacity="0.55"/><stop offset="1" stop-color="#c4e6d4" stop-opacity="0"/></radialGradient><radialGradient id="au-l"><stop offset="0" stop-color="#ddd0f0"/><stop offset=".5" stop-color="#ddd0f0" stop-opacity="0.55"/><stop offset="1" stop-color="#ddd0f0" stop-opacity="0"/></radialGradient><radialGradient id="au-c"><stop offset="0" stop-color="#f6cdbd"/><stop offset=".5" stop-color="#f6cdbd" stop-opacity="0.55"/><stop offset="1" stop-color="#f6cdbd" stop-opacity="0"/></radialGradient><radialGradient id="wg"><stop offset="0" stop-color="#f5d29a"/><stop offset=".5" stop-color="#f5d29a" stop-opacity="0.6"/><stop offset="1" stop-color="#f5d29a" stop-opacity="0"/></radialGradient><radialGradient id="pn-0"><stop offset="0" stop-color="#f0cf7a"/><stop offset=".5" stop-color="#f0cf7a" stop-opacity="0.8"/><stop offset="1" stop-color="#f0cf7a" stop-opacity="0"/></radialGradient><radialGradient id="pn-1"><stop offset="0" stop-color="#f2b49b"/><stop offset=".5" stop-color="#f2b49b" stop-opacity="0.8"/><stop offset="1" stop-color="#f2b49b" stop-opacity="0"/></radialGradient><radialGradient id="pn-2"><stop offset="0" stop-color="#c4b0e6"/><stop offset=".5" stop-color="#c4b0e6" stop-opacity="0.8"/><stop offset="1" stop-color="#c4b0e6" stop-opacity="0"/></radialGradient><radialGradient id="pn-3"><stop offset="0" stop-color="#9fd4b8"/><stop offset=".5" stop-color="#9fd4b8" stop-opacity="0.8"/><stop offset="1" stop-color="#9fd4b8" stop-opacity="0"/></radialGradient><radialGradient id="pn-4"><stop offset="0" stop-color="#aec8ec"/><stop offset=".5" stop-color="#aec8ec" stop-opacity="0.8"/><stop offset="1" stop-color="#aec8ec" stop-opacity="0"/></radialGradient></defs>
-<g class="pt" style="--k:-2"><g class="in glow" style="--t:3.1s"><ellipse cx="156" cy="112" rx="116" ry="86" fill="url(#bf-glow)"/></g></g>
-<g class="pt" style="--k:-1.5"><g class="aur"><g class="au" style="--a:au-1;--s:23s"><ellipse cx="116" cy="92" rx="76" ry="52" fill="url(#au-m)"/></g><g class="au" style="--a:au-2;--s:29s"><ellipse cx="198" cy="70" rx="68" ry="50" fill="url(#au-l)"/></g><g class="au" style="--a:au-3;--s:19s"><ellipse cx="156" cy="40" rx="72" ry="40" fill="url(#au-c)"/></g></g></g><g class="pt" style="--k:-1"><g class="wglow"><ellipse cx="156" cy="106" rx="74" ry="36" fill="url(#wg)"/></g></g><g class="pt" style="--k:1"><g class="pollen"><circle class="pn" cx="151.0" cy="129.4" r="2.5" fill="url(#pn-0)" style="--t:3.70s;--x:-18.4;--y:-46.2;--s:2.30s"/><circle class="pn" cx="151.2" cy="126.8" r="2.4" fill="url(#pn-1)" style="--t:3.78s;--x:-8.3;--y:-60.8;--s:2.55s"/><circle class="pn" cx="148.0" cy="131.6" r="3.2" fill="url(#pn-2)" style="--t:3.86s;--x:10.4;--y:-41.6;--s:2.59s"/><circle class="pn" cx="146.6" cy="128.9" r="2.6" fill="url(#pn-3)" style="--t:3.94s;--x:8.8;--y:-67.2;--s:2.40s"/><circle class="pn" cx="162.1" cy="132.7" r="3.2" fill="url(#pn-4)" style="--t:4.02s;--x:-17.9;--y:-37.2;--s:2.43s"/><circle class="pn" cx="153.5" cy="132.1" r="3.3" fill="url(#pn-0)" style="--t:4.10s;--x:10.8;--y:-57.8;--s:2.59s"/><circle class="pn" cx="162.8" cy="130.5" r="3.3" fill="url(#pn-1)" style="--t:4.18s;--x:4.1;--y:-36.2;--s:2.66s"/><circle class="pn" cx="152.7" cy="130.4" r="3.0" fill="url(#pn-2)" style="--t:4.26s;--x:-21.3;--y:-52.0;--s:2.42s"/><circle class="pn" cx="154.1" cy="131.8" r="2.5" fill="url(#pn-3)" style="--t:4.34s;--x:-15.7;--y:-50.4;--s:2.45s"/><circle class="pn" cx="164.4" cy="130.3" r="3.1" fill="url(#pn-4)" style="--t:4.42s;--x:-20.7;--y:-64.9;--s:2.51s"/><circle class="pn" cx="151.3" cy="128.1" r="2.4" fill="url(#pn-0)" style="--t:4.50s;--x:-14.0;--y:-56.4;--s:2.68s"/><circle class="pn" cx="147.3" cy="130.4" r="2.7" fill="url(#pn-1)" style="--t:4.58s;--x:3.3;--y:-47.0;--s:2.48s"/><circle class="pn" cx="152.2" cy="132.8" r="3.1" fill="url(#pn-2)" style="--t:4.66s;--x:6.4;--y:-52.7;--s:2.50s"/><circle class="pn" cx="148.3" cy="126.2" r="2.5" fill="url(#pn-3)" style="--t:4.74s;--x:20.7;--y:-64.4;--s:2.54s"/><circle class="pn" cx="162.3" cy="132.3" r="2.8" fill="url(#pn-4)" style="--t:4.82s;--x:-19.2;--y:-38.8;--s:2.54s"/><circle class="pn" cx="146.8" cy="130.9" r="3.2" fill="url(#pn-0)" style="--t:4.90s;--x:11.2;--y:-50.1;--s:2.46s"/></g><g class="motes"></g></g>
-<g stroke="#555" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-<g class="x" style="--t:3.1s;--u:4.6s" stroke="#9fb3a4" stroke-width="1.6"><path pathLength="1" class="dw" style="--t:3.2s;--d:0" d="M147 128L112 88" fill="none"/><path pathLength="1" class="dw" style="--t:3.2s;--d:1" d="M152 128L136 72" fill="none"/><path pathLength="1" class="dw" style="--t:3.2s;--d:2" d="M156 128L156 64" fill="none"/><path pathLength="1" class="dw" style="--t:3.2s;--d:3" d="M160 128L178 72" fill="none"/><path pathLength="1" class="dw" style="--t:3.2s;--d:4" d="M165 128L202 88" fill="none"/></g>
-<g class="pl" style="--k:0.7;--o:144px 138px"><g class="sw" style="--sd:-0.0s;--o:144px 138px" stroke="#9fb3a4" stroke-width="1.7"><path pathLength="1" class="dw" style="--t:4.2s;--d:0" d="M144 138C140 122 128 104 116 88" fill="none"/><g class="pop" style="--t:4.75s"><path d="M133.0 66.0Q137.4 77.4 124.3 81.5Q116.8 91.6 104.9 85.3Q91.1 86.5 89.3 74.6Q79.6 66.0 89.3 57.4Q91.1 45.5 104.9 46.7Q116.8 40.4 124.3 50.5Q137.4 54.6 133.0 66.0Z" fill="#dfe5dd"/></g></g></g><g class="pl" style="--k:0.7;--o:168px 138px"><g class="sw" style="--sd:-0.7s;--o:168px 138px" stroke="#9fb3a4" stroke-width="1.7"><path pathLength="1" class="dw" style="--t:4.3s;--d:0" d="M168 138C174 120 186 104 198 88" fill="none"/><g class="pop" style="--t:4.90s"><path d="M225.0 71.8Q225.2 83.8 211.4 84.4Q200.7 92.1 191.5 83.1Q177.9 80.8 180.3 68.9Q174.0 58.3 186.2 52.5Q191.9 41.6 204.7 46.3Q218.2 43.3 222.0 54.9Q233.0 62.1 225.0 71.8Z" fill="#dfe5dd"/></g></g></g><g class="pl" style="--k:0.9;--o:156px 136px"><g class="sw" style="--sd:-1.4s;--o:156px 136px" stroke="#9fb3a4" stroke-width="1.7"><path pathLength="1" class="dw" style="--t:4.4s;--d:0" d="M156 136C155 110 157 80 156 52" fill="none"/><g class="pop" style="--t:5.05s"><path d="M176.6 52.1Q174.0 63.9 160.6 61.1Q149.2 67.9 141.9 57.7Q128.4 55.6 131.4 44.0Q123.7 34.1 135.4 27.9Q138.0 16.1 151.4 18.9Q162.8 12.1 170.1 22.3Q183.6 24.4 180.6 36.0Q188.3 45.9 176.6 52.1Z" fill="#dfe5dd"/></g></g></g><g class="pl" style="--k:1.3;--o:150px 138px"><g class="sw" style="--sd:-2.1s;--o:150px 138px" stroke="#3d5e4a" stroke-width="2"><path pathLength="1" class="dw" style="--t:4.55s;--d:0" d="M150 138C146 124 138 114 130 104" fill="none"/><g class="pop" style="--t:5.15s"><path d="M133.9 100.8Q127.1 108.0 118.1 102.8Q107.5 101.3 108.2 92.0Q104.4 83.3 114.1 79.2Q120.9 72.0 129.9 77.2Q140.5 78.7 139.8 88.0Q143.6 96.7 133.9 100.8Z" fill="#bccabf"/></g></g></g><g class="pl" style="--k:1.3;--o:162px 138px"><g class="sw" style="--sd:-2.8s;--o:162px 138px" stroke="#3d5e4a" stroke-width="2"><path pathLength="1" class="dw" style="--t:4.65s;--d:0" d="M162 138C166 126 174 116 184 106" fill="none"/><g class="pop" style="--t:5.30s"><path d="M194.8 104.8Q185.8 110.0 179.0 102.7Q169.3 98.6 173.2 89.9Q172.5 80.6 183.2 79.2Q192.2 74.0 199.0 81.3Q208.7 85.4 204.8 94.1Q205.5 103.4 194.8 104.8Z" fill="#bccabf"/></g></g></g><g class="pl" style="--k:2;--o:156px 138px"><g class="sw" style="--sd:-3.5s;--o:156px 138px" stroke="#3d5e4a" stroke-width="2.3"><path pathLength="1" class="dw" style="--t:4.75s;--d:0" d="M156 138C153 122 158 106 155 86" fill="none"/><path pathLength="1" class="dw" style="--t:4.75s;--d:4" d="M155 116C162 110 170 106 176 98" fill="none"/><path pathLength="1" class="dw" style="--t:4.75s;--d:8" d="M155 104C148 98 142 94 136 88" fill="none"/><g class="pop" style="--t:5.45s"><path d="M156.3 88.3Q145.7 92.1 141.0 83.1Q131.0 78.3 136.2 69.5Q134.3 59.7 145.6 57.8Q153.2 50.4 162.0 56.8Q173.5 57.3 173.2 67.2Q179.8 75.3 170.7 81.3Q167.5 90.8 156.3 88.3Z" fill="#9fb3a4"/></g></g></g>
-<g class="pl" style="--k:2;--o:156px 138px"><g class="pop" style="--t:5.9s"><path transform="translate(146 64) rotate(-30)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.0s"><path transform="translate(166 62) rotate(30)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.1s"><path transform="translate(156 56) rotate(0)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.2s"><path transform="translate(150 80) rotate(-10)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.3s"><path transform="translate(168 80) rotate(20)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.4s"><path transform="translate(180 95) rotate(20)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.5s"><path transform="translate(177 90) rotate(-50)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.6s"><path transform="translate(183 101) rotate(70)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.7s"><path transform="translate(132 85) rotate(-20)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.8s"><path transform="translate(135 80) rotate(40)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g><g class="pop" style="--t:6.9s"><path transform="translate(129 91) rotate(-80)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g></g>
-<path pathLength="1" class="dw" d="M12 150H248M28 150v30M232 150v30" fill="none"/>
-<g class="x" style="--t:0s;--u:2.9s"><rect pathLength="1" class="dw f" style="--d:3" x="122" y="137" width="68" height="13" rx="2" fill="#d6d5d0"/>
-<path pathLength="1" class="dw" style="--d:5" d="M128 141.5h56M128 145.5h56" fill="none" stroke-width="1.4"/></g>
-<g class="in" style="--t:2.8s"><path d="M119 148L156 153L193 148" fill="none"/>
-<path d="M156 150L122 147Q120 140 123 134Q139 130 156 137Z" fill="#fbfaf6"/><path d="M156 150L190 147Q192 140 189 134Q173 130 156 137Z" fill="#fbfaf6"/>
-<path d="M128 139q12-3 24 1M127 143q12-2 25 2M160 140q12-4 24-1M160 144q12-3 25-2" fill="none" stroke="#9fb3a4" stroke-width="1.3"/>
-<path class="pg" style="--t:2.95s" d="M156 150L190 147Q192 140 189 134Q173 130 156 137Z" fill="#fbfaf6"/><path class="pg" style="--t:3.17s" d="M156 150L190 147Q192 140 189 134Q173 130 156 137Z" fill="#fbfaf6"/><path class="pg" style="--t:3.39s" d="M156 150L190 147Q192 140 189 134Q173 130 156 137Z" fill="#fbfaf6"/></g>
-<g class="x" style="--t:3.6s;--u:4.9s"><g class="pop" style="--t:3.7s"><path d="M156 137q-1-7 1-13" fill="none" stroke="#3d5e4a"/>
-<path transform="translate(151 127) rotate(-30)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/><path transform="translate(162 124) rotate(30)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#9fb3a4" stroke="none"/></g></g>
-<g class="x" style="--t:0s;--u:2.9s"><path pathLength="1" class="dw f" d="M48 150C48 132 60 122 70 120C80 122 80 132 80 150Z" fill="#fbfaf6"/><path pathLength="1" class="dw" style="--d:3" d="M72 128Q84 142 100 146" fill="none"/>
-<g transform="translate(94 133) rotate(30)"><circle pathLength="1" class="dw f" style="--d:4" cx="0" cy="0" r="14" fill="#fbfaf6"/><path pathLength="1" class="dw f" style="--d:5" d="M-15 9C-17-6-10-16 1-16C10-16 15-10 15-5C8-8 2-6-2-2L-4 10C-8 11-12 11-15 9Z" fill="#555"/><path pathLength="1" class="dw" d="M3 2q3 2 6 0" fill="none"/><path pathLength="1" class="dw" style="--d:6" d="M6 8h3" fill="none"/></g>
-<path pathLength="1" class="dw sigh" style="--t:1.1s" d="M107 141c5-1 4-6 8-7s4-6 8-7" fill="none" stroke="#999" stroke-width="1.5"/></g>
-<g class="x" style="--t:2.8s;--u:5.8s"><path pathLength="1" class="dw f" d="M46 150C46 132 54 122 64 120C74 122 78 132 78 150Z" fill="#fbfaf6"/><g transform="translate(66 104) rotate(-6)"><circle pathLength="1" class="dw f" style="--d:0" cx="0" cy="0" r="14" fill="#fbfaf6"/><path pathLength="1" class="dw f" style="--d:1" d="M-15 9C-17-6-10-16 1-16C10-16 15-10 15-5C8-8 2-6-2-2L-4 10C-8 11-12 11-15 9Z" fill="#555"/><g class="eye" data-cx="6" data-cy="1"><g class="look"><g class="lid"><circle cx="6" cy="1" r="2" fill="#555" stroke="none"/><circle cx="6.75" cy=".25" r=".5" fill="#fff" stroke="none"/></g></g></g><path pathLength="1" class="dw" style="--d:2" d="M6 7q2.5 3 5 0" fill="none"/></g><path d="M74 126Q98 134 124 142" fill="none"/></g>
-<g class="in" style="--t:5.8s"><g class="breathe"><path pathLength="1" class="dw f" d="M50 150C50 132 66 122 76 120C86 122 82 132 82 150Z" fill="#fbfaf6"/><g transform="translate(88 109) rotate(16)"><circle pathLength="1" class="dw f" style="--d:0" cx="0" cy="0" r="14" fill="#fbfaf6"/><path pathLength="1" class="dw f" style="--d:1" d="M-15 9C-17-6-10-16 1-16C10-16 15-10 15-5C8-8 2-6-2-2L-4 10C-8 11-12 11-15 9Z" fill="#555"/><g class="eye" data-cx="6" data-cy="1"><g class="look"><g class="lid"><circle cx="6" cy="1" r="2.6" fill="#555" stroke="none"/><circle cx="6.95" cy=".05" r=".62" fill="#fff" stroke="none"/></g></g></g><path pathLength="1" class="dw" style="--d:2" d="M5 7q3 3.5 6 0" fill="none"/></g></g>
-<path d="M80 128Q102 140 126 145M70 132Q94 148 122 149" fill="none"/>
-<g class="tw"><path class="" style="--z:0" d="M102 94.4q0.54 3.06 3.6 3.6q-3.06 0.54 -3.6 3.6q-0.54 -3.06 -3.6 -3.6q3.06 -0.54 3.6 -3.6Z" fill="#3d5e4a" stroke="none"/><path class="" style="--z:0" d="M108 102.8q0.33 1.87 2.2 2.2q-1.87 0.33 -2.2 2.2q-0.33 -1.87 -2.2 -2.2q1.87 -0.33 2.2 -2.2Z" fill="#3d5e4a" stroke="none"/></g></g>
+  <figure class="h5-art"><svg class="desk" viewBox="0 0 720 680" role="img" aria-labelledby="desk-t">
+<title id="desk-t">Drawing: Janet at her desk, seen from behind, headphones on, typing a word into her laptop. Out of the window is the Golden Gate Bridge in the fog; on the wall her six projects are pinned to a board and tied together with string.</title>
+<defs>
+  <filter id="wob" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+  <clipPath id="win-in"><rect x="344" y="74" width="272" height="202"/></clipPath>
+</defs>
+<g filter="url(#wob)" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- window: the Golden Gate in the fog -->
+  <g class="o-window">
+    <rect x="330" y="60" width="300" height="230" rx="3"/>
+    <rect x="344" y="74" width="272" height="202"/>
+    <g clip-path="url(#win-in)" stroke-width="2">
+      <path d="M394 124V280M406 124V280M394 142H406M394 172H406M394 204H406"/>
+      <path d="M554 124V280M566 124V280M554 142H566M554 172H566M554 204H566"/>
+      <path d="M344 200Q380 190 394 128M406 128Q480 280 554 128M566 128Q580 190 616 204"/>
+      <path d="M430 170V222M455 197V222M480 206V222M505 197V222M530 170V222M370 190V222M590 190V222" stroke-width="1.4"/>
+      <path d="M344 222H616M344 228H616"/>
+      <path d="M344 258C380 242 420 248 450 254S540 242 616 250"/>
+      <g class="fog"><path d="M352 266c18-9 36-9 54 0s36 9 54 0M486 240c16-8 32-8 48 0s32 8 48 0"/></g>
+      <g class="fog f2"><path d="M420 250c14-7 28-7 42 0s28 7 42 0"/></g>
+    </g>
+    <path d="M480 74V276"/>
+    <path d="M318 290H642M324 298H636"/>
+  </g>
+
+  <!-- plant on the sill -->
+  <g class="o-plant">
+    <path class="g" d="M584 256H624L619 290H589Z"/>
+    <path d="M586 264H622"/>
+    <g class="leaf l1"><path class="g" d="M602 256C590 230 570 222 558 226C570 240 588 250 602 256Z"/><path d="M602 256C588 242 574 232 562 228" stroke-width="1.4"/></g>
+    <g class="leaf l2"><path class="g" d="M606 256C606 228 616 208 632 200C630 224 620 244 606 256Z"/><path d="M606 256C612 236 620 218 630 204" stroke-width="1.4"/></g>
+    <g class="leaf l3"><path class="g" d="M603 256C598 234 598 214 604 196C612 216 610 238 603 256Z"/></g>
+    <path d="M592 298C584 316 590 334 580 354" stroke-width="2"/>
+    <path class="g" d="M587 318c-10-2-14 4-16 8c8 1 14-2 16-8ZM583 340c8-4 14-1 16 4c-7 2-13 0-16-4Z" stroke-width="1.8"/>
+  </g>
+
+  <!-- the board: six projects tied with string -->
+  <g class="o-work">
+    <rect class="g" x="56" y="90" width="236" height="172" rx="3"/>
+    <rect x="64" y="98" width="220" height="156" rx="2" stroke-width="1.4"/>
+    <g class="threads" stroke-width="1.6">
+      <path pathLength="1" d="M128 132Q140 156 140 164"/>
+      <path pathLength="1" d="M140 188Q128 206 120 218"/>
+      <path pathLength="1" d="M170 172Q190 160 206 134"/>
+      <path pathLength="1" d="M232 134Q242 150 244 164"/>
+      <path pathLength="1" d="M244 188Q238 206 232 218"/>
+    </g>
+    <rect class="g" x="80" y="108" width="62" height="26" rx="2"/>
+    <rect class="g" x="108" y="164" width="64" height="26" rx="2"/>
+    <rect class="g" x="80" y="218" width="62" height="26" rx="2"/>
+    <rect class="g" x="198" y="108" width="62" height="26" rx="2"/>
+    <rect class="g" x="206" y="164" width="76" height="26" rx="2"/>
+    <rect class="g" x="198" y="218" width="62" height="26" rx="2"/>
+  </g>
+
+  <!-- desk -->
+  <g class="o-desk">
+    <path class="g" d="M34 462H54V690H34ZM666 462H686V690H666Z"/>
+    <path class="g" d="M30 412H690L706 446H14Z"/>
+    <path class="g" d="M14 446H706V462H14Z"/>
+  </g>
+
+  <!-- research: the teardown magazines and a film still -->
+  <g class="o-research">
+    <g class="books">
+      <rect class="g" x="58" y="408" width="134" height="20" rx="2"/>
+      <rect class="g" x="68" y="388" width="118" height="20" rx="2"/>
+      <rect class="g" x="62" y="374" width="126" height="14" rx="2"/>
+    </g>
+    <g class="still" transform="rotate(8 186 372)">
+      <rect class="g" x="162" y="338" width="50" height="58" rx="2"/>
+      <rect x="168" y="344" width="38" height="32" stroke-width="1.8"/>
+      <path class="p" d="M182 353L192 360L182 367Z" stroke-width="1.4"/>
+    </g>
+  </g>
+
+  <!-- mug and a letter -->
+  <g class="o-mug">
+    <path class="st" pathLength="1" d="M640 368C632 356 648 346 640 334C634 326 642 318 640 308" stroke-width="2"/>
+    <path class="st s2" pathLength="1" d="M652 364C646 352 660 344 652 332C647 325 654 318 652 312" stroke-width="2"/>
+    <path class="g" d="M628 380V420C628 430 664 430 664 420V380"/>
+    <ellipse class="g" cx="646" cy="380" rx="18" ry="5"/>
+    <path d="M664 390C682 390 682 412 664 412"/>
+  </g>
+  <g class="o-contact">
+    <g class="env" transform="rotate(-7 628 418)">
+      <rect class="g" x="588" y="396" width="78" height="46" rx="2"/>
+      <path class="flap" d="M588 398L627 424L666 398"/>
+    </g>
+  </g>
+
+  <!-- laptop -->
+  <g class="o-laptop">
+    <rect class="g" x="414" y="298" width="186" height="112" rx="8"/>
+    <rect x="424" y="308" width="166" height="92" rx="3" stroke-width="1.8"/>
+    <path class="g" d="M400 410H614L628 432H386Z"/>
+    <path d="M488 425H528" stroke-width="1.8"/>
+    <g class="lines" stroke-width="2"><path class="ln a" pathLength="1" d="M436 370H570"/><path class="ln b" pathLength="1" d="M436 381H552"/><path class="ln c" pathLength="1" d="M436 391H520"/></g>
+  </g>
+
+  <!-- Janet, from behind -->
+  <g class="o-about">
+    <path class="g" d="M214 580C212 494 222 444 258 420C276 408 324 408 342 420C378 444 388 494 386 580Z"/>
+    <g class="arm"><path d="M356 424C384 440 404 446 424 436C436 430 444 424 452 420" stroke-width="30"/><path class="gs" d="M356 424C384 440 404 446 424 436C436 430 444 424 452 420" stroke-width="24.8"/></g>
+    <ellipse class="g" cx="458" cy="418" rx="11" ry="7"/>
+    <g class="head">
+      <circle class="g" cx="300" cy="296" r="19"/>
+      <path d="M290 292C296 284 308 288 306 298" stroke-width="1.6"/>
+      <path class="g" d="M252 352C250 318 270 298 300 298C330 298 350 318 348 352C346 378 330 392 300 394C270 392 254 378 252 352Z"/>
+      <path d="M300 300C296 330 296 360 300 392M282 304C270 330 272 362 284 388M318 304C330 330 328 362 316 388" stroke-width="1.6"/>
+      <path d="M284 404C290 398 310 398 316 404" stroke-width="2"/>
+      <path d="M246 352C236 274 364 274 354 352" stroke-width="10"/>
+      <path class="gs" d="M246 352C236 274 364 274 354 352" stroke-width="5"/>
+      <ellipse class="g" cx="248" cy="360" rx="13" ry="22"/>
+      <ellipse class="g" cx="352" cy="360" rx="13" ry="22"/>
+      <path d="M248 346V374M352 346V374" stroke-width="1.6"/>
+    </g>
+    <g class="chair">
+      <rect class="g" x="236" y="520" width="128" height="86" rx="20"/>
+      <rect x="246" y="530" width="108" height="66" rx="14" stroke-width="1.6"/>
+      <path d="M300 606V652M248 670L300 652L352 670" />
+      <path d="M262 676h18M320 676h18M286 680h28" stroke-width="1.6"/>
+    </g>
+  </g>
 </g>
-<g class="pt" style="--k:4"><g class="lf" style="--dx:-48;--dy:4;--t:5.5s"><g class="lf-l"><g transform="translate(118 70)"><path transform="translate(0 0) rotate(0)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#9fb3a4" stroke="none"/></g></g><text class="wd" x="70" y="74" data-w="agents|RAG|tokens|prompt|evals">agents</text></g><g class="lf" style="--dx:-82;--dy:-6;--t:6.7s"><g class="lf-l"><g transform="translate(140 50)"><path transform="translate(0 0) rotate(20)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g></g><text class="wd" x="58" y="44" data-w="transformer|embeddings|fine-tuning|context window">transformer</text></g><g class="lf" style="--dx:30;--dy:14;--t:7.9s"><g class="lf-l"><g transform="translate(204 72)"><path transform="translate(0 0) rotate(40)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#9fb3a4" stroke="none"/></g></g><text class="wd" x="234" y="86" data-w="LLM|MCP|RAG|GPU">LLM</text></g><g class="lf" style="--dx:-94;--dy:6;--t:9.1s"><g class="lf-l"><g transform="translate(128 92)"><path transform="translate(0 0) rotate(60)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#3d5e4a" stroke="none"/></g></g><text class="wd" x="34" y="98" data-w="inference|agents|attention|vectors">inference</text></g><g class="lf" style="--dx:42;--dy:-12;--t:10.3s"><g class="lf-l"><g transform="translate(190 52)"><path transform="translate(0 0) rotate(80)" d="M-4.5 0Q0-4 4.5 0Q0 4-4.5 0Z" fill="#9fb3a4" stroke="none"/></g></g><text class="wd" x="232" y="40" data-w="evals|skills|tokens|LoRA">evals</text></g></g>
-</svg></div>
-    <p class="fx-c" aria-hidden="true"><span class="fx-cap" style="--t:0.3s;--u:2.7s">Bored…</span><span class="fx-cap" style="--t:3.0s;--u:5.4s">…then she opened AI.</span><span class="fx-cap last" style="--t:5.8s">Now she can’t stop learning.</span></p>
-  </div><p class="vh">A short drawing: a girl is bored at her desk with a closed book. She opens it, and a forest grows out of the pages. Leaves fall from the trees and turn into English words while she leans in to read.</p></div>
-</section>
-<section class="plate fits hl-sec" id="work">
-  <div class="ph"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="12" height="12" rx="2.5"/><rect x="8.5" y="3.5" width="12" height="12" rx="2.5"/></svg><h2>Things I've built</h2><span class="pm">6&nbsp;projects</span></div>
-  <p class="fit-in">My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.</p>
-  <p class="dl-loop-row"><button type="button" class="dl-btn dl-ghost" id="dl-loop">Follow one word through the loop</button></p>
-  <div class="fit" style="aspect-ratio:1000/760">
-  <svg class="wires" viewBox="0 0 1000 760" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#55554f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#3d5e4a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-    <rect class="cl" x="10" y="22" width="446" height="716" rx="14"/><rect class="cl" x="544" y="22" width="446" height="716" rx="14"/>
-    <g class="bg-glow"><path class="pulse" d="M548.0 380.0Q500.0 380.0 452.0 380.0"/></g>
-    <path class="w" data-a="lexiai" data-b="lexispeak" style="--i:0" pathLength="1" d="M278.0 289.6Q258.9 229.4 201.9 202.4"/><path class="w" data-a="lexispeak" data-b="lexiai" style="--i:1" pathLength="1" d="M185.0 210.4Q204.1 270.6 261.1 297.6"/><path class="w" data-a="lexiai" data-b="writing-station" style="--i:2" pathLength="1" d="M264.4 458.6Q207.4 485.6 188.3 545.8"/><path class="w" data-a="writing-station" data-b="lexiai" style="--i:3" pathLength="1" d="M198.6 561.4Q255.6 534.4 274.7 474.2"/><path class="w br" data-a="podcast-dig" data-b="lexiai" style="--i:4" pathLength="1" d="M548.0 380.0Q500.0 380.0 452.0 380.0"/><path class="w" data-a="podcast-dig" data-b="startup-research" style="--i:5" pathLength="1" d="M722.8 290.2Q744.0 231.9 798.9 203.0"/><path class="w" data-a="ai-terms" data-b="startup-research" style="--i:6" pathLength="1" d="M888.0 474.0Q904.8 342.5 888.0 211.0"/><path class="w hub" data-a="podcast-dig" data-b="vault" style="--i:7" d="M661.9 466.0Q669.8 563.0 677.6 660.0"/><path class="w hub" data-a="startup-research" data-b="vault" style="--i:8" d="M851.6 205.7Q771.1 433.0 690.5 660.3"/><path class="w hub" data-a="ai-terms" data-b="vault" style="--i:9" d="M781.0 625.0Q751.6 643.9 722.3 662.8"/>
-    <g class="flows"></g>
-    <text class="wl" data-a="lexiai" data-b="lexispeak" style="--i:0" x="255.4" y="232.4" text-anchor="start">saved words</text><text class="wl" data-a="lexispeak" data-b="lexiai" style="--i:1" x="207.6" y="267.6" text-anchor="end">unlocks “Can Speak”</text><text class="wl" data-a="lexiai" data-b="writing-station" style="--i:2" x="210.8" y="488.6" text-anchor="end">words to use</text><text class="wl" data-a="writing-station" data-b="lexiai" style="--i:3" x="252.2" y="531.4" text-anchor="start">words used well</text><text class="wl br" data-a="podcast-dig" data-b="lexiai" style="--i:4" x="500.0" y="366.0" text-anchor="middle">shared transcripts</text><text class="wl" data-a="podcast-dig" data-b="startup-research" style="--i:5" x="746.4" y="234.0" text-anchor="end">raw material</text><text class="wl" data-a="ai-terms" data-b="startup-research" style="--i:6" x="904.4" y="342.5" text-anchor="start">tech explained</text>
-  </svg>
-  <p class="fit-k" style="left:1.00%;top:2.89%">Learning English</p><p class="fit-k" style="left:54.40%;top:2.89%">Understanding AI & startups</p>
-  <a class="nd" data-id="lexispeak" href="projects/lexispeak.html" style="left:11.80%;top:15.79%;--p:1;--fd:6.10s;--fo:-1.3s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-lexispeak" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-lexispeak)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M62 20h41c4 0 7 3 7 7v28c0 4-3 7-7 7H82L68 75l2-13h-8c-4 0-7-3-7-7V27c0-4 3-7 7-7z" fill="#fff"/>
-<rect x="21" y="32" width="27" height="46" rx="13.5" fill="#fff"/><path d="M28 46h13M28 54h13M28 62h13M14 62c0 25 41 25 41 0M34.5 83v15M23 99h23" fill="none"/>
-<g stroke="none" fill="#3d5e4a"><circle cx="71" cy="41" r="4.5"/><circle cx="82.5" cy="41" r="4.5"/><circle cx="94" cy="41" r="4.5"/></g></g></svg><b>LexiSpeak<span class="na" aria-hidden="true">→</span></b><small>Conversation practice that grades my recorded voice.</small></a><a class="nd" data-id="lexiai" href="projects/lexiai.html" style="left:34.50%;top:50.00%;--p:0;--fd:5.20s;--fo:0.0s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-lexiai" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-lexiai)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 42v52c18-4 36-3 48 4 12-7 30-8 48-4V42" fill="#fff"/>
-<path d="M60 40c-12-7-30-8-44-4v52c14-4 32-3 44 4z" fill="#fff"/><path d="M60 40c12-7 30-8 44-4v52c-14-4-32-3-44 4z" fill="#fff"/>
-<path d="M23 50c9-2 19-1 29 2M23 60c9-2 19-1 29 2M23 70c9-2 19-1 29 2M23 80c7-1 13-1 19 1M80 52c6-2 12-2 17-1M80 62c6-2 12-2 17-1M80 72c6-2 12-2 17-1" fill="none"/>
-<path d="M65 37v67l4.5-5 4.5 5V35.6" fill="#3d5e4a"/></g></svg><b>LexiAI<span class="na" aria-hidden="true">→</span></b><small>An advanced learner's dictionary for understanding and using words in context.</small></a><a class="nd" data-id="writing-station" href="projects/writing-station.html" style="left:11.80%;top:84.21%;--p:2;--fd:7.00s;--fo:-2.6s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-writing-station" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-writing-station)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="26" width="70" height="78" rx="4" fill="#fff"/>
-<path d="M16 38h12M16 52h12M16 66h12M16 80h12M16 94h12M36 44h46M36 56h46M36 68h30M34 86c5-5 9 4 14-1" fill="none"/>
-<g transform="rotate(40 74 58)"><rect x="68" y="12" width="13" height="60" rx="5" fill="#fff"/><path d="M68 30h13M78 16v18" fill="none"/>
-<path d="M68.5 72h12l-6 21z" fill="#3d5e4a"/><path d="M74.5 79v7" fill="none" stroke-width="2"/></g></g></svg><b>Writing Station<span class="na" aria-hidden="true">→</span></b><small>A daily English journal, reviewed one sentence at a time.</small></a><a class="nd" data-id="podcast-dig" href="projects/podcast-dig.html" style="left:65.50%;top:50.00%;--p:4;--fd:5.65s;--fo:-3.9s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-podcast-dig" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="6"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-podcast-dig)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="28" width="78" height="60" rx="6" fill="#fff"/><path d="M12 41h78" fill="none"/>
-<g stroke="none" fill="#0a0a0a"><circle cx="20.5" cy="34.5" r="2"/><circle cx="28" cy="34.5" r="2"/><circle cx="35.5" cy="34.5" r="2"/></g>
-<path d="M25 55l10 7-10 7M41 71h13" fill="none" stroke="#3d5e4a" stroke-width="4"/>
-<g transform="translate(80 76) rotate(45)"><rect x="-6.5" y="-24" width="13" height="52" rx="6.5" fill="#fff"/>
-<path d="M-5 -48.5v10h10v-10A14.5 14.5 0 1 1 -5 -48.5z" fill="#fff"/><circle cx="0" cy="19" r="3" fill="none"/></g></g></svg><b>podcast-dig<span class="na" aria-hidden="true">→</span></b><small>Exact quotes from long podcasts, searchable in my Obsidian vault.</small></a><a class="nd" data-id="startup-research" href="projects/startup-research.html" style="left:88.20%;top:15.79%;--p:5;--fd:6.55s;--fo:-5.2s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-startup-research" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-startup-research)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v80h92" fill="none"/><path d="M16 80h-4M16 60h-4M16 40h-4" fill="none" stroke-width="2.5"/>
-<path d="M24 88l17-14 14 6 19-23 22-21" fill="none" stroke="#3d5e4a" stroke-width="4"/><path d="M86 35h11v11" fill="none" stroke="#3d5e4a" stroke-width="4"/>
-<path d="M76 76l18 18" fill="none" stroke-width="9"/><circle cx="62" cy="62" r="19" fill="#fff" fill-opacity=".35"/>
-<path d="M51 55c2-5 6-8 11-8.5" fill="none" stroke-width="2.5"/></g></svg><b>Startup Research<span class="na" aria-hidden="true">→</span></b><small>How I read a company: understand the tech, analyze the business.</small></a><a class="nd" data-id="ai-terms" href="projects/ai-terms.html" style="left:88.20%;top:73.68%;--p:6;--fd:5.20s;--fo:-6.5s" aria-describedby="fit-note"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-ai-terms" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-ai-terms)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 88l-9 17M82 88l9 17M60 88v10" fill="none"/><rect x="14" y="22" width="92" height="64" rx="5" fill="#fff"/>
-<path d="M10 88h100" fill="none" stroke-width="4"/><path d="M24 33c4-3 7 3 11 0s7 3 11 0M88 74h8" fill="none" stroke-width="2.5"/>
-<path d="M51 40v32l26-16z" fill="#3d5e4a"/></g></svg><b>AI Term Explainer<span class="na" aria-hidden="true">→</span></b><small>Short videos that explain AI words in plain language.</small></a>
-  <p class="vp" data-id="vault" style="left:68.00%;top:90.79%;--p:8;--fd:6.10s;--fo:-7.8s"><svg class="vi" viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="30" height="25" rx="3" fill="#fff"/><circle cx="20" cy="19.5" r="6"/><path d="M20 15.5v8M16 19.5h8" stroke="#3d5e4a"/><path d="M11 32v3M29 32v3"/></g></svg><span><b>Obsidian vault</b><small>where the research lands</small></span></p>
-</div>
-  <div class="fm"><section class="fm-c"><p class="fm-k">Learning English</p><ol><li class="fm-n"><a href="projects/lexispeak.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-lexispeak-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-lexispeak-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M62 20h41c4 0 7 3 7 7v28c0 4-3 7-7 7H82L68 75l2-13h-8c-4 0-7-3-7-7V27c0-4 3-7 7-7z" fill="#fff"/>
-<rect x="21" y="32" width="27" height="46" rx="13.5" fill="#fff"/><path d="M28 46h13M28 54h13M28 62h13M14 62c0 25 41 25 41 0M34.5 83v15M23 99h23" fill="none"/>
-<g stroke="none" fill="#3d5e4a"><circle cx="71" cy="41" r="4.5"/><circle cx="82.5" cy="41" r="4.5"/><circle cx="94" cy="41" r="4.5"/></g></g></svg><span><b>LexiSpeak<span class="na" aria-hidden="true">→</span></b><small>Conversation practice that grades my recorded voice.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">← LexiAI</span><span class="lb">saved words</span></li><li><span class="to">→ LexiAI</span><span class="lb">unlocks “Can Speak”</span></li></ul></li><li class="fm-n"><a href="projects/writing-station.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-writing-station-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-writing-station-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="26" width="70" height="78" rx="4" fill="#fff"/>
-<path d="M16 38h12M16 52h12M16 66h12M16 80h12M16 94h12M36 44h46M36 56h46M36 68h30M34 86c5-5 9 4 14-1" fill="none"/>
-<g transform="rotate(40 74 58)"><rect x="68" y="12" width="13" height="60" rx="5" fill="#fff"/><path d="M68 30h13M78 16v18" fill="none"/>
-<path d="M68.5 72h12l-6 21z" fill="#3d5e4a"/><path d="M74.5 79v7" fill="none" stroke-width="2"/></g></g></svg><span><b>Writing Station<span class="na" aria-hidden="true">→</span></b><small>A daily English journal, reviewed one sentence at a time.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">← LexiAI</span><span class="lb">words to use</span></li><li><span class="to">→ LexiAI</span><span class="lb">words used well</span></li></ul></li><li class="fm-n"><a href="projects/lexiai.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-lexiai-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-lexiai-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 42v52c18-4 36-3 48 4 12-7 30-8 48-4V42" fill="#fff"/>
-<path d="M60 40c-12-7-30-8-44-4v52c14-4 32-3 44 4z" fill="#fff"/><path d="M60 40c12-7 30-8 44-4v52c-14-4-32-3-44 4z" fill="#fff"/>
-<path d="M23 50c9-2 19-1 29 2M23 60c9-2 19-1 29 2M23 70c9-2 19-1 29 2M23 80c7-1 13-1 19 1M80 52c6-2 12-2 17-1M80 62c6-2 12-2 17-1M80 72c6-2 12-2 17-1" fill="none"/>
-<path d="M65 37v67l4.5-5 4.5 5V35.6" fill="#3d5e4a"/></g></svg><span><b>LexiAI<span class="na" aria-hidden="true">→</span></b><small>An advanced learner's dictionary for understanding and using words in context.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">→ LexiSpeak</span><span class="lb">saved words</span></li><li><span class="to">← LexiSpeak</span><span class="lb">unlocks “Can Speak”</span></li><li><span class="to">→ Writing Station</span><span class="lb">words to use</span></li><li><span class="to">← Writing Station</span><span class="lb">words used well</span></li><li class="br"><span class="to">⇄ podcast-dig</span><span class="lb">shared transcripts</span></li></ul></li></ol></section><p class="fm-br" aria-hidden="true"><span>LexiAI ⇄ podcast-dig<b>shared transcripts</b></span></p><section class="fm-c"><p class="fm-k">Understanding AI & startups</p><ol><li class="fm-n"><a href="projects/podcast-dig.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-podcast-dig-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="6"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-podcast-dig-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="28" width="78" height="60" rx="6" fill="#fff"/><path d="M12 41h78" fill="none"/>
-<g stroke="none" fill="#0a0a0a"><circle cx="20.5" cy="34.5" r="2"/><circle cx="28" cy="34.5" r="2"/><circle cx="35.5" cy="34.5" r="2"/></g>
-<path d="M25 55l10 7-10 7M41 71h13" fill="none" stroke="#3d5e4a" stroke-width="4"/>
-<g transform="translate(80 76) rotate(45)"><rect x="-6.5" y="-24" width="13" height="52" rx="6.5" fill="#fff"/>
-<path d="M-5 -48.5v10h10v-10A14.5 14.5 0 1 1 -5 -48.5z" fill="#fff"/><circle cx="0" cy="19" r="3" fill="none"/></g></g></svg><span><b>podcast-dig<span class="na" aria-hidden="true">→</span></b><small>Exact quotes from long podcasts, searchable in my Obsidian vault.</small></span></a><ul class="fm-e" aria-label="Connections"><li class="br"><span class="to">⇄ LexiAI</span><span class="lb">shared transcripts</span></li><li><span class="to">→ Startup Research</span><span class="lb">raw material</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li><li class="fm-n"><a href="projects/startup-research.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-startup-research-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-startup-research-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v80h92" fill="none"/><path d="M16 80h-4M16 60h-4M16 40h-4" fill="none" stroke-width="2.5"/>
-<path d="M24 88l17-14 14 6 19-23 22-21" fill="none" stroke="#3d5e4a" stroke-width="4"/><path d="M86 35h11v11" fill="none" stroke="#3d5e4a" stroke-width="4"/>
-<path d="M76 76l18 18" fill="none" stroke-width="9"/><circle cx="62" cy="62" r="19" fill="#fff" fill-opacity=".35"/>
-<path d="M51 55c2-5 6-8 11-8.5" fill="none" stroke-width="2.5"/></g></svg><span><b>Startup Research<span class="na" aria-hidden="true">→</span></b><small>How I read a company: understand the tech, analyze the business.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">← podcast-dig</span><span class="lb">raw material</span></li><li><span class="to">← AI Term Explainer</span><span class="lb">tech explained</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li><li class="fm-n"><a href="projects/ai-terms.html"><svg class="ic" viewBox="0 0 120 120" aria-hidden="true"><filter id="rf-ai-terms-fm" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter><g filter="url(#rf-ai-terms-fm)" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M38 88l-9 17M82 88l9 17M60 88v10" fill="none"/><rect x="14" y="22" width="92" height="64" rx="5" fill="#fff"/>
-<path d="M10 88h100" fill="none" stroke-width="4"/><path d="M24 33c4-3 7 3 11 0s7 3 11 0M88 74h8" fill="none" stroke-width="2.5"/>
-<path d="M51 40v32l26-16z" fill="#3d5e4a"/></g></svg><span><b>AI Term Explainer<span class="na" aria-hidden="true">→</span></b><small>Short videos that explain AI words in plain language.</small></span></a><ul class="fm-e" aria-label="Connections"><li><span class="to">→ Startup Research</span><span class="lb">tech explained</span></li><li><span class="to">→ Obsidian vault</span></li></ul></li></ol></section></div>
-  <p class="fit-note" id="fit-note" aria-live="polite" data-rest="Hover or tab to a project to see how it connects. Click to open it.">Hover or tab to a project to see how it connects. Click to open it.</p>
-  <script type="application/json" id="fit-notes">{"lexispeak": "Picks target words from my notebook; saying one right marks it “Can Speak” in LexiAI.", "lexiai": "The shared word notebook. The other two practise its words and write progress back.", "writing-station": "Asks me to use notebook words; a word used well counts toward “Can Write”.", "podcast-dig": "One local Whisper transcript pool, shared with LexiAI, so no episode is transcribed twice.", "startup-research": "Reads podcast-dig’s highlights first, so founders speak in their own words.", "ai-terms": "Explains the tech a startup is built on, before I judge the business."}</script>
-</section>
-<section class="plate rs" id="research">
-  <div class="ph"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L20.5 20.5"/></svg><h2>Research</h2><span class="pm">2 companies · 6 films</span></div>
-  <p class="rs-what">Startups I've researched, and AI terms I've explained on film.</p>
-  <div class="rs-g" id="research-startups">
-    <div class="rs-h"><h3>Startups <span>2</span></h3><p>Written with my <a href="projects/startup-research.html">Startup Research</a> method. The same research can also be published as a video.</p></div>
-    <ul class="rs-rows"><li><a href="projects/research-clay.html"><span class="rs-dt">Nov 2026</span><span class="rs-t">Startup Teardown No.02 · Clay</span><span class="go" aria-hidden="true">→</span></a></li><li><a href="projects/research-granola.html"><span class="rs-dt">Oct 2026</span><span class="rs-t">Startup Teardown No.01 · Granola</span><span class="go" aria-hidden="true">→</span></a></li></ul>
-    <p class="rs-all"><a href="projects/research-startups.html">View all startup teardowns →</a></p>
-  </div>
-  <div class="rs-g" id="research-ai-terms">
-    <div class="rs-h"><h3>AI Term Explainer <span>6</span></h3><p>One AI word per film, in plain language. Watch on <a href="https://www.youtube.com/@JanetMao" target="_blank" rel="noopener">YouTube</a>. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
-    <ul class="dl-films">
-      <li><a href="projects/research-aiterm.html#ep-mcp"><span class="dl-still"><img src="assets/ai-terms/films/mcp/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 6 · 5:36</span></span><span class="dl-ft">MCP</span><span class="dl-fm">One plug for every AI.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-tool-use"><span class="dl-still"><img src="assets/ai-terms/films/tool-use/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 5 · 17:43</span></span><span class="dl-ft">Tool use</span><span class="dl-fm">How AI goes from talking to doing.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-long-context"><span class="dl-still"><img src="assets/ai-terms/films/long-context/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 4 · 13:18</span></span><span class="dl-ft">Long context vs RAG</span><span class="dl-fm">When to skip retrieval and paste the whole thing in.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-rag"><span class="dl-still"><img src="assets/ai-terms/films/rag/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 3 · 16:06</span></span><span class="dl-ft">RAG</span><span class="dl-fm">An open-book exam for the AI.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-vector-database"><span class="dl-still"><img src="assets/ai-terms/films/vector-database/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 2 · 11:21</span></span><span class="dl-ft">Vector database</span><span class="dl-fm">A warehouse that finds the closest points fast.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-embedding"><span class="dl-still"><img src="assets/ai-terms/films/embedding/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 1 · 10:30</span></span><span class="dl-ft">Embedding</span><span class="dl-fm">Meaning turned into coordinates.</span></a></li>
-    </ul>
-    <p class="rs-all"><a href="projects/research-aiterm.html">View all episodes →</a></p>
-  </div>
-</section>
+
+<!-- words: kept out of the wobble so they stay crisp -->
+<g class="words" fill="currentColor" stroke="none">
+  <g class="o-work">
+    <text x="111" y="125.5" text-anchor="middle">Speak</text>
+    <text x="140" y="181.5" text-anchor="middle">LexiAI</text>
+    <text x="111" y="235.5" text-anchor="middle">Write</text>
+    <text x="229" y="125.5" text-anchor="middle">Dig</text>
+    <text x="244" y="181.5" text-anchor="middle">Research</text>
+    <text x="229" y="235.5" text-anchor="middle">Terms</text>
+  </g>
+  <g class="o-research">
+    <text class="sp" x="125" y="422">Granola</text>
+    <text class="sp" x="127" y="402">Clay</text>
+  </g>
+  <g class="o-laptop">
+    <text class="hw" x="436" y="338">lifelong</text>
+    <text class="pr" x="436" y="356">/ˈlaɪf.lɒŋ/ · adjective</text>
+  </g>
+</g>
+</svg></figure>
 </main>
-<section class="plate dark" id="contact">
-  <h2>Contact me</h2>
-  <p class="mail"><a href="mailto:qing.mao.2024@marshall.usc.edu">qing.mao.2024@marshall.usc.edu</a></p>
-  <p class="round"><a href="https://x.com/BuiltByJanet" aria-label="X @BuiltByJanet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.6l5.24 6.93zM17.6 20.64h2.04L6.48 3.24H4.3z"/></svg></a><a href="https://github.com/Janetmao991" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57l-.02-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.31-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.62-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .32.21.69.82.57A12 12 0 0 0 12 .3"/></svg></a></p>
-</section>
-<footer class="site"><span>Janet Mao · San Francisco · 2026</span><a href="https://x.com/BuiltByJanet">X @BuiltByJanet</a></footer>
-</div>
-<script src="assets/hero.js"></script>
-<script src="assets/eyes.js"></script>
-<script src="assets/pollen.js"></script>
-<script src="assets/map.js"></script>
-<script src="assets/entrance.js"></script>
-<script src="assets/delight.js"></script>
-<script src="assets/touches.js"></script>
+<script type="application/json" id="laptop-words">[["lifelong", "/ˈlaɪf.lɒŋ/ · adjective"], ["woven", "/ˈwəʊ.vən/ · adjective"], ["appall", "/əˈpɔːl/ · verb"], ["clip", "/klɪp/ · noun, sense iii"], ["bludgeon", "/ˈblʌdʒ.ən/ · verb"]]</script>
+<script src="assets/v5.js"></script>
 </body>
 </html>
