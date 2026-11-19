@@ -2173,6 +2173,7 @@ def map_section():
 # R72 (v5 redesign): the homepage is one screen — a greeting, a menu of four, and one big drawing of Janet at her desk.
 # Hovering a menu item lights the matching part of the drawing (data-o). The old sections moved to work.html,
 # research.html and about.html; old #work / #research / #about links are forwarded by OLD_HASH.
+INTRO_ON = """<script>(function(h){try{if(matchMedia("(prefers-reduced-motion: reduce)").matches||sessionStorage.getItem("jm-intro"))return;sessionStorage.setItem("jm-intro","1")}catch(e){return}h.classList.add("intro");setTimeout(function(){if(!window.V5)h.classList.remove("intro")},4000)})(document.documentElement)</script>"""
 OLD_HASH = """<script>(function(h){var m={"#work":"work.html","#research":"research.html","#research-startups":"research.html#research-startups","#research-ai-terms":"research.html#research-ai-terms","#about":"about.html","#contact":"about.html#contact"};if(m[h])location.replace(m[h])})(location.hash)</script>"""
 HOME_MENU = [  # (href, data-o, label, one line)
     ("work.html", "work", "Things I've built", "Six tools that work as one system"),
@@ -2237,12 +2238,13 @@ def index_page():
     <p class="h5-links"><a href="{X}">X @BuiltByJanet</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
   <figure class="h5-art">{desk()}</figure>
+  <svg class="h5-str" aria-hidden="true"><path pathLength="1"/><circle r="4.5"/></svg>
 </main>
 <script type="application/json" id="laptop-words">{words}</script>
 <script src="assets/v5.js"></script>
 </body>
 </html>
-""".replace("</head>", OLD_HASH + "\n</head>")
+""".replace("</head>", OLD_HASH + "\n" + INTRO_ON + "\n</head>")
 
 
 def work_page():

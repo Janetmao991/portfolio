@@ -175,8 +175,8 @@ html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; 
   .h5[data-on="work"] .desk .threads path { stroke-dasharray: 1; animation: r5-draw 560ms var(--ease-out) both; }
   @keyframes r5-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   .h5[data-on="research"] .desk .o-research { transform: translateY(-5px); }
-  .desk .o-about .head { transition: transform 300ms var(--ease-out); transform-box: view-box; transform-origin: 300px 404px; }
-  .h5[data-on="about"] .desk .o-about .head { transform: rotate(-5deg); }
+  .desk .o-about .head { transition: transform 420ms var(--ease-out); transform-box: view-box; transform-origin: 300px 404px; transform: rotate(calc(var(--look, 0deg) + var(--tilt, 0deg))); }
+  .h5[data-on="about"] .desk { --tilt: -5deg; }
   .h5[data-on="contact"] .desk .o-contact { transform: translateY(-9px) rotate(-2deg); transform-origin: 628px 420px; }
 }
 
@@ -243,3 +243,28 @@ html.bg-wash .h5-art .desk { --gr: var(--c-wash); }
 .v5 .dark .round a { color: var(--c); border-color: var(--c); }
 .v5 footer.site { background: var(--c-wash); color: var(--c-deep); }
 .v5 footer.site a { color: var(--c); }
+
+/* ---------- R72c: the intro (first visit only; html.intro is set in <head>, removed by v5.js) ---------- */
+@keyframes r5-pen { to { stroke-dashoffset: 0; } }
+@keyframes r5-show { to { opacity: 1; } }
+html.intro .h5 h1 { animation: none; }
+html.intro .h5 h1 .ch { opacity: 0; animation: r5-show 1ms linear var(--d) forwards; }
+html.intro .h5-art { animation: none; }
+html.intro .desk .dw { stroke-dasharray: 1 1; stroke-dashoffset: 1; animation: r5-pen 780ms var(--ease-in-out) var(--d) forwards; }
+html.intro .desk .words, html.intro .desk .p { animation: r5-fade 500ms var(--ease-out) 1.55s both; }
+html.intro .desk .st { animation-delay: 1.8s; }
+html.intro .h5-sub { animation-delay: 700ms; }
+html.intro .h5-menu li { animation-delay: calc(var(--d) + 640ms); }
+html.intro .h5-links { animation-delay: 1.15s; }
+
+/* ---------- R72c: the thread from a menu item to its thing in the drawing ---------- */
+.h5 { position: relative; }
+.h5-str { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; opacity: 0; transition: opacity 160ms var(--ease-out); }
+.h5-str path { fill: none; stroke: var(--c); stroke-width: 1.8; stroke-linecap: round; filter: url(#wob); stroke-dasharray: 1 1; stroke-dashoffset: 1; }
+.h5-str circle { fill: var(--c); transform-box: fill-box; transform-origin: center; transform: scale(0); }
+.h5-str.on { opacity: 1; }
+.h5-str.on path { animation: r5-pen 520ms var(--ease-out) forwards; }
+.h5-str.on circle { transition: transform 260ms var(--ease-out) 380ms; transform: scale(1); }
+@media (prefers-reduced-motion: reduce) {
+  .h5-str path { stroke-dashoffset: 0; } .h5-str.on path { animation: none; } .h5-str.on circle { transition: none; }
+}
