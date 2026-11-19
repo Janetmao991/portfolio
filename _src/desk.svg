@@ -1,22 +1,24 @@
 <svg class="desk" viewBox="0 0 720 680" role="img" aria-labelledby="desk-t">
 <title id="desk-t">Drawing: Janet turned round in her desk chair, arms folded on its back, smiling at you; behind her the laptop looks up a word. Out of the window is the Golden Gate Bridge in the fog; on the wall her six projects are pinned to a board and tied together with string.</title>
 <defs>
-  <filter id="wob" filterUnits="userSpaceOnUse" x="-20" y="-20" width="760" height="740"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+  <filter id="wob" filterUnits="userSpaceOnUse" x="-20" y="-20" width="760" height="740"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="1.6"/></filter>
   <clipPath id="win-in"><rect x="344" y="74" width="272" height="202"/></clipPath>
 </defs>
+<rect class="c-wall" x="0" y="24" width="720" height="660" rx="36"/>
 <g filter="url(#wob)" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
 
   <!-- window: the Golden Gate in the fog -->
   <g class="o-window">
-    <rect x="330" y="60" width="300" height="230" rx="3"/>
-    <rect x="344" y="74" width="272" height="202"/>
+    <rect class="c-white" x="330" y="60" width="300" height="230" rx="3"/>
+    <rect class="c-sky" x="344" y="74" width="272" height="202"/>
     <g clip-path="url(#win-in)" stroke-width="2">
-      <path d="M394 124V280M406 124V280M394 142H406M394 172H406M394 204H406"/>
-      <path d="M554 124V280M566 124V280M554 142H566M554 172H566M554 204H566"/>
-      <path d="M344 200Q380 190 394 128M406 128Q480 280 554 128M566 128Q580 190 616 204"/>
-      <path d="M430 170V222M455 197V222M480 206V222M505 197V222M530 170V222M370 190V222M590 190V222" stroke-width="1.4"/>
-      <path d="M344 222H616M344 228H616"/>
-      <path d="M344 258C380 242 420 248 450 254S540 242 616 250"/>
+      <path class="c-bridge" d="M394 124V280M406 124V280M394 142H406M394 172H406M394 204H406"/>
+      <path class="c-bridge" d="M554 124V280M566 124V280M554 142H566M554 172H566M554 204H566"/>
+      <path class="c-bridge" d="M344 200Q380 190 394 128M406 128Q480 280 554 128M566 128Q580 190 616 204"/>
+      <path class="c-bridge" d="M430 170V222M455 197V222M480 206V222M505 197V222M530 170V222M370 190V222M590 190V222" stroke-width="1.4"/>
+      <rect class="c-sea" x="344" y="226" width="272" height="50" stroke="none"/>
+      <path class="c-bridge" d="M344 222H616M344 228H616"/>
+      <path class="c-hill" d="M344 258C380 242 420 248 450 254S540 242 616 250V278H344Z"/>
       <g class="fog"><path d="M352 266c18-9 36-9 54 0s36 9 54 0M486 240c16-8 32-8 48 0s32 8 48 0"/></g>
       <g class="fog f2"><path d="M420 250c14-7 28-7 42 0s28 7 42 0"/></g>
     </g>
@@ -26,52 +28,52 @@
 
   <!-- plant on the sill -->
   <g class="o-plant">
-    <path class="g" d="M584 256H624L619 290H589Z"/>
+    <path class="c-pot" d="M584 256H624L619 290H589Z"/>
     <path d="M586 264H622"/>
-    <g class="leaf l1"><path class="g" d="M602 256C590 230 570 222 558 226C570 240 588 250 602 256Z"/><path d="M602 256C588 242 574 232 562 228" stroke-width="1.4"/></g>
-    <g class="leaf l2"><path class="g" d="M606 256C606 228 616 208 632 200C630 224 620 244 606 256Z"/><path d="M606 256C612 236 620 218 630 204" stroke-width="1.4"/></g>
-    <g class="leaf l3"><path class="g" d="M603 256C598 234 598 214 604 196C612 216 610 238 603 256Z"/></g>
+    <g class="leaf l1"><path class="c-leaf" d="M602 256C590 230 570 222 558 226C570 240 588 250 602 256Z"/><path d="M602 256C588 242 574 232 562 228" stroke-width="1.4"/></g>
+    <g class="leaf l2"><path class="c-leaf" d="M606 256C606 228 616 208 632 200C630 224 620 244 606 256Z"/><path d="M606 256C612 236 620 218 630 204" stroke-width="1.4"/></g>
+    <g class="leaf l3"><path class="c-leaf" d="M603 256C598 234 598 214 604 196C612 216 610 238 603 256Z"/></g>
     <path d="M592 298C584 316 590 334 580 354" stroke-width="2"/>
-    <path class="g" d="M587 318c-10-2-14 4-16 8c8 1 14-2 16-8ZM583 340c8-4 14-1 16 4c-7 2-13 0-16-4Z" stroke-width="1.8"/>
+    <path class="c-leaf" d="M587 318c-10-2-14 4-16 8c8 1 14-2 16-8ZM583 340c8-4 14-1 16 4c-7 2-13 0-16-4Z" stroke-width="1.8"/>
   </g>
 
   <!-- the board: six projects tied with string -->
   <g class="o-work" transform="translate(10 -4) scale(.72)">
-    <rect class="g" x="56" y="90" width="236" height="172" rx="3"/>
+    <rect class="c-cork" x="56" y="90" width="236" height="172" rx="3"/>
     <rect x="64" y="98" width="220" height="156" rx="2" stroke-width="1.4"/>
-    <g class="threads" stroke-width="1.6">
+    <g class="threads c-thread" stroke-width="2">
       <path pathLength="1" d="M128 132Q140 156 140 164"/>
       <path pathLength="1" d="M140 188Q128 206 120 218"/>
       <path pathLength="1" d="M170 172Q190 160 206 134"/>
       <path pathLength="1" d="M232 134Q242 150 244 164"/>
       <path pathLength="1" d="M244 188Q238 206 232 218"/>
     </g>
-    <rect class="g" x="80" y="108" width="62" height="26" rx="2"/>
-    <rect class="g" x="108" y="164" width="64" height="26" rx="2"/>
-    <rect class="g" x="80" y="218" width="62" height="26" rx="2"/>
-    <rect class="g" x="198" y="108" width="62" height="26" rx="2"/>
-    <rect class="g" x="206" y="164" width="76" height="26" rx="2"/>
-    <rect class="g" x="198" y="218" width="62" height="26" rx="2"/>
+    <rect class="c-card" x="80" y="108" width="62" height="26" rx="2"/>
+    <rect class="c-card" x="108" y="164" width="64" height="26" rx="2"/>
+    <rect class="c-card" x="80" y="218" width="62" height="26" rx="2"/>
+    <rect class="c-card" x="198" y="108" width="62" height="26" rx="2"/>
+    <rect class="c-card" x="206" y="164" width="76" height="26" rx="2"/>
+    <rect class="c-card" x="198" y="218" width="62" height="26" rx="2"/>
   </g>
 
   <!-- desk -->
   <g class="o-desk">
-    <path class="g" d="M34 462H54V690H34ZM666 462H686V690H666Z"/>
-    <path class="g" d="M30 412H690L706 446H14Z"/>
-    <path class="g" d="M14 446H706V462H14Z"/>
+    <path class="c-wood-d" d="M34 462H54V690H34ZM666 462H686V690H666Z"/>
+    <path class="c-wood" d="M30 412H690L706 446H14Z"/>
+    <path class="c-wood-d" d="M14 446H706V462H14Z"/>
   </g>
 
   <!-- research: the teardown magazines and a film still -->
   <g class="o-research">
     <g class="books">
-      <rect class="g" x="58" y="408" width="134" height="20" rx="2"/>
-      <rect class="g" x="68" y="388" width="118" height="20" rx="2"/>
-      <rect class="g" x="62" y="374" width="126" height="14" rx="2"/>
+      <rect class="c-b1" x="58" y="408" width="134" height="20" rx="2"/>
+      <rect class="c-b2" x="68" y="388" width="118" height="20" rx="2"/>
+      <rect class="c-b3" x="62" y="374" width="126" height="14" rx="2"/>
     </g>
     <g class="still" transform="rotate(8 186 372)">
-      <rect class="g" x="162" y="338" width="50" height="58" rx="2"/>
-      <rect x="168" y="344" width="38" height="32" stroke-width="1.8"/>
-      <path class="p" d="M182 353L192 360L182 367Z" stroke-width="1.4"/>
+      <rect class="c-white" x="162" y="338" width="50" height="58" rx="2"/>
+      <rect class="c-screen" x="168" y="344" width="38" height="32" stroke-width="1.8"/>
+      <path class="c-white" d="M182 353L192 360L182 367Z" stroke-width="1.4"/>
     </g>
   </g>
 
@@ -79,22 +81,22 @@
   <g class="o-mug">
     <path class="st" pathLength="1" d="M640 368C632 356 648 346 640 334C634 326 642 318 640 308" stroke-width="2"/>
     <path class="st s2" pathLength="1" d="M652 364C646 352 660 344 652 332C647 325 654 318 652 312" stroke-width="2"/>
-    <path class="g" d="M628 380V420C628 430 664 430 664 420V380"/>
-    <ellipse class="g" cx="646" cy="380" rx="18" ry="5"/>
+    <path class="c-mug" d="M628 380V420C628 430 664 430 664 420V380"/>
+    <ellipse class="c-coffee" cx="646" cy="380" rx="18" ry="5"/>
     <path d="M664 390C682 390 682 412 664 412"/>
   </g>
   <g class="o-contact">
     <g class="env" transform="rotate(-7 628 418)">
-      <rect class="g" x="588" y="396" width="78" height="46" rx="2"/>
+      <rect class="c-paper" x="588" y="396" width="78" height="46" rx="2"/>
       <path class="flap" d="M588 398L627 424L666 398"/>
     </g>
   </g>
 
   <!-- laptop -->
   <g class="o-laptop">
-    <rect class="g" x="414" y="298" width="186" height="112" rx="8"/>
-    <rect x="424" y="308" width="166" height="92" rx="3" stroke-width="1.8"/>
-    <path class="g" d="M400 410H614L628 432H386Z"/>
+    <rect class="c-alu" x="414" y="298" width="186" height="112" rx="8"/>
+    <rect class="c-white" x="424" y="308" width="166" height="92" rx="3" stroke-width="1.8"/>
+    <path class="c-alu-d" d="M400 410H614L628 432H386Z"/>
     <path d="M488 425H528" stroke-width="1.8"/>
     <g class="lines" stroke-width="2"><path class="ln a" pathLength="1" d="M436 370H570"/><path class="ln b" pathLength="1" d="M436 381H552"/><path class="ln c" pathLength="1" d="M436 391H520"/></g>
   </g>
@@ -132,7 +134,7 @@
     <g class="chair">
       <path d="M300 520V652M248 670L300 652L352 670"/>
       <path d="M262 676h18M320 676h18M286 680h28" stroke-width="1.6"/>
-      <rect class="g" x="226" y="452" width="148" height="72" rx="18"/>
+      <rect class="c-chair" x="226" y="452" width="148" height="72" rx="18"/>
       <rect x="236" y="462" width="128" height="52" rx="12" stroke-width="1.6"/>
     </g>
     <g class="arm"><path d="M236 454C258 444 282 444 306 450" stroke-width="28"/><path class="gs" d="M236 454C258 444 282 444 306 450" stroke-width="22.8"/></g>

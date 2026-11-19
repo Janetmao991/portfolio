@@ -285,3 +285,25 @@ html.me-red .desk .me-r { display: inline; }
 html.me-red .desk .me-c { display: none; }
 .desk .head-img { transform-box: fill-box; transform-origin: 50% 90%; transform: rotate(calc(var(--look, 0deg) + var(--tilt, 0deg))); transition: transform 420ms var(--ease-out); }
 html.intro .desk .me-pic { animation: r5-rise 700ms var(--ease-out) 900ms both; --rise: 8px; }
+
+/* R72f — Janet: the room must be drawn the way her own cartoon is — dark outline, soft flat colour. */
+:root { --c: #2b211d; --c-deep: #2b211d; --c-wash: #f3ece2; --ink-art: #2b211d; }
+.h5-art .desk, .p5-art .desk { color: var(--ink-art); --gr: #ffffff; }
+.desk { stroke-width: 2.8; }
+.desk .c-wall { fill: #f6efe3; stroke: none; }
+.desk .c-white { fill: #ffffff; } .desk .c-sky { fill: #dcecf6; } .desk .c-sea { fill: #b9d9ea; } .desk .c-hill { fill: #a9c99a; }
+.desk .c-bridge { stroke: #c9472f; }
+.desk .c-pot { fill: #d98a5f; } .desk .c-leaf { fill: #86b56f; }
+.desk .c-cork { fill: #e7c896; } .desk .c-card { fill: #fffdf7; } .desk .c-thread { stroke: #c9472f; }
+.desk .c-wood { fill: #e2b582; } .desk .c-wood-d { fill: #c99560; }
+.desk .c-b1 { fill: #e9846a; } .desk .c-b2 { fill: #8bbfa2; } .desk .c-b3 { fill: #f3d28f; }
+.desk .c-screen { fill: #43475f; }
+.desk .c-mug { fill: #f6d9c8; } .desk .c-coffee { fill: #8a5a3b; } .desk .c-paper { fill: #fff8e6; }
+.desk .st { stroke: #b8afa6; }
+.desk .c-alu { fill: #d3dae2; } .desk .c-alu-d { fill: #bcc5cf; }
+.desk .c-chair { fill: #f2a7a0; }
+.desk .arm .gs { stroke: #ffffff; }
+.desk .words text { fill: #2b211d; }
+.desk .words .o-research text { fill: #2b211d; }
+.h5-str path { stroke: #c9472f; } .h5-str circle { fill: #c9472f; }
+.h5[data-on] .desk [class^="o-"] { opacity: .35; }
