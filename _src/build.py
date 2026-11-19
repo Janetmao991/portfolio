@@ -2175,11 +2175,11 @@ def map_section():
 # research.html and about.html; old #work / #research / #about links are forwarded by OLD_HASH.
 INTRO_ON = """<script>(function(h){try{if(matchMedia("(prefers-reduced-motion: reduce)").matches||sessionStorage.getItem("jm-intro"))return;sessionStorage.setItem("jm-intro","1")}catch(e){return}h.classList.add("intro");setTimeout(function(){if(!window.V5)h.classList.remove("intro")},4000)})(document.documentElement)</script>"""
 OLD_HASH = """<script>(function(h){var m={"#work":"work.html","#research":"research.html","#research-startups":"research.html#research-startups","#research-ai-terms":"research.html#research-ai-terms","#about":"about.html","#contact":"about.html#contact"};if(m[h])location.replace(m[h])})(location.hash)</script>"""
-HOME_MENU = [  # (href, data-o, label, one line)
-    ("work.html", "work", "Things I've built", "Six tools that work as one system"),
-    ("research.html", "research", "Research", "Startup teardowns and AI term films"),
-    ("about.html", "about", "About me", "Why I build what I use every day"),
-    ("about.html#contact", "contact", "Contact", "Email, X and GitHub"),
+HOME_MENU = [  # (href, data-o, label, one line, what she says in the drawing)
+    ("work.html", "work", "Things I've built", "Six tools that work as one system", "Six tools, one system!"),
+    ("research.html", "research", "Research", "Startup teardowns and AI term films", "I take startups apart."),
+    ("about.html", "about", "About me", "Why I build what I use every day", "Hi, that’s me!"),
+    ("about.html#contact", "contact", "Contact", "Email, X and GitHub", "Say hi, I reply!"),
 ]
 LAPTOP_WORDS = [  # the laptop in the drawing looks these up, one after another (assets/home5.js)
     ("lifelong", "/ˈlaɪf.lɒŋ/ · adjective"), ("woven", "/ˈwəʊ.vən/ · adjective"), ("appall", "/əˈpɔːl/ · verb"),
@@ -2226,7 +2226,7 @@ def page5(slug, title, desc, h1, lead, body, crop, scripts=""):
 
 
 def index_page():
-    menu = "".join(f'<li><a href="{h}" data-o="{o}"><span class="m5-l">{l}</span><span class="m5-d">{d}</span></a></li>' for h, o, l, d in HOME_MENU)
+    menu = "".join(f'<li><a href="{h}" data-o="{o}" data-say="{say}"><span class="m5-l">{l}</span><span class="m5-d">{d}</span></a></li>' for h, o, l, d, say in HOME_MENU)
     words = json.dumps(LAPTOP_WORDS, ensure_ascii=False)
     return f"""{head("Janet Mao — AI builder", "Janet Mao is an AI builder in San Francisco. She builds tools for learning English, her second language. She also researches startups and makes AI Term Explainer, plain-language films about AI terms.", "")}
 <body class="v5 home5" data-root="">

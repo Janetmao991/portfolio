@@ -80,7 +80,7 @@
     const path = str.querySelector('path'), pin = str.querySelector('circle');
     let shown = null;
     const tie = a => {
-      const o = a.dataset.o; if (!TO[o] || !fine.matches || innerWidth < 861) return;
+      const o = a.dataset.o; if (!TO[o] || (!fine.matches && !q.get('demo')) || innerWidth < 861) return;
       const box = h5.getBoundingClientRect();
       const r = a.querySelector('.m5-l').getBoundingClientRect();
       const pt = art.createSVGPoint(); [pt.x, pt.y] = TO[o];
@@ -100,6 +100,36 @@
       a.addEventListener('blur', untie);
     });
     addEventListener('resize', untie);
+  }
+
+  // R72g she talks: a menu item makes her say a line in a bubble beside her; she greets the visitor once
+  const bubble = art && art.querySelector('.bubble');
+  const say = (() => {
+    if (!bubble) return () => {};
+    const bb = bubble.querySelector('.bb'), bt = bubble.querySelector('.bt');
+    let hideT = 0;
+    return (text, ms) => {
+      clearTimeout(hideT);
+      if (!text) { hideT = setTimeout(() => bubble.classList.remove('on'), 140); return; }
+      bt.textContent = text;
+      const w = bt.getComputedTextLength(), x1 = 212, y0 = 262, y1 = 296, x0 = x1 - w - 30;
+      bt.setAttribute('x', x0 + 15); bt.setAttribute('y', 284);
+      bb.setAttribute('d', `M${x0 + 12} ${y0}H${x1 - 12}Q${x1} ${y0} ${x1} ${y0 + 12}V${y1 - 12}Q${x1} ${y1} ${x1 - 12} ${y1}H${x1 - 22}L${x1 + 8} ${y1 + 18}L${x1 - 38} ${y1}H${x0 + 12}Q${x0} ${y1} ${x0} ${y1 - 12}V${y0 + 12}Q${x0} ${y0} ${x0 + 12} ${y0}Z`);
+      bubble.classList.add('on');
+      if (ms) hideT = setTimeout(() => bubble.classList.remove('on'), ms);
+    };
+  })();
+  if (h5 && bubble) {
+    h5.querySelectorAll('.h5-menu a[data-say]').forEach(a => {
+      const on = () => say(a.dataset.say), off = () => say(null);
+      a.addEventListener('pointerenter', on); a.addEventListener('focus', on);
+      a.addEventListener('pointerleave', off); a.addEventListener('blur', off);
+    });
+    const greet = () => { if (!h5.dataset.on) say('Hi there!', 2800); };
+    // screenshots only: ?demo=work shows that hover state without a mouse
+    const demo = h5.querySelector(`.h5-menu a[data-o="${q.get('demo')}"]`);
+    if (demo) setTimeout(() => ['pointerenter'].forEach(t => demo.dispatchEvent(new PointerEvent(t))), 400);
+    setTimeout(greet, html.classList.contains('intro') ? 2300 : 700);
   }
 
   // R72d she looks at the pointer (eyes follow, head leans a little) and blinks now and then

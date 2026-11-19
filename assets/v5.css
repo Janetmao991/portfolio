@@ -307,3 +307,18 @@ html.intro .desk .me-pic { animation: r5-rise 700ms var(--ease-out) 900ms both; 
 .desk .words .o-research text { fill: #2b211d; }
 .h5-str path { stroke: #c9472f; } .h5-str circle { fill: #c9472f; }
 .h5[data-on] .desk [class^="o-"] { opacity: .35; }
+
+/* R72g her speech bubble — pops from its tail (her side), 180ms; she leans toward the menu; she breathes */
+.desk .bubble { opacity: 0; transform: scale(.92); transform-box: fill-box; transform-origin: 100% 100%; transition: opacity 160ms var(--ease-out), transform 200ms var(--ease-out); pointer-events: none; }
+.desk .bubble.on { opacity: 1; transform: none; }
+.desk .bb { fill: #ffffff; stroke: var(--ink-art, #2b211d); stroke-width: 2.4; stroke-linejoin: round; }
+.desk .bt { font-family: var(--serif); font-size: 15px; font-style: italic; fill: var(--ink-art, #2b211d); }
+.h5[data-on] .desk { --tilt: -4deg; }
+@media (prefers-reduced-motion: no-preference) {
+  .desk .me-pic { animation: r5-breathe 3.8s ease-in-out infinite alternate; }
+  @keyframes r5-breathe { to { transform: translateY(-2px); } }
+}
+@media (prefers-reduced-motion: reduce) { .desk .bubble { transition: opacity 160ms; transform: none; } }
+/* she is the one talking: she never dims */
+.h5[data-on] .desk .me-pic { opacity: 1; }
+.desk .bt { font-size: 16px; }
