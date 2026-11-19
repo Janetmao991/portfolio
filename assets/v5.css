@@ -626,3 +626,46 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
   .js-r .js-note, .js-l .js-note { grid-column: 2; grid-row: auto; justify-self: start; margin: 18px 0 6px 6px; transform: rotate(-2deg); }
 }
 @media (min-width: 761px) { .js-r .js-note { margin-right: 110px; } .js-l .js-note { margin-left: 110px; } }
+
+/* R73o — in her own words: beside each chapter, a speech bubble from her (a tiny head, a label, one or two
+   sentences). Cards now open under the big word; the Meanwhile note sits under the bubble. */
+.js { grid-template-rows: auto auto auto; }
+.js-say { grid-row: 1; margin: 0 26px; position: relative; max-width: 380px; z-index: 2; }
+.js-l .js-say { grid-column: 3; justify-self: start; }
+.js-r .js-say { grid-column: 1; justify-self: end; }
+.js-say blockquote { margin: 0; padding: 16px 20px 16px 22px; background: #fff; border: 2px solid var(--c-deep); border-radius: 22px; position: relative; }
+.js-say blockquote::before { content: ""; position: absolute; top: 26px; width: 16px; height: 16px; background: #fff; border: 2px solid var(--c-deep); transform: rotate(45deg); }
+.js-l .js-say blockquote::before { left: -10px; border-top: 0; border-right: 0; }
+.js-r .js-say blockquote::before { right: -10px; border-bottom: 0; border-left: 0; }
+.js-me { position: absolute; top: -20px; width: 40px; height: 40px; z-index: 3; }
+.js-l .js-me { right: -14px; } .js-r .js-me { left: -14px; }
+.js-say-k { margin: 0; font-size: 14px; font-style: italic; color: var(--ink-soft); }
+.js-say-t { margin: 4px 0 0; font-size: 19px; line-height: 1.4; letter-spacing: -.005em; }
+.js-say.is-draft blockquote { border-style: dashed; }
+.js-say.is-draft .js-say-t { color: var(--ink-soft); font-style: italic; }
+/* the Meanwhile note moves under the bubble; cards open under the word */
+.js-note { grid-row: 2 / span 2; align-self: start; margin-top: 18px !important; }
+.js-l .js-card { grid-column: 1; justify-self: end; }
+.js-r .js-card { grid-column: 3; justify-self: start; }
+@media (prefers-reduced-motion: no-preference) {
+  .js-on-arm .js:not(.seen) .js-say blockquote { opacity: 0; transform: scale(.82); }
+  .js-on-arm .js:not(.seen) .js-me { opacity: 0; transform: scale(.4); }
+  .js-l .js-say blockquote { transform-origin: 0 34px; } .js-r .js-say blockquote { transform-origin: 100% 34px; }
+  .js.seen .js-me { animation: say-me 520ms cubic-bezier(.34, 1.56, .64, 1) 120ms both; }
+  .js.seen .js-say blockquote { animation: say-pop 420ms var(--ease-out) 260ms both; }
+  .js-say-t .w { display: inline-block; white-space: pre; }
+  .js-on-arm .js:not(.seen) .js-say-t .w { opacity: 0; }
+  .js.seen .js-say-t .w { animation: say-w 360ms var(--ease-out) both; animation-delay: calc(480ms + var(--i) * 34ms); }
+}
+@keyframes say-me { from { opacity: 0; transform: scale(.4) rotate(-20deg); } }
+@keyframes say-pop { from { opacity: 0; transform: scale(.82); } }
+@keyframes say-w { from { opacity: 0; transform: translateY(6px); filter: blur(2px); } }
+@media (max-width: 760px) {
+  .js { grid-template-rows: none; }
+  .js-l .js-say, .js-r .js-say { grid-column: 2; grid-row: auto; justify-self: start; margin: 16px 0 4px 10px; }
+  .js-l .js-say blockquote::before, .js-r .js-say blockquote::before { left: 22px; right: auto; top: -10px; border: 2px solid var(--c-deep); border-right: 0; border-bottom: 0; }
+  .js-l .js-me, .js-r .js-me { left: auto; right: -10px; }
+  .js-l .js-say blockquote, .js-r .js-say blockquote { transform-origin: 30px 0; }
+  .js-l .js-card, .js-r .js-card { grid-column: 2; }
+  .js-r .js-note, .js-l .js-note { grid-row: auto; }
+}

@@ -265,6 +265,12 @@
   if (!j) return;
   const rows = [...j.querySelectorAll('.js')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // R73o: her words appear one by one when the line reaches her chapter
+  j.querySelectorAll('.js-say-t').forEach(t => {
+    const words = t.textContent.trim().split(/\s+/);
+    t.setAttribute('aria-label', t.textContent.trim());
+    t.innerHTML = words.map((w, i) => `<span class="w" aria-hidden="true" style="--i:${Math.min(i, 40)}">${w} </span>`).join('');
+  });
   if (!reduce) document.documentElement.classList.add('js-on-arm');
   // R73m — the wavy line: a main line through the main chapters, and for chapters that ran at the same time
   // as another (data-branch), a second line that forks off after its parent, passes their dot and rejoins
@@ -302,6 +308,7 @@
       } else bd += ` C${bx} ${by + (H - by) * .4} ${bx + (bx > px ? 6 : -6)} ${H - 30} ${bx} ${H}`;
       add(bd, fork, end, 'w-branch');
     });
+    requestAnimationFrame(() => ask());  // re-ink right away after a resize (e.g. a card opening)
   };
   const fg = { style: {} };  // kept for the old progress line below
   let len = 1;

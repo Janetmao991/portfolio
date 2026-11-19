@@ -2361,6 +2361,18 @@ JOURNEY = [
 ]
 
 
+# R73o: Janet's own words for each chapter (what she learned, or why she started). She is writing them;
+# until then each holds a placeholder. Edit the text here and rebuild.
+STORY = {
+    "audit":   ("What I learned", ""),
+    "invest":  ("What I learned", ""),
+    "study":   ("Why I went back to school", ""),
+    "operate": ("What I learned", ""),
+    "build":   ("Why I started", ""),
+}
+STORY_PLACEHOLDER = "Your words go here: one or two sentences about this chapter."
+
+
 def journey_section():
     """R73n (Janet: the branching lines looked messy): one wavy line, five chapters. A chapter that ran at the same
     time as another hangs off it as a taped note ("Meanwhile, …"); Building keeps a small "alongside" tag."""
@@ -2389,9 +2401,13 @@ def journey_section():
                     f'<p class="jn-what">Co-founded {org}</p>'
                     f'<button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{nk}">{nhook}</button>'
                     f'{card_html(nk, nparts)}</aside>')
+        label, text = STORY.get(k, ("", ""))
+        say = (f'<figure class="js-say{" is-draft" if not text else ""}"><img class="js-me" src="assets/janet-head.png" alt="" width="44" height="44">'
+               f'<blockquote><p class="js-say-k">{label}</p><p class="js-say-t">{text or STORY_PLACEHOLDER}</p></blockquote></figure>')
         rows.append(f"""<li class="js js-{side}{' has-note' if note else ''}" data-k="{k}">
     <div class="js-word"><h3>{word}</h3><p>{sub}</p>{tag}</div>
     <span class="js-dot" aria-hidden="true"></span>
+    {say}
     {note}
     <button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{k}">{hook}</button>
     {card_html(k, parts)}
