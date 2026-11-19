@@ -263,7 +263,7 @@
 (() => {
   const j = document.querySelector('.journey');
   if (!j) return;
-  const rows = [...j.querySelectorAll('.js')];
+  const rows = [...j.querySelectorAll('li.js')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // R73o: her words appear one by one when the line reaches her chapter
   j.querySelectorAll('.js-say-t').forEach(t => {
@@ -337,7 +337,7 @@
   }));
   // screenshots only: ?open=invest opens that chapter's card
   const o = new URLSearchParams(location.search).get('open');
-  if (o) { const b = j.querySelector(`.js[data-k="${o}"] .js-pill`); if (b) setTimeout(() => b.click(), 200); }
+  if (o) { const b = j.querySelector(`li.js[data-k="${o}"] .js-pill`); if (b) setTimeout(() => b.click(), 200); }
 })();
 
 /* R73j — project highlights as a tilted stack that deals itself: every few seconds the front card flies off left

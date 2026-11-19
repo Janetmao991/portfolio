@@ -2096,8 +2096,16 @@ def _map_motion(k):
     return f"--p:{i + (1 if i >= 3 else 0) + (1 if i >= 6 else 0)};--fd:{5.2 + (i * 7 % 5) * .45:.2f}s;--fo:{-i * 1.3:.1f}s"
 
 
+def _br_lab(lab, lx):
+    """R73r: the bridge label stacks on two lines so it fits in the gap between the two sheets."""
+    a, _, b = lab.partition(" ")
+    return f'<tspan x="{lx:.1f}" dy="-.6em">{a}</tspan><tspan x="{lx:.1f}" dy="1.2em">{b}</tspan>' if b else lab
+
+
 def _map_desktop(lines):
+    TILT = (-1.6, 1.2, -.8, 1.4, -1.1, .9)  # R73r: each project card sits a little crooked, like the notebook cards
     clusters = "".join(f'<rect class="cl" x="{x0}" y="22" width="{x1 - x0}" height="{MAP_H - 44}" rx="14"/>'
+                       f'<rect class="cl dots" x="{x0}" y="22" width="{x1 - x0}" height="{MAP_H - 44}" rx="14"/>'
                        for _, x0, x1, _ in MAP_CLUSTERS)
     wires, labels, glow = [], [], ""
     for i, (a, b, lab, bend, kind) in enumerate(MAP_EDGES):
@@ -2109,18 +2117,18 @@ def _map_desktop(lines):
             glow = f'<g class="bg-glow"><path class="pulse" d="{d}"/></g>'
         if lab:
             labels.append(f'<text class="wl{k}" data-a="{a}" data-b="{b}" style="--i:{i}" '
-                          f'x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anc}">{lab}</text>')
+                          f'x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anc}">{_br_lab(lab, lx) if kind == "br" else lab}</text>')
     keys = "".join(f'<p class="fit-k" style="{_map_pct(x0, 22)}">{t}</p>' for t, x0, _, _ in MAP_CLUSTERS)
     nodes = "".join(
-        f'<a class="nd" data-id="{s}" href="projects/{s}.html" style="{_map_pct(x, y)};{_map_motion(s)}" aria-describedby="fit-note">'
+        f'<a class="nd" data-id="{s}" href="projects/{s}.html" style="{_map_pct(x, y)};{_map_motion(s)};--rt:{TILT[n % len(TILT)]}deg" aria-describedby="fit-note">'
         f'{art(s, alt=False)}<b>{P[s]["name"]}<span class="na" aria-hidden="true">→</span></b><small>{lines[s]}</small></a>'
-        for s, (x, y, _) in MAP_NODES.items())
+        for n, (s, (x, y, _)) in enumerate(MAP_NODES.items()))
     vault = (f'<p class="vp" data-id="vault" style="{_map_pct(*MAP_VAULT[2:])};{_map_motion('vault')}">{VAULT_IC}'
              f'<span><b>{MAP_VAULT[0]}</b><small>{MAP_VAULT[1]}</small></span></p>')
     arrow = lambda i, c: (f'<marker id="{i}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
                           f'<path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="{c}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>')
     return f'''<div class="fit" style="aspect-ratio:{MAP_W}/{MAP_H}">
-  <svg class="wires" viewBox="0 0 {MAP_W} {MAP_H}" aria-hidden="true"><defs>{arrow("ah", "#55554f")}{arrow("ah-a", "#3d5e4a")}</defs>
+  <svg class="wires" viewBox="0 0 {MAP_W} {MAP_H}" aria-hidden="true"><defs>{arrow("ah", "#55554f")}{arrow("ah-a", "#3d5e4a")}<pattern id="fit-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="1.3" fill="#1d1a18" fill-opacity=".14"/></pattern></defs>
     {clusters}
     {glow}
     {"".join(wires)}
