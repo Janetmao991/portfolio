@@ -2321,51 +2321,42 @@ def research_page():
                  "Research", "Startups I've researched, and AI terms I've explained on film.", body, "420 930 330 290")
 
 
-# R73f: her career as a thread on the About page. Facts only from job-search/resume-bank.md (CANONICAL FACTS, Janet 2026-07-12);
-# investor framing for Goldhouse (truth ruling #5). No phone, no visa. Newest first.
+# R73g: her career as a journey of chapters (Janet: the first list "太 nerdy"; borrow Zara's thread, not her look).
+# Facts only from job-search/resume-bank.md (CANONICAL FACTS, Janet 2026-07-12); investor framing for Goldhouse; no phone,
+# no visa, no cities the bank doesn't state. Oldest first, alternating sides; the pill on the line carries the chapter's hook.
 JOURNEY = [
-    ("now", "Now", "Building with AI", "AI builder · San Francisco", "2024 – now", [
-        "Building the tools I use every day to learn English: LexiAI, LexiSpeak, Writing Station and podcast-dig, working as one system.",
-        "Taking startups apart (Clay, Granola) and explaining AI words on film (AI Term Explainer).",
-        "An agentic equity research workflow and a personal agent OS, built on Claude Code and MCP."]),
-    ("ycii", "2024", "Your Choice Investment", "US Representative & Finance Manager", "Oct 2024 – now", [
-        "Hand-picked by the board to run a data center company in Indiana; negotiated a service agreement with one of the largest hardware makers in crypto, bringing $10M in first-year revenue.",
-        "Set up operations and finance for HKEX compliance: cash-flow modeling, returns, year-end audit, shareholder meetings.",
-        "Led buy-side financial due diligence on a $10M infrastructure acquisition."]),
-    ("usc", "2024", "USC Marshall", "MBA (STEM), Dean's List", "2024", [
-        "University of Southern California, Marshall School of Business."]),
-    ("wb", "2020", "West Bank Digital Technology", "Co-Founder & Product Manager", "Jan 2020 – Aug 2022", [
-        "Co-founded the company in Shenzhen and led app development for China's largest financial newspaper.",
-        "Built a financial database for its bank customers, bringing $3M in annual subscription revenue."]),
-    ("gh", "2018", "Goldhouse Capital", "Investment Manager", "Apr 2018 – Dec 2022", [
-        "Led a team through 15+ pre-IPO investments in TMT: commercial due diligence, valuation, and investor communication after the deal.",
-        "Led an $8M investment in a social media company, which grew to 4M daily users and 30M+ registered users while we held it.",
-        "Executed a $25M raise for the exclusive maker of nano-silver conductive film; backed a restaurant-queuing SaaS later acquired by Alibaba."]),
-    ("qh", "2016", "Qianhai Equity Exchange", "Investment Manager", "Jul 2016 – Apr 2018", [
-        "Chosen by the CEO to lead due diligence on 10+ pre-IPO companies, for $5M invested in total."]),
-    ("bdo", "2013", "BDO", "Auditing Manager", "Jul 2013 – Jun 2016", [
-        "15+ IPO audits: transactions, revenue, expenses and tax, consolidated statements.",
-        "Led a team through a carmaker's annual audit in two months, 33% faster than usual."]),
-    ("snu", "2013", "Shanghai Normal University", "B.S. Finance", "2013", [
-        "Bachelor of Science in Finance, Financial School."]),
+    ("audit", "Auditing", "2013 – 2016 · BDO", "15+ IPO audits", [
+        ("BDO · Auditing Manager", "Jul 2013 – Jun 2016", ["15+ IPO audits: transactions, revenue, expenses and tax, consolidated statements.", "Led a team through a carmaker's annual audit in two months, 33% faster than usual."]),
+        ("Shanghai Normal University", "2013", ["B.S. Finance, Financial School."])]),
+    ("invest", "Investing", "2016 – 2022 · Qianhai · Goldhouse", "15+ pre-IPO deals", [
+        ("Goldhouse Capital · Investment Manager", "Apr 2018 – Dec 2022", ["Led a team through 15+ pre-IPO investments in TMT.", "Led an $8M investment in a social media company, which grew to 4M daily users and 30M+ registered users while we held it.", "Executed a $25M raise for the exclusive maker of nano-silver conductive film."]),
+        ("Qianhai Equity Exchange · Investment Manager", "Jul 2016 – Apr 2018", ["Chosen by the CEO to lead due diligence on 10+ pre-IPO companies, $5M invested."])]),
+    ("found", "Founding", "2020 – 2022 · West Bank Digital", "$3M a year", [
+        ("Shenzhen West Bank Digital Technology · Co-Founder & Product Manager", "Jan 2020 – Aug 2022", ["Led app development for China's largest financial newspaper.", "Built a financial database for its bank customers, bringing $3M in annual subscription revenue."])]),
+    ("study", "Studying", "2024 · USC Marshall", "MBA, Dean's List", [
+        ("University of Southern California, Marshall School of Business", "2024", ["MBA (STEM), Dean's List."])]),
+    ("operate", "Operating", "2024 – now · Your Choice Investment", "$10M first year", [
+        ("Your Choice Investment · US Representative & Finance Manager", "Oct 2024 – now", ["Hand-picked by the board to run a data center company in Indiana; negotiated a service agreement that brought $10M in first-year revenue.", "Set up operations and finance for HKEX compliance.", "Led buy-side due diligence on a $10M infrastructure acquisition."])]),
+    ("build", "Building", "now · AI builder", "6 tools, one system", [
+        ("Tools I use every day", "now", ["LexiAI, LexiSpeak, Writing Station and podcast-dig, working as one system for learning English.", "Startup teardowns (Clay, Granola) and AI Term Explainer films.", "An agentic equity research workflow and a personal agent OS, built on Claude Code and MCP."])]),
 ]
 
 
 def journey_section():
-    nodes, panels = [], []
-    for i, (k, yr, org, role, dates, pts) in enumerate(JOURNEY):
-        sel = "true" if i == 0 else "false"
-        nodes.append(f'<li><button type="button" role="tab" id="jt-{k}" aria-controls="jp-{k}" aria-selected="{sel}" tabindex="{0 if i == 0 else -1}">'
-                     f'<span class="jy">{yr}</span><span class="jo">{org}</span></button></li>')
-        body = "".join(f"<li>{p}</li>" for p in pts)
-        panels.append(f'<div class="jp" role="tabpanel" id="jp-{k}" aria-labelledby="jt-{k}"{"" if i == 0 else " hidden"}>'
-                      f'<p class="jd">{dates}</p><h3>{org}</h3><p class="jr">{role}</p><ul>{body}</ul></div>')
+    rows = []
+    for i, (k, word, sub, hook, parts) in enumerate(JOURNEY):
+        side = "l" if i % 2 == 0 else "r"
+        card = "".join(f'<div class="jc-part"><h4>{org}</h4><p class="jd">{dates}</p><ul>{"".join(f"<li>{x}</li>" for x in pts)}</ul></div>' for org, dates, pts in parts)
+        rows.append(f"""<li class="js js-{side}" data-k="{k}">
+    <div class="js-word"><h3>{word}</h3><p>{sub}</p></div>
+    <span class="js-dot" aria-hidden="true"></span>
+    <div class="js-art" data-art="{k}"></div>
+    <button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{k}">{hook}</button>
+    <div class="js-card" id="jc-{k}" hidden>{card}</div>
+  </li>""")
     return f"""<section class="s5 jn" id="journey">
-  <h2>Where I've been</h2>
-  <div class="jn-g">
-    <ol class="thread" role="tablist" aria-label="Career" aria-orientation="vertical">{"".join(nodes)}</ol>
-    <div class="jn-panels">{"".join(panels)}</div>
-  </div>
+  <h2>My journey</h2>
+  <ol class="journey">{"".join(rows)}</ol>
 </section>"""
 
 

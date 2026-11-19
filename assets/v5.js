@@ -257,3 +257,37 @@
   const s = new URLSearchParams(location.search).get('stop');
   if (s) { const i = tabs.findIndex(t => t.id === 'jt-' + s); if (i >= 0) setTimeout(() => pick(i), 300); }
 })();
+
+/* R73g — My journey: the line draws as you scroll, each chapter's dot fills when the line reaches it,
+   its word rises in once; the pill opens and closes its card. */
+(() => {
+  const j = document.querySelector('.journey');
+  if (!j) return;
+  const rows = [...j.querySelectorAll('.js')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) document.documentElement.classList.add('js-on-arm');
+  let raf = 0;
+  const tick = () => {
+    raf = 0;
+    const r = j.getBoundingClientRect(), reach = innerHeight * .62 - r.top;
+    const p = reduce ? 1 : Math.max(0, Math.min(1, reach / r.height));
+    j.style.setProperty('--draw', p.toFixed(4));
+    rows.forEach(row => {
+      const dot = row.querySelector('.js-dot'), d = dot.getBoundingClientRect();
+      const hit = reduce || d.top + d.height / 2 - r.top <= reach;
+      row.classList.toggle('on', hit);
+      if (hit) row.classList.add('seen');
+    });
+  };
+  const ask = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  addEventListener('scroll', ask, { passive: true }); addEventListener('resize', ask); tick();
+  j.querySelectorAll('.js-pill').forEach(b => b.addEventListener('click', () => {
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', open);
+    document.getElementById(b.getAttribute('aria-controls')).hidden = !open;
+    ask();
+  }));
+  // screenshots only: ?open=invest opens that chapter's card
+  const o = new URLSearchParams(location.search).get('open');
+  if (o) { const b = j.querySelector(`.js[data-k="${o}"] .js-pill`); if (b) setTimeout(() => b.click(), 200); }
+})();
