@@ -2258,7 +2258,7 @@ def research_page():
     body = strip_ph(research_section()).replace('<section class="plate rs" id="research">', '<section class="s5 rs" id="research">')
     body = body.replace(blurb("rs-what", "Startups I've researched, and AI terms I've explained on film.", highlight=False), "")
     return page5("research", "Research", "Startups Janet Mao has researched, and AI terms she has explained on film.",
-                 "Research", "Startups I've researched, and AI terms I've explained on film.", body, "44 326 186 112")
+                 "Research", "Startups I've researched, and AI terms I've explained on film.", body, "40 330 168 104")
 
 
 def about_page():

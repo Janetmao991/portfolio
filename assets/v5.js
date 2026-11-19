@@ -128,7 +128,8 @@
     const greet = () => { if (!h5.dataset.on) say('Hi there!', 2800); };
     // screenshots only: ?demo=work shows that hover state without a mouse
     const demo = h5.querySelector(`.h5-menu a[data-o="${q.get('demo')}"]`);
-    if (demo) setTimeout(() => ['pointerenter'].forEach(t => demo.dispatchEvent(new PointerEvent(t))), 400);
+    if (demo) setTimeout(() => demo.dispatchEvent(new PointerEvent('pointerenter')), 400);
+    if (demo && q.get('fly')) setTimeout(() => demo.click(), 1300);
     setTimeout(greet, html.classList.contains('intro') ? 2300 : 700);
   }
 
@@ -171,7 +172,7 @@
         h5.style.setProperty('--tx', `${innerWidth / 2 - e.x}px`); h5.style.setProperty('--ty', `${innerHeight / 2 - e.y}px`);
       }
       h5.classList.add('flying');
-      setTimeout(() => { location.href = a.href; }, 640);
+      if (!q.get('fly')) setTimeout(() => { location.href = a.href; }, 640);  // ?fly=1: screenshots of the move only
     }));
     addEventListener('pageshow', e => { if (e.persisted) { h5.classList.remove('flying'); delete h5.dataset.on; ['--fx', '--fy', '--tx', '--ty'].forEach(v => h5.style.removeProperty(v)); } });
   }
