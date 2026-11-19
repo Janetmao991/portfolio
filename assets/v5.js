@@ -8,6 +8,7 @@
     html.style.setProperty('--c-wash', `color-mix(in srgb, #${hex} 14%, #f7f7f5)`);
     html.dataset.palette = 'trial';
   }
+  if (q.get('bg') === 'wash') html.classList.add('bg-wash');
   if (['red', 'blue', 'lime'].includes(c)) {
     html.dataset.palette = c;
     document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
@@ -15,6 +16,13 @@
       if (u.origin === location.origin) { u.searchParams.set('c', c); a.href = u.pathname + u.search + u.hash; }
     });
   }
+  // keep colour trials when clicking through
+  if (hex || q.get('bg')) document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin) return;
+    if (hex) u.searchParams.set('hex', hex); if (q.get('bg')) u.searchParams.set('bg', q.get('bg'));
+    a.href = u.pathname + u.search + u.hash;
+  });
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 

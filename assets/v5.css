@@ -224,3 +224,22 @@ html { -webkit-tap-highlight-color: transparent; }
 
 /* bright colours carry less contrast: the small lines on the coloured field go up a size */
 html[data-palette] .m5-d, html[data-palette] .h5-links { font-size: 17px; }
+
+/* R72b — Janet: no big field of colour. Near-white everywhere; the colour lives in the type and the drawing's lines.
+   Variant ?bg=wash: a pale wash of the colour behind the drawing only. */
+.home5 { background: var(--paper); color: var(--c-deep); }
+.home5 ::selection { background: var(--c); color: var(--paper); }
+.h5 h1, .h5-menu a, .h5-links a { color: var(--c); }
+.h5-sub, .m5-d { color: var(--c-deep); }
+.h5-art .desk { --gr: var(--paper); color: var(--c); }
+.home5 .h5 :focus-visible, .h5-menu a:focus-visible { outline-color: var(--c); }
+html.bg-wash .h5-art { background: var(--c-wash); margin-right: calc(-1 * var(--m)); padding: 6svh var(--m) 0 4vw; align-self: stretch; align-items: flex-end; }
+html.bg-wash .h5-art .desk { --gr: var(--c-wash); }
+@media (max-width: 860px) { html.bg-wash .h5-art { margin: 0 calc(-1 * var(--m)); padding: 16px var(--m) 0; } }
+
+/* the closing contact block: no colour field either */
+.v5 .plate.dark { background: var(--c-wash); color: var(--c-deep); }
+.v5 .dark h2, .v5 #contact.dark h2, .v5 .dark .mail a { color: var(--c); }
+.v5 .dark .round a { color: var(--c); border-color: var(--c); }
+.v5 footer.site { background: var(--c-wash); color: var(--c-deep); }
+.v5 footer.site a { color: var(--c); }

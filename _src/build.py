@@ -2242,7 +2242,7 @@ def index_page():
 <script src="assets/v5.js"></script>
 </body>
 </html>
-""".replace("</head>", OLD_HASH + "\n</head>").replace('<meta name="theme-color" content="#f7f7f5">', '<meta name="theme-color" content="#1e5e3b">')
+""".replace("</head>", OLD_HASH + "\n</head>")
 
 
 def work_page():
