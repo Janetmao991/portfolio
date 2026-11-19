@@ -767,3 +767,22 @@ li.js { padding-bottom: clamp(36px, 4.5vw, 72px); }
 .js-say-t { font-size: var(--t-body); }
 .v5 .ab-t .ab-id { font-size: var(--t-lead); line-height: 1.3; }
 @media (min-width: 900px) { .v5 .ab-t .ab-id { font-size: clamp(26px, 1.2rem + 1.2vw, 38px); line-height: 1.2; } }
+
+/* R73y — the two loops: a line that says what the map shows, two replay buttons, and a sticky note that walks the map */
+.loops { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px 32px; margin: 0 0 clamp(28px, 3.5vw, 44px); }
+.loops-t { margin: 0; max-width: 54ch; font-size: var(--t-lead); line-height: 1.35; text-wrap: pretty; }
+.loops-t b { font-weight: 400; background: linear-gradient(var(--mark), var(--mark)) 0 88% / 100% 38% no-repeat; }
+.loops-b { display: flex; gap: 10px; margin: 0; }
+.lp-go { font: inherit; font-size: var(--t-small); padding: 9px 16px; border: 2px solid var(--c-deep); border-radius: 999px; background: #fff; color: var(--c-deep); cursor: pointer;
+  box-shadow: 3px 3px 0 var(--c-deep); transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out); }
+.lp-go:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--c-deep); }
+.lp-note { position: absolute; z-index: 6; width: 250px; padding: 10px 14px 12px; background: #ffe27a; color: var(--c-deep); border: 2px solid var(--c-deep); border-radius: 10px;
+  box-shadow: 4px 5px 0 var(--c-deep); translate: -50% -100%; rotate: -1.5deg; opacity: 0; pointer-events: none;
+  transition: left 700ms var(--ease-in-out, cubic-bezier(.77, 0, .175, 1)), top 700ms var(--ease-in-out, cubic-bezier(.77, 0, .175, 1)), opacity 200ms var(--ease-out); }
+.lp-note.below { translate: -50% 0; rotate: 1.5deg; }
+.lp-note.lp-co { background: #f6dcc0; }
+.lp-note.on { opacity: 1; }
+.lp-note b { display: block; font-size: 21px; font-weight: 500; font-style: italic; line-height: 1.1; }
+.lp-note .cap { display: block; margin-top: 4px; font-size: 15px; line-height: 1.35; }
+@media (prefers-reduced-motion: reduce) { .lp-note { transition: opacity 200ms; } }
+@media (max-width: 699px) { .loops-b, .lp-note { display: none; } }

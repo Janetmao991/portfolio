@@ -15,35 +15,67 @@
     }, 2800);
   }
 
-  // 2. follow one word through the map
-  const btn = document.getElementById('dl-loop');
+  // 2. R73y: two loops through the map, played once when the map comes into view (Replay buttons after).
+  //    Left: one word, heard in a podcast → written in a journal. Right: one company, interviews → a published teardown.
+  //    A sticky note carries the word (or company) from card to card, with what happens at each stop written on it.
   const fit = document.querySelector('.fit');
   const note = document.getElementById('fit-note');
-  if (btn && fit) {
-    const steps = [
-      ['lexiai', 'Looked up “leverage” in LexiAI and saved it.'],
-      ['lexispeak', 'Said it right in LexiSpeak, so LexiAI marks it “Can Speak”.'],
-      ['lexiai', 'Back in the notebook, LexiAI suggests it for today’s journal.'],
-      ['writing-station', 'Used it well in Writing Station, so it counts toward “Can Write”.'],
-    ];
-    let running = false;
-    btn.addEventListener('click', async () => {
-      if (running) return; running = true; btn.disabled = true;
-      const chip = document.createElement('span'); chip.className = 'dl-chip'; chip.textContent = 'leverage';
-      fit.appendChild(chip);
-      for (const [id, text] of steps) {
-        const n = fit.querySelector(`.nd[data-id="${id}"]`); if (!n) continue;
-        chip.style.left = n.style.left; chip.style.top = `calc(${n.style.top} - 70px)`;
-        n.dispatchEvent(new Event('mouseenter'));
-        await new Promise(r => setTimeout(r, reduce ? 50 : 950));
-        if (note) note.innerHTML = `<b>leverage</b>${text}`;
-        await new Promise(r => setTimeout(r, reduce ? 1200 : 1500));
+  if (fit) {
+    const LOOPS = {
+      word: { name: 'clip', cls: 'lp-word', steps: [
+        ['podcast-dig', 'Heard it in a podcast about Nest. podcast-dig keeps the transcript, timestamped.'],
+        ['lexiai', 'LexiAI shows which sense it takes there, a rate of speed, and saves it with the real clip.'],
+        ['lexispeak', 'Said it right in LexiSpeak, so LexiAI marks it “Can Speak”.'],
+        ['lexiai', 'Back in the notebook, LexiAI suggests it for today’s journal.'],
+        ['writing-station', 'Used it well in Writing Station, so it counts toward “Can Write”.'],
+      ], end: '<b>One word, full loop.</b>Heard, understood, spoken, written. Every step wrote back to the same notebook.' },
+      company: { name: 'Granola', cls: 'lp-co', steps: [
+        ['podcast-dig', 'Pulled 8 founder and investor interviews, each with a timestamped transcript.'],
+        ['ai-terms', 'Before judging the business, I explain the tech it’s built on, in plain language.'],
+        ['startup-research', 'Founder claims come straight from the transcripts, with timestamps.'],
+        ['vault', 'Transcripts, films and notes all land in my Obsidian vault.'],
+        ['startup-research', 'It became Teardown No.01, a 14-page English business magazine.'],
+      ], end: '<b>One company, full loop.</b>Interviewed, explained, judged, filed, published.' },
+    };
+    const card = document.createElement('div'); card.className = 'lp-note'; card.setAttribute('aria-hidden', 'true');
+    card.innerHTML = '<b></b><span class="cap"></span>'; fit.appendChild(card);
+    const wait = ms => new Promise(r => setTimeout(r, reduce ? Math.min(ms, 1400) : ms));
+    let run = 0;   // bumping it cancels a loop in flight
+    const place = n => {
+      const fr = fit.getBoundingClientRect(), r = n.getBoundingClientRect();
+      const below = (r.top + r.height / 2 - fr.top) < fr.height * .32;
+      const x = Math.max(132, Math.min(fr.width - 132, r.left + r.width / 2 - fr.left));
+      card.classList.toggle('below', below);
+      card.style.left = x + 'px'; card.style.top = (below ? r.bottom - fr.top + 12 : r.top - fr.top - 12) + 'px';
+    };
+    const hover = (n, on) => n && n.classList.contains('nd') && n.dispatchEvent(new Event(on ? 'mouseenter' : 'mouseleave'));
+    const play = async key => {
+      const me = ++run, L = LOOPS[key];
+      card.className = 'lp-note ' + L.cls; card.querySelector('b').textContent = L.name;
+      let last = null;
+      for (const [id, text] of L.steps) {
+        if (me !== run) return;
+        const n = fit.querySelector(`[data-id="${id}"]`); if (!n) continue;
+        hover(last, false); hover(n, true); last = n;
+        card.querySelector('.cap').textContent = text; place(n); card.classList.add('on');
+        await wait(2600);
       }
-      chip.style.opacity = '0';
-      fit.querySelector('.nd[data-id="lexiai"]')?.dispatchEvent(new Event('mouseleave'));
-      if (note) note.innerHTML = '<b>One word, full loop.</b>Looked up, spoken, written. Every step wrote back to the same notebook.';
-      setTimeout(() => { chip.remove(); running = false; btn.disabled = false; }, 400);
-    });
+      if (me !== run) return;
+      card.classList.remove('on'); hover(last, false);
+      if (note) note.innerHTML = L.end;
+    };
+    const stop = () => { run++; card.classList.remove('on'); };
+    document.querySelectorAll('.lp-go').forEach(b => b.addEventListener('click', () => play(b.dataset.loop)));
+    fit.querySelectorAll('.nd').forEach(n => n.addEventListener('pointerenter', e => { if (e.isTrusted) stop(); }));
+    if (!reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(async es => {
+        if (!es.some(e => e.isIntersecting)) return; io.disconnect();
+        await wait(3400);                        // let the map finish drawing itself first
+        const me = run; await play('word'); if (me + 1 !== run) return;
+        await wait(900); await play('company');
+      }, { threshold: .45 });
+      io.observe(fit);
+    }
   }
 
   // 3. staggered entrances: heading, text, then picture

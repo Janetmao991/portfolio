@@ -2178,7 +2178,10 @@ def map_section():
     return f'''<section class="plate fits hl-sec" id="work">
   {ph("01", "Things I've built", f"{len(MAP_NODES)} projects", icon="built")}
   {blurb("fit-in", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.", highlight=False)}
-  <p class="dl-loop-row"><button type="button" class="dl-btn dl-ghost" id="dl-loop">Follow one word through the loop</button></p>
+  <div class="loops">
+    <p class="loops-t">Two loops run through this map. On the left, one word goes from <b>heard</b> to <b>written</b>. On the right, one company goes from <b>interview</b> to <b>teardown</b>.</p>
+    <p class="loops-b"><button type="button" class="lp-go" data-loop="word">▶ Replay the word</button><button type="button" class="lp-go" data-loop="company">▶ Replay the company</button></p>
+  </div>
   {_map_desktop(lines)}
   {_map_mobile(lines)}
   <p class="fit-note" id="fit-note" aria-live="polite" data-rest="{rest}">{rest}</p>
