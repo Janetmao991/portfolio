@@ -587,3 +587,9 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
 .lx-track > .lx-slide:not([data-pos="0"]) { overflow: hidden; }
 .lx-track > .lx-slide > * { transition: opacity 360ms var(--ease-out) 180ms; }
 .lx-track > .lx-slide:not([data-pos="0"]) > * { opacity: 0; transition-delay: 0ms; }
+/* cards with two screenshots: both smaller, so the card stays about one screen tall */
+@media (min-width: 761px) {
+  .lx-slide .lx-shot:has(.lx-pic ~ .lx-pic) .lx-pic img { max-height: 25svh; }
+  .lx-slide .lx-shot:has(.lx-pic ~ .lx-pic) { row-gap: 10px; }
+  .lx-slide .lx-audio { margin-top: 6px; }
+}
