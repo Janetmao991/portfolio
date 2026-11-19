@@ -52,7 +52,7 @@ html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; 
   gap: 0 clamp(24px, 3vw, 56px); padding: 0 var(--m); align-items: end;
 }
 .h5-t { align-self: center; padding: 64px 0; }
-.h5 h1 { font-size: clamp(48px, 5.6vw, 104px); line-height: .95; letter-spacing: -.035em; font-weight: 400; }
+.h5 h1 { font-size: clamp(44px, 5vw, 100px); white-space: nowrap; line-height: .95; letter-spacing: -.035em; font-weight: 400; }
 .h5-sub { margin: 28px 0 0; font-size: var(--t-lead); line-height: 1.35; max-width: 26ch; }
 .h5-menu ul { list-style: none; margin: clamp(36px, 6svh, 64px) 0 0; padding: 0; display: grid; gap: 14px; }
 .h5-menu a { display: inline-grid; color: var(--paper); text-decoration: none; }
@@ -70,7 +70,7 @@ html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; 
   .h5-art { order: -1; aspect-ratio: 720 / 590; overflow: hidden; align-items: flex-start; }
   .h5-art .desk { width: 100%; max-height: none; margin: 0; }
   .h5-t { padding: 8px 0 48px; }
-  .h5 h1 { font-size: clamp(48px, 13vw, 72px); }
+  .h5 h1 { font-size: clamp(40px, 12vw, 72px); }
 }
 
 /* ---------- inner pages ---------- */
@@ -327,3 +327,22 @@ html.intro .desk .me-pic { animation: r5-rise 700ms var(--ease-out) 900ms both; 
 @media (prefers-reduced-motion: no-preference) {
   .h5[data-on="work"] .desk .o-work { transform: translate(10px, -10px) scale(.72); }
 }
+
+/* R72i camera: hovering a menu item leans the room toward its thing; clicking flies into it, then the page opens
+   on the same thing at the top of the next page. Transform only; reduced motion keeps plain navigation. */
+@view-transition { navigation: auto; }
+.h5-art { overflow: hidden; }
+.h5-art .desk { transform-origin: var(--fx, 50%) var(--fy, 50%); transition: transform 700ms var(--ease-out); }
+.h5[data-on="work"] { --fx: 18.8%; --fy: 18%; }
+.h5[data-on="research"] { --fx: 17%; --fy: 58%; }
+.h5[data-on="about"] { --fx: 41.7%; --fy: 44%; }
+.h5[data-on="contact"] { --fx: 87%; --fy: 61%; }
+@media (prefers-reduced-motion: no-preference) {
+  .h5[data-on] .h5-art .desk { transform: scale(1.05); }
+  .h5.flying .h5-art { overflow: visible; z-index: 5; }
+  .h5.flying .h5-art .desk { transform: translate(var(--tx, 0), var(--ty, 0)) scale(3.6); transition: transform 760ms var(--ease-in-out); }
+  .h5.flying .h5-t { opacity: 0; transform: translateX(-16px); transition: opacity 320ms ease-in, transform 320ms ease-in; }
+  .h5.flying .desk .bubble { opacity: 0; transition: opacity 120ms; }
+}
+.h5 { overflow: clip; }
+.h5.flying .desk [class^="o-"] { opacity: 1; }

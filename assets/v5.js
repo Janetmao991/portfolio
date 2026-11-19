@@ -156,6 +156,26 @@
     setTimeout(blink, 2900);
   }
 
+  // R72i click: fly the camera into the thing, then open its page
+  if (h5 && !reduce) {
+    h5.querySelectorAll('.h5-menu a[data-o]').forEach(a => a.addEventListener('click', ev => {
+      if (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault();
+      h5.dataset.on = a.dataset.o;
+      // bring the thing to the middle of the screen while the camera closes in on it
+      const P = { work: [135, 123], research: [125, 392], about: [300, 318], contact: [627, 418] }[a.dataset.o];
+      if (P) {
+        const pt = art.createSVGPoint(); [pt.x, pt.y] = P;
+        const e = pt.matrixTransform(art.getScreenCTM());
+        h5.style.setProperty('--fx', `${P[0] / 7.2}%`); h5.style.setProperty('--fy', `${P[1] / 6.8}%`);
+        h5.style.setProperty('--tx', `${innerWidth / 2 - e.x}px`); h5.style.setProperty('--ty', `${innerHeight / 2 - e.y}px`);
+      }
+      h5.classList.add('flying');
+      setTimeout(() => { location.href = a.href; }, 640);
+    }));
+    addEventListener('pageshow', e => { if (e.persisted) { h5.classList.remove('flying'); delete h5.dataset.on; ['--fx', '--fy', '--tx', '--ty'].forEach(v => h5.style.removeProperty(v)); } });
+  }
+
   // the laptop: type a word, show its line, wait, erase, next word
   const hw = document.querySelector('.h5 .desk .hw');
   const pr = document.querySelector('.h5 .desk .pr');
