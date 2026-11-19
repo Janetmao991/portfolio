@@ -17,7 +17,10 @@
 Few words: her name small, one line, four big menu words (Work · Research · About · Contact), X/GitHub/Email.
 Her KlingAI cartoon portrait is the picture, on a warm sun disc; the irises were painted out and are drawn live, so her
 eyes follow the pointer, look at the word you point at (which a highlighter sweeps), and blink now and then.
-Her head is the pointer on every page (assets/head-cursor.js). Rejected on the way: full colour field, red, the
+Her head is the pointer on every page (assets/head-cursor.js).
+R73c: the portrait sits inside the sun disc, smaller; each menu word swaps in a KlingAI expression of hers (Work: sideways
+confident look, Research: curious pout with ? and a star, About: big laugh, Contact: wink) with an English bubble
+(the generated Chinese bubbles were erased; Research's is a thought cloud). Rejected on the way: full colour field, red, the
 hand-drawn room, the KlingAI desk scene (too student-like), product screenshots on the home (odd), a giant name
 (too much), a dictionary-entry home (too plain, too many words).
 

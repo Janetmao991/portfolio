@@ -2255,10 +2255,10 @@ def index_page():
     <h1 class="name">Janet Mao</h1>
     <p class="tag">AI builder · former VC · San Francisco</p>
     <nav aria-label="Sections"><ul>
-      <li><a href="work.html"><span>Work</span></a></li>
-      <li><a href="research.html"><span>Research</span></a></li>
-      <li><a href="about.html"><span>About</span></a></li>
-      <li><a href="about.html#contact"><span>Contact</span></a></li>
+      <li><a href="work.html" data-x="work" data-say="Six tools, one system."><span>Work</span></a></li>
+      <li><a href="research.html" data-x="research" data-say="How does it really work?"><span>Research</span></a></li>
+      <li><a href="about.html" data-x="about" data-say="That’s me!"><span>About</span></a></li>
+      <li><a href="about.html#contact" data-x="contact" data-say="Say hi, I’ll reply!"><span>Contact</span></a></li>
     </ul></nav>
     <p class="links"><a href="{X}">X</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
@@ -2270,6 +2270,7 @@ def index_page():
       </defs>
       <circle class="sun" cx="340" cy="430" r="370"/>
       <g clip-path="url(#disc)">
+      <g class="x0">
       <image href="assets/janet-bust.webp" x="0" y="0" width="720" height="841"/>
       <g mask="url(#open)" id="eyes">
         <g class="pupil" data-cx="190" data-cy="457"><circle cx="190" cy="457" r="25" fill="#141110"/><circle cx="196" cy="447" r="5.5" fill="#fff"/></g>
@@ -2278,7 +2279,13 @@ def index_page():
         <rect class="lid" x="326" y="384" width="126" height="72" fill="#f8dccd"/>
       </g>
       </g>
+      <image class="x" data-x="work" href="assets/janet-x-work.webp" x="0" y="0" width="720" height="841"/>
+      <image class="x" data-x="research" href="assets/janet-x-research.webp" x="0" y="0" width="720" height="841"/>
+      <image class="x" data-x="about" href="assets/janet-x-about.webp" x="0" y="0" width="720" height="841"/>
+      <image class="x" data-x="contact" href="assets/janet-x-contact.webp" x="0" y="0" width="720" height="841"/>
+      </g>
     </svg>
+    <p class="say" aria-hidden="true"><span></span></p>
   </figure>
 </main>
 <script src="assets/home.js"></script>
