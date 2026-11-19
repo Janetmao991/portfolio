@@ -315,39 +315,74 @@
   if (o) { const b = j.querySelector(`.js[data-k="${o}"] .js-pill`); if (b) setTimeout(() => b.click(), 200); }
 })();
 
-/* R73h — swipeable highlight cards on project pages: arrows, dots, a count, arrow keys; the current card is full strength */
+/* R73j — project highlights as a tilted stack that deals itself: every few seconds the front card flies off left
+   and the next settles in. Pauses on hover, focus, off screen, hidden tab; never under reduced motion.
+   Arrows, dots, ←/→ keys, a pause button and a horizontal swipe all work. */
 document.querySelectorAll('.lx-rail').forEach(rail => {
-  const track = rail.querySelector('.lx-track'), slides = [...track.querySelectorAll('.lx-slide')];
+  const track = rail.querySelector('.lx-track'), slides = [...track.querySelectorAll('.lx-slide')], n = slides.length;
   const prev = rail.querySelector('.lx-prev'), next = rail.querySelector('.lx-next'), count = rail.querySelector('.lx-count');
   const dots = [...rail.querySelectorAll('.lx-dotnav')];
-  let cur = 0;
-  const go = i => { i = Math.max(0, Math.min(slides.length - 1, i)); track.scrollTo({ left: slides[i].offsetLeft - slides[0].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
-  const mark = i => {
-    cur = i;
-    slides.forEach((s, j) => s.classList.toggle('cur', j === i));
-    dots.forEach((d, j) => d.toggleAttribute('aria-current', j === i) || (j === i && d.setAttribute('aria-current', 'true')));
-    count.textContent = `${i + 1} / ${slides.length}`;
-    prev.disabled = i === 0; next.disabled = i === slides.length - 1;
-  };
-  let raf = 0;
-  track.addEventListener('scroll', () => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = 0;
-      const x = track.scrollLeft + slides[0].offsetLeft, i = slides.reduce((b, s, j) => Math.abs(s.offsetLeft - x) < Math.abs(slides[b].offsetLeft - x) ? j : b, 0);
-      if (i !== cur) mark(i);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, DUR = 5200;
+  rail.style.setProperty('--dur', DUR + 'ms');
+  let cur = 0, timer = 0, hover = false, focus = false, seen = false, stopped = reduce;
+  const play = document.createElement('button');
+  play.type = 'button'; play.className = 'lx-play';
+  rail.querySelector('.lx-nav').appendChild(play);
+  const place = (from) => {
+    slides.forEach((sl, j) => {
+      const pos = (j - cur + n) % n;
+      let p = pos <= 3 ? String(pos) : 'hide';
+      if (from !== undefined && j === from && from !== cur && (cur - from + n) % n === 1) p = 'out';
+      sl.dataset.pos = p;
+      sl.setAttribute('aria-hidden', pos === 0 ? 'false' : 'true');
+      sl.inert = pos !== 0;
     });
-  }, { passive: true });
+    // after flying out, tuck the old front card at the back of the stack without a visible move
+    const out = slides.find(sl => sl.dataset.pos === 'out');
+    if (out) setTimeout(() => { if (out.dataset.pos === 'out') { out.dataset.pos = 'hide'; } }, 700);
+    dots.forEach((d, j) => { if (j === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+    count.textContent = `${cur + 1} / ${n}`;
+    // restart the dot's timer
+    rail.classList.remove('playing'); void rail.offsetWidth; sync();
+  };
+  const go = i => { const from = cur; cur = (i + n) % n; place(from); arm(); };
+  const running = () => !stopped && !hover && !focus && seen && !document.hidden;
+  const sync = () => {
+    rail.classList.toggle('playing', !stopped);
+    rail.classList.toggle('paused', !running());
+    play.textContent = stopped ? '▶' : '❚❚';
+    play.setAttribute('aria-label', stopped ? 'Play the cards' : 'Pause the cards');
+  };
+  // a timer that only counts while the stack is actually running
+  let left = DUR, last = 0;
+  const arm = () => { left = DUR; last = performance.now(); };
+  const tick = now => {
+    if (running()) { left -= now - last; if (left <= 0) { go(cur + 1); } }
+    last = now; timer = requestAnimationFrame(tick);
+  };
   prev.addEventListener('click', () => go(cur - 1));
   next.addEventListener('click', () => go(cur + 1));
   dots.forEach((d, j) => d.addEventListener('click', () => go(j)));
+  play.addEventListener('click', () => { stopped = !stopped; arm(); sync(); });
+  slides.forEach((sl, j) => sl.addEventListener('click', () => { if (sl.dataset.pos !== '0') go(j); }));
   track.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
   });
-  // clicking a peeking card brings it in
-  slides.forEach((s, j) => s.addEventListener('click', e => { if (j !== cur && !e.target.closest('a, button, audio')) go(j); }));
-  mark(0);
-  // screenshots only: ?slide=3
+  rail.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { hover = true; sync(); } });
+  rail.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { hover = false; sync(); } });
+  rail.addEventListener('focusin', () => { focus = true; sync(); });
+  rail.addEventListener('focusout', () => { focus = rail.contains(document.activeElement); sync(); });
+  document.addEventListener('visibilitychange', sync);
+  new IntersectionObserver(es => { seen = es[0].intersectionRatio > .35; sync(); }, { threshold: [0, .35, .6] }).observe(track);
+  // swipe: a clear horizontal drag deals the next or the previous card
+  let sx = 0, sy = 0, down = false;
+  track.addEventListener('pointerdown', e => { down = true; sx = e.clientX; sy = e.clientY; });
+  track.addEventListener('pointerup', e => {
+    if (!down) return; down = false;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) go(cur + (dx < 0 ? 1 : -1));
+  });
+  place(); arm(); timer = requestAnimationFrame(tick);
   const q = +new URLSearchParams(location.search).get('slide'); if (q > 1) setTimeout(() => go(q - 1), 300);
 });
