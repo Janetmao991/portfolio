@@ -37,3 +37,5 @@ hand-drawn room, the KlingAI desk scene (too student-like), product screenshots 
 - R73q (AI Term Explainer covers): Research shows only the latest three films, each with a hand-drawn English cover in the series' own style (drawn from that episode's content, same look as its YouTube thumbnail), framed in the site's card style (ink outline, offset shadow, slight tilt). Older episodes are behind "View all episodes".
 
 - R73r (Work map): the six projects are white cards stuck a little crooked on two sheets of dotted notebook paper (ink outline, offset shadow), group names on yellow/peach washi tape; phones get the same sheets and cards stacked. Also fixed: the journey rows used the class `.js`, which collided with `html.js` set by map.js and squeezed the whole Work page to ~60% width; journey rules are now `li.js`.
+
+- R73s: journey bubbles carry Janet's own words (lightly edited English), no labels above them; her Founding line sits on the Meanwhile note. Menu renamed: Work → Projects, About → My journey (URLs unchanged).

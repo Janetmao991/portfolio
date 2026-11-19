@@ -732,3 +732,7 @@ li.js { grid-template-rows: auto auto auto; }
 .v5 .fm-e { border-top: 1.5px dashed rgba(29, 26, 24, .25); margin-left: 0; }
 .v5 .fm-br span { background: #fff; border: 2px solid var(--ink, #1d1a18); box-shadow: 3px 3px 0 var(--ink, #1d1a18); }
 @media (prefers-reduced-motion: reduce) { .v5 .fm-n { rotate: 0deg; } }
+
+/* R73s — her words on the Founding note, in the same voice as the bubbles */
+.jn-say { margin: -4px 0 14px; font-size: 15.5px; line-height: 1.45; font-style: italic; color: var(--ink, #1d1a18); }
+@media (max-width: 760px) { .js-r .js-note, .js-l .js-note { width: calc(100% - 18px); } }

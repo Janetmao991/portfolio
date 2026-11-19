@@ -78,7 +78,7 @@ def nav(root, current=""):
     cur = lambda k: ' aria-current="page"' if k == current else ""
     return f"""<header class="n5">
   <a class="n5-home" href="{root}index.html"><img src="{root}assets/janet-head.png" alt="" width="34" height="34">Janet Mao</a>
-  <nav aria-label="Site"><a href="{root}work.html"{cur('work')}><span>Work</span></a><a href="{root}research.html"{cur('research')}><span>Research</span></a><a href="{root}about.html"{cur('about')}><span>About</span></a></nav>
+  <nav aria-label="Site"><a href="{root}work.html"{cur('work')}><span>Projects</span></a><a href="{root}research.html"{cur('research')}><span>Research</span></a><a href="{root}about.html"{cur('about')}><span>My journey</span></a></nav>
 </header>"""
 
 
@@ -2297,9 +2297,9 @@ def index_page():
     <h1 class="name">Janet Mao</h1>
     <p class="tag">AI builder · former VC · San Francisco</p>
     <nav aria-label="Sections"><ul>
-      <li><a href="work.html" data-x="work" data-say="Six tools, one system."><span>Work</span></a></li>
+      <li><a href="work.html" data-x="work" data-say="Six tools, one system."><span>Projects</span></a></li>
       <li><a href="research.html" data-x="research" data-say="How does it really work?"><span>Research</span></a></li>
-      <li><a href="about.html" data-x="about" data-say="That’s me!"><span>About</span></a></li>
+      <li><a href="about.html" data-x="about" data-say="That’s me!"><span>My journey</span></a></li>
       <li><a href="about.html#contact" data-x="contact" data-say="Say hi, I’ll reply!"><span>Contact</span></a></li>
     </ul></nav>
     <p class="links"><a href="{X}">X</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
@@ -2378,12 +2378,13 @@ JOURNEY = [
 
 # R73o: Janet's own words for each chapter (what she learned, or why she started). She is writing them;
 # until then each holds a placeholder. Edit the text here and rebuild.
-STORY = {
-    "audit":   ("What I learned", ""),
-    "invest":  ("What I learned", ""),
-    "study":   ("Why I went back to school", ""),
-    "operate": ("What I learned", ""),
-    "build":   ("Why I started", ""),
+STORY = {  # Janet's own words (R73s, 2026-11-19), lightly edited for English; no labels above them, her request
+    "audit":   ("", "I learned to take a company apart through its financial statements, and built my foundation in financial analysis."),
+    "invest":  ("", "Financial analysis got me into investment management, and over time I earned the trust to become a core member of the investment team."),
+    "found":   ("", "After one of our portfolio companies hit a setback, we rebuilt it as a new startup with the original founding team. I joined as a co-founder and product manager."),
+    "study":   ("", "To broaden my international horizons."),
+    "operate": ("", "Running data center operations, and leading and managing a team."),
+    "build":   ("", "I love using AI to build exactly the features I want for myself."),
 }
 STORY_PLACEHOLDER = "Your words go here: one or two sentences about this chapter."
 
@@ -2414,11 +2415,12 @@ def journey_section():
             org = nsub.split(" · ", 1)[-1]
             note = (f'<aside class="js-note" aria-label="{when}"><p class="jn-when">{when}</p>'
                     f'<p class="jn-what">Co-founded {org}</p>'
+                    + (f'<p class="jn-say">“{STORY["found"][1]}”</p>' if STORY.get("found", ("", ""))[1] else "") +
                     f'<button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{nk}">{nhook}</button>'
                     f'{card_html(nk, nparts)}</aside>')
         label, text = STORY.get(k, ("", ""))
         say = (f'<figure class="js-say{" is-draft" if not text else ""}"><img class="js-me" src="assets/janet-head.png" alt="" width="44" height="44">'
-               f'<blockquote><p class="js-say-k">{label}</p><p class="js-say-t">{text or STORY_PLACEHOLDER}</p></blockquote></figure>')
+               f'<blockquote>{f"<p class=\"js-say-k\">{label}</p>" if label else ""}<p class="js-say-t">{text or STORY_PLACEHOLDER}</p></blockquote></figure>')
         rows.append(f"""<li class="js js-{side}{' has-note' if note else ''}" data-k="{k}">
     <div class="js-word"><h3>{word}</h3><p>{sub}</p>{tag}</div>
     <span class="js-dot" aria-hidden="true"></span>
