@@ -2446,7 +2446,7 @@ def about_page():
 </section>
 {journey_section()}"""
     return page5("about", "My journey", "Janet Mao is an AI builder in San Francisco and a former VC. She builds tools for learning English with AI, and dives deep into startups.",
-                 "My journey", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "600 540 640 620")
+                 "My journey", "An AI builder in San Francisco and a former VC.", body, "600 540 640 620")
 
 
 if __name__ == "__main__":

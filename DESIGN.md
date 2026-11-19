@@ -41,3 +41,5 @@ hand-drawn room, the KlingAI desk scene (too student-like), product screenshots 
 - R73s: journey bubbles carry Janet's own words (lightly edited English), no labels above them; her Founding line sits on the Meanwhile note. Menu renamed: Work → Projects, About → My journey (URLs unchanged).
 
 - R73t: the About page is titled "My journey" (tab, h1); its timeline section heading became "The path so far" to avoid saying it twice.
+
+- R73u: less space above the page titles (title level with the face disc); About lead drops "a lifelong learner of English" at Janet's request.
