@@ -802,6 +802,16 @@ def research_section():
     HOME_AITERM_LATEST = 3
     latest = sorted(AITERM_FILMS, key=lambda f: f[1], reverse=True)[:HOME_AITERM_LATEST]
     films = "".join(row(f"projects/research-aiterm.html#ep-{s}", AITERM_DATE[s], f"Ep {n} · {t}") for s, n, t, *_ in latest)
+    # R73q: the latest three films, each with its own hand-drawn English cover (from ~/AI-Terms/<ep>-en/cover/thumb-en.html);
+    # older episodes live on the collection page behind "View all episodes".
+    SHORT = {"mcp": "One plug for every AI.", "tool-use": "How AI goes from talking to doing.",
+             "long-context": "When to skip retrieval and paste the whole thing in.", "rag": "An open-book exam for the AI.",
+             "vector-database": "A warehouse that finds the closest points fast.", "embedding": "Meaning turned into coordinates."}
+    covers = "".join(
+        f'<li><a href="projects/research-aiterm.html#ep-{s}"><span class="dl-still"><img src="assets/ai-terms/films/{s}/cover.webp" '
+        f'alt="Cover of Ep {n}: {t}" loading="lazy" width="1280" height="720"><span class="dl-play" aria-hidden="true">▶</span>'
+        f'<span class="dl-ep">Ep {n} · {ln}</span></span><span class="dl-ft">{t}</span><span class="dl-fm">{SHORT[s]}</span></a></li>'
+        for s, n, t, _l, _w, ln in latest)
     nc = len(RESEARCH)
     return f"""<section class="plate rs" id="research">
   {ph("", "Research", f'{nc} {"company" if nc == 1 else "companies"} · {len(AITERM_FILMS)} films', icon="research")}
@@ -813,13 +823,7 @@ def research_section():
   </div>
   <div class="rs-g" id="research-ai-terms">
     <div class="rs-h"><h3>AI Term Explainer <span>{len(AITERM_FILMS)}</span></h3><p>One AI word per film, in plain language. Watch on <a href="{YT_CHANNEL}" target="_blank" rel="noopener">YouTube</a>. How they’re made: <a href="projects/ai-terms.html">AI Term Explainer</a>.</p></div>
-    <ul class="dl-films">
-      <li><a href="projects/research-aiterm.html#ep-mcp"><span class="dl-still"><img src="assets/ai-terms/films/mcp/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 6 · 5:36</span></span><span class="dl-ft">MCP</span><span class="dl-fm">One plug for every AI.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-tool-use"><span class="dl-still"><img src="assets/ai-terms/films/tool-use/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 5 · 17:43</span></span><span class="dl-ft">Tool use</span><span class="dl-fm">How AI goes from talking to doing.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-long-context"><span class="dl-still"><img src="assets/ai-terms/films/long-context/02.jpg" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 4 · 13:18</span></span><span class="dl-ft">Long context vs RAG</span><span class="dl-fm">When to skip retrieval and paste the whole thing in.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-rag"><span class="dl-still"><img src="assets/ai-terms/films/rag/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 3 · 16:06</span></span><span class="dl-ft">RAG</span><span class="dl-fm">An open-book exam for the AI.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-vector-database"><span class="dl-still"><img src="assets/ai-terms/films/vector-database/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 2 · 11:21</span></span><span class="dl-ft">Vector database</span><span class="dl-fm">A warehouse that finds the closest points fast.</span></a></li>
-      <li><a href="projects/research-aiterm.html#ep-embedding"><span class="dl-still"><img src="assets/ai-terms/films/embedding/02.webp" alt="" loading="lazy"><span class="dl-play" aria-hidden="true">▶</span><span class="dl-ep">Ep 1 · 10:30</span></span><span class="dl-ft">Embedding</span><span class="dl-fm">Meaning turned into coordinates.</span></a></li>
+    <ul class="dl-films dl-covers">{covers}
     </ul>
     <p class="rs-all"><a href="projects/research-aiterm.html">View all episodes →</a></p>
   </div>

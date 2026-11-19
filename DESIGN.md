@@ -33,3 +33,5 @@ hand-drawn room, the KlingAI desk scene (too student-like), product screenshots 
 - 2026-11-18 (superseded) A cute cartoon of herself from her photo: front-facing, turned round in her chair, arms folded on its back; loose bun with flyaway hairs, straight brows, almond eyes, closed smile, small dark studs, white stand-collar zip jacket. Same single-colour line style as the room.
 
 - R73p (avatar depth): Janet asked for a "more 3D" avatar. Decision: keep the flat KlingAI art (a 3D render would clash with the paper/sticker style and break the eye-follow and expressions); add depth instead: ink-outlined sticker disc with offset shadow, head breaking out over the top of the circle, the disc tilting a few degrees toward the pointer with the head moving more than the disc (mouse only).
+
+- R73q (AI Term Explainer covers): Research shows only the latest three films, each with a hand-drawn English cover in the series' own style (drawn from that episode's content, same look as its YouTube thumbnail), framed in the site's card style (ink outline, offset shadow, slight tilt). Older episodes are behind "View all episodes".

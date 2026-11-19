@@ -669,3 +669,23 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
   .js-l .js-card, .js-r .js-card { grid-column: 2; }
   .js-r .js-note, .js-l .js-note { grid-row: auto; }
 }
+
+/* R73q — AI Term Explainer: the latest three films, each on its own hand-drawn cover, laid out like the notebook cards
+   (ink outline, offset shadow, a slight tilt each way). Hover straightens and lifts the card; the rest are one link away. */
+.v5 .dl-covers { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); padding: 6px 10px 10px 0; }
+.v5 .dl-covers .dl-still { aspect-ratio: 16 / 9; border: 2.5px solid var(--ink, #1d1a18); border-radius: 10px; box-shadow: 6px 7px 0 var(--ink, #1d1a18);
+  transform: rotate(var(--tilt, -1deg)); transition: transform 260ms cubic-bezier(.23, 1, .32, 1), box-shadow 260ms cubic-bezier(.23, 1, .32, 1); }
+.v5 .dl-covers li:nth-child(2) .dl-still { --tilt: .8deg; }
+.v5 .dl-covers li:nth-child(3) .dl-still { --tilt: -.5deg; }
+.v5 .dl-covers .dl-still img { object-position: center; }
+.v5 .dl-covers .dl-ft { margin-top: 16px; }
+@media (hover: hover) and (pointer: fine) {
+  .v5 .dl-covers a:hover .dl-still { transform: rotate(0) translate(-2px, -3px); box-shadow: 9px 11px 0 var(--ink, #1d1a18); }
+  .v5 .dl-covers a:hover .dl-still img { transform: none; }
+}
+.v5 .dl-covers a:active .dl-still { transform: rotate(0) translate(2px, 2px); box-shadow: 3px 4px 0 var(--ink, #1d1a18); }
+@media (max-width: 760px) { .v5 .dl-covers { grid-template-columns: minmax(0, 1fr); } }
+.v5 .dl-covers li, .v5 .dl-covers a { min-width: 0; } .v5 .dl-covers .dl-still img { max-width: 100%; height: 100%; }
+@media (prefers-reduced-motion: reduce) { .v5 .dl-covers .dl-still { transition: none; } }
+.v5 .dl-covers .dl-ep { left: auto; right: 8px; }
+.v5 .dl-covers .dl-ep { font-size: 11.5px; padding: 1px 7px; right: 6px; bottom: 6px; }
