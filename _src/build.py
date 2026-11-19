@@ -77,8 +77,8 @@ def nav(root, current=""):
     """The slim top plate: initial + name, three tabs (R23 added Research)."""
     cur = lambda k: ' aria-current="page"' if k == current else ""
     return f"""<header class="n5">
-  <a class="n5-home" href="{root}index.html">Janet Mao</a>
-  <nav aria-label="Site"><a href="{root}work.html"{cur('work')}>Things I've built</a><a href="{root}research.html"{cur('research')}>Research</a><a href="{root}about.html"{cur('about')}>About</a></nav>
+  <a class="n5-home" href="{root}index.html"><img src="{root}assets/janet-head.png" alt="" width="34" height="34">Janet Mao</a>
+  <nav aria-label="Site"><a href="{root}work.html"{cur('work')}><span>Work</span></a><a href="{root}research.html"{cur('research')}><span>Research</span></a><a href="{root}about.html"{cur('about')}><span>About</span></a></nav>
 </header>"""
 
 
@@ -2206,6 +2206,17 @@ def desk(uid="", crop=None, cls="desk"):
     return svg.replace('class="desk', f'class="{cls}', 1)
 
 
+FACE = {"work": "work", "research": "research", "about": "about"}
+
+
+def face_disc(slug, root=""):
+    """R73d: the inner pages open with her in the homepage's sun disc, wearing the face of that page."""
+    x = FACE.get(slug, "work")
+    return (f'<svg class="disc" viewBox="-30 60 740 740"><defs><clipPath id="disc-{slug}"><circle cx="340" cy="430" r="370"/></clipPath></defs>'
+            f'<circle cx="340" cy="430" r="370" fill="#f6dcc0"/><g clip-path="url(#disc-{slug})">'
+            f'<image href="{root}assets/janet-x-{x}.webp" x="0" y="0" width="720" height="841"/></g></svg>')
+
+
 def strip_ph(html):
     """Drop a section's old heading strip; on the v5 pages the page title names it."""
     return re.sub(r'<div class="ph">.*?</div>', "", html, count=1, flags=re.S)
@@ -2219,7 +2230,7 @@ def page5(slug, title, desc, h1, lead, body, crop, scripts=""):
 <main>
 <header class="p5-head">
   <div class="p5-t"><h1>{h1}</h1><p class="p5-lead">{lead}</p></div>
-  <div class="p5-art" aria-hidden="true">{desk(slug, crop, "desk crop")}</div>
+  <div class="p5-art" aria-hidden="true">{face_disc(slug)}</div>
 </header>
 {body}
 </main>
@@ -2312,8 +2323,7 @@ def research_page():
 
 def about_page():
     story = "".join(f"<p>{t}</p>" for t in HERO_STORY)
-    body = f"""<section class="s5 ab" id="about">
-  <h2>Hi! I'm Janet</h2>
+    body = f"""<section class="s5 ab" id="about" aria-label="About Janet">
   <div class="ab-t">
     <p class="ab-id">I build tools for learning English with AI, and I dive deep into startups.</p>
     {story}

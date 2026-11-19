@@ -367,3 +367,30 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
 .scene .hw { font-size: 50px; font-style: italic; } .scene .pr { font-size: 25px; }
 .h5-art:has(.scene) { align-self: center; }
 .h5-art .scene { max-height: 86svh; }
+
+/* R73d — inner pages match the homepage: warm near-white, ink, the same serif, a yellow highlighter, the sun disc */
+:root { --c: #1d1a18; --c-deep: #1d1a18; --c-wash: #f6dcc0; --ink-art: #1d1a18; --paper: #f7f5f1; --mark: #ffe27a; }
+.v5 { background: var(--paper); color: var(--c-deep); font-variation-settings: "SOFT" 50; }
+.v5 a { color: var(--c-deep); text-decoration-color: rgba(29, 26, 24, .35); }
+.v5 a:hover { color: var(--c-deep); text-decoration-color: currentColor; }
+.n5 { align-items: center; }
+.n5-home { display: inline-flex; align-items: center; gap: 12px; font-size: 21px; color: var(--c-deep); }
+.n5-home img { width: 34px; height: 34px; }
+.n5 nav a { color: var(--c-deep); font-size: 18px; text-decoration: none; }
+.n5 nav a span, .p5-head h1 span { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat; background-size: 0% 40%; background-position: 0 88%; transition: background-size 320ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .n5 nav a:hover span { background-size: 100% 40%; } }
+.n5 nav a[aria-current] { text-decoration: none; }
+.n5 nav a[aria-current] span { background-size: 100% 40%; }
+.p5-head h1 { color: var(--c-deep); font-weight: 400; }
+.p5-art { justify-content: flex-end; }
+.p5-art .disc { width: clamp(200px, 26vw, 360px); height: auto; display: block; }
+@media (max-width: 760px) { .p5-art { justify-content: flex-start; } .p5-art .disc { width: 180px; } }
+/* the close: the sun's colour, not a dark slab */
+.v5 .plate.dark, .v5 footer.site { background: var(--c-wash); color: var(--c-deep); }
+.v5 .dark h2, .v5 #contact.dark h2, .v5 .dark .mail a, .v5 footer.site a { color: var(--c-deep); }
+.v5 .dark .round a { color: var(--c-deep); border-color: var(--c-deep); }
+/* old pieces on project pages, in the new colours */
+.v5 .in-def { background: #fff; color: var(--c-deep); border: 2px solid var(--c-deep); box-shadow: none; } /* taste-skill-ignore: removes the old shadow */
+.v5 .in-def i { color: var(--ink-soft); }
+.v5 .dm { --dm-accent: #1d1a18; }
+.v5 .dm .dm-ctrl .dm-sound[aria-pressed=false]:hover { background: #3a3430; border-color: #3a3430; }
