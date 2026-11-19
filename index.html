@@ -30,14 +30,20 @@
     <p class="links"><a href="https://x.com/BuiltByJanet">X</a><a href="https://github.com/Janetmao991">GitHub</a><a href="mailto:qing.mao.2024@marshall.usc.edu">Email</a></p>
   </div>
   <figure class="me">
-    <svg id="face" viewBox="0 0 720 841" role="img" aria-label="Janet, drawn as a cartoon, smiling; her eyes follow your pointer">
-      <defs><mask id="open" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="841"><image href="assets/janet-eyes-mask.png" x="0" y="0" width="720" height="841"/></mask></defs>
+    <svg id="face" viewBox="-30 60 740 740" role="img" aria-label="Janet, drawn as a cartoon, smiling; her eyes follow your pointer">
+      <defs>
+        <clipPath id="disc"><circle cx="340" cy="430" r="370"/></clipPath>
+        <mask id="open" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="841"><image href="assets/janet-eyes-mask.png" x="0" y="0" width="720" height="841"/></mask>
+      </defs>
+      <circle class="sun" cx="340" cy="430" r="370"/>
+      <g clip-path="url(#disc)">
       <image href="assets/janet-bust.webp" x="0" y="0" width="720" height="841"/>
       <g mask="url(#open)" id="eyes">
         <g class="pupil" data-cx="190" data-cy="457"><circle cx="190" cy="457" r="25" fill="#141110"/><circle cx="196" cy="447" r="5.5" fill="#fff"/></g>
         <g class="pupil" data-cx="385" data-cy="420"><circle cx="385" cy="420" r="25" fill="#141110"/><circle cx="391" cy="410" r="5.5" fill="#fff"/></g>
         <rect class="lid" x="130" y="424" width="122" height="72" fill="#f8d7c9"/>
         <rect class="lid" x="326" y="384" width="126" height="72" fill="#f8dccd"/>
+      </g>
       </g>
     </svg>
   </figure>

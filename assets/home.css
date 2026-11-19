@@ -20,9 +20,9 @@ nav a:active { transform: scale(.98); }
 .links a:hover { color: var(--ink); }
 
 /* her: a warm sun behind, her portrait in front, eyes that follow you */
-.me { position: relative; align-self: end; justify-self: center; width: min(100%, 78svh); margin: 0; }
-.me::before { content: ""; position: absolute; left: 6%; right: 6%; bottom: 8%; aspect-ratio: 1; border-radius: 50%; background: var(--sun); z-index: 0; }
-.me svg { position: relative; z-index: 1; display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 93%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 93%, transparent 100%); }
+.me { position: relative; align-self: center; justify-self: center; width: min(100%, 58svh, 520px); margin: 0; }
+.me .sun { fill: var(--sun); }
+.me svg { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
 .pupil { transition: transform 140ms var(--ease); }
 .lid { transform-box: fill-box; transform-origin: 50% 0; transform: scaleY(0); }
 .blink .lid { animation: blink 170ms ease-in-out; }
