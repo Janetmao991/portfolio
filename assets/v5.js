@@ -2,7 +2,12 @@
    Colour trials while Janet chooses: ?c=lime, ?c=red or ?c=blue (green is the default). */
 (() => {
   const html = document.documentElement;
-  const c = new URLSearchParams(location.search).get('c');
+  const q = new URLSearchParams(location.search), c = q.get('c'), hex = q.get('hex');
+  if (hex && /^[0-9a-f]{6}$/i.test(hex)) {  // colour trials only: ?hex=c0362c
+    html.style.setProperty('--c', '#' + hex);
+    html.style.setProperty('--c-wash', `color-mix(in srgb, #${hex} 14%, #f7f7f5)`);
+    html.dataset.palette = 'trial';
+  }
   if (['red', 'blue', 'lime'].includes(c)) {
     html.dataset.palette = c;
     document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
