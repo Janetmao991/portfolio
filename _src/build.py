@@ -142,6 +142,8 @@ def foot(root, js=False, extra=""):
         script += f'\n<script src="{root}assets/entrance.js"></script>'
         script += f'\n<script src="{root}assets/touches.js"></script>\n<script src="{root}assets/inner.js"></script>'  # R68
     script += f'\n<script src="{root}assets/head-cursor.js" data-root="{root}"></script>'
+    if root:  # R73h: project pages need v5.js too (swipe cards); the top-level pages add it in page5()
+        script += f'\n<script src="{root}assets/v5.js"></script>'
     return f"""{contact()}
 <footer class="site"><span>Janet Mao · San Francisco · 2026</span><a href="{X}">X @BuiltByJanet</a></footer>
 </div>{script}
@@ -1024,7 +1026,7 @@ def research_clay_page():
 # short label under it. "Which sense" shows the top of the Meaning-in-context card and, as a second crop, its line after saving
 # (the only place the app names the sense number). Callout boxes are in PNG pixels, so they track the image at any width.
 LEXI_SUMMARY = "A custom English dictionary, tailored to how I study."
-LEXI_ACCENT = "#3d5e4a"
+LEXI_ACCENT = "#1d1a18"  # R73h: ink, matching the v5 site (was green)
 # (heading <= 6 words, one sentence, [(image key, alt text, pixel size of the PNG, (callout x, y, w, h in PNG px), label <= 8 words), ...])
 LEXI_HIGHLIGHTS = [
     ("Clear definitions, every sense numbered",
@@ -1409,6 +1411,7 @@ def callout_page(slug, name, summary, highlights, built, base, url="", coda="", 
                          f'<p>{cap}</p></div>')
             alts[key] = alt
         items += f'\n  <section class="lx-h"><h2>{h}</h2><p>{line}</p><figure class="lx-shot">{pics}</figure></section>'
+    items = rail(items, name)
     live = f'<a class="try-live" href="{url}" target="_blank" rel="noopener">Try it live →</a>' if url else '' if url is None else '<a class="try-live" href="#">Try it live →</a>'
     doc = doc_title or f"{name} — Janet Mao"
     return f"""{head(doc, summary, root).replace("</head>", LEXI_CSS + css + "\n</head>")}
@@ -2207,6 +2210,22 @@ def desk(uid="", crop=None, cls="desk"):
 
 
 FACE = {"work": "work", "research": "research", "about": "about"}
+
+
+def rail(items, name):
+    """R73h (Janet: too much scrolling): a project's highlights become cards you swipe left and right,
+    with arrows, a count and dots (assets/v5.js). Each card keeps its heading, line, screenshot and callouts."""
+    n = items.count('<section class="lx-h">')
+    if n < 2:
+        return items
+    k = iter(range(1, n + 1))
+    items = re.sub(r'<section class="lx-h">', lambda m: f'<section class="lx-h lx-slide" role="group" aria-roledescription="slide" aria-label="{next(k)} of {n}">', items)
+    dots = "".join(f'<button type="button" class="lx-dotnav" aria-label="Go to {i} of {n}"{" aria-current=\"true\"" if i == 1 else ""}></button>' for i in range(1, n + 1))
+    return (f'\n  <div class="lx-rail" role="region" aria-roledescription="carousel" aria-label="{name}: what it does">'
+            f'<div class="lx-track" tabindex="0">{items}\n  </div>'
+            f'<div class="lx-nav"><button type="button" class="lx-prev" aria-label="Previous">←</button>'
+            f'<span class="lx-count" aria-live="polite">1 / {n}</span><span class="lx-dots">{dots}</span>'
+            f'<button type="button" class="lx-next" aria-label="Next">→</button></div></div>')
 
 
 def face_disc(slug, root=""):

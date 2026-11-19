@@ -266,12 +266,35 @@
   const rows = [...j.querySelectorAll('.js')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduce) document.documentElement.classList.add('js-on-arm');
+  // the wavy line: through every dot, bulging left then right between them
+  const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'wave'); svg.setAttribute('aria-hidden', 'true');
+  const bg = document.createElementNS(NS, 'path'), fg = document.createElementNS(NS, 'path');
+  bg.setAttribute('class', 'w-bg'); fg.setAttribute('class', 'w-fg'); svg.append(bg, fg); j.prepend(svg); j.classList.add('wavy');
+  let len = 1;
+  const shape = () => {
+    const r = j.getBoundingClientRect();
+    const pts = rows.map(row => { const d = row.querySelector('.js-dot').getBoundingClientRect(); return [d.left + d.width / 2 - r.left, d.top + d.height / 2 - r.top]; });
+    if (!pts.length) return;
+    const x0 = pts[0][0], amp = Math.min(46, r.width * .05);
+    let d = `M${x0} 0 C${x0 + amp * .8} ${pts[0][1] * .35} ${x0 - amp * .8} ${pts[0][1] * .7} ${pts[0][0]} ${pts[0][1]}`;
+    for (let i = 1; i < pts.length; i++) {
+      const [ax, ay] = pts[i - 1], [bx, by] = pts[i], s = i % 2 ? 1 : -1, h = by - ay;
+      d += ` C${ax + s * amp} ${ay + h * .33} ${bx + s * amp} ${by - h * .33} ${bx} ${by}`;
+    }
+    const [lx, ly] = pts[pts.length - 1], end = r.height, s = pts.length % 2 ? 1 : -1;
+    d += ` C${lx + s * amp * .7} ${ly + (end - ly) * .4} ${lx} ${end - 10} ${lx} ${end}`;
+    bg.setAttribute('d', d); fg.setAttribute('d', d);
+    len = fg.getTotalLength(); fg.style.strokeDasharray = `${len}`;
+  };
+  shape(); addEventListener('resize', shape); new ResizeObserver(shape).observe(j);
   let raf = 0;
   const tick = () => {
     raf = 0;
     const r = j.getBoundingClientRect(), reach = innerHeight * .62 - r.top;
     const p = reduce ? 1 : Math.max(0, Math.min(1, reach / r.height));
     j.style.setProperty('--draw', p.toFixed(4));
+    fg.style.strokeDashoffset = `${len * (1 - p)}`;
     rows.forEach(row => {
       const dot = row.querySelector('.js-dot'), d = dot.getBoundingClientRect();
       const hit = reduce || d.top + d.height / 2 - r.top <= reach;
@@ -291,3 +314,40 @@
   const o = new URLSearchParams(location.search).get('open');
   if (o) { const b = j.querySelector(`.js[data-k="${o}"] .js-pill`); if (b) setTimeout(() => b.click(), 200); }
 })();
+
+/* R73h — swipeable highlight cards on project pages: arrows, dots, a count, arrow keys; the current card is full strength */
+document.querySelectorAll('.lx-rail').forEach(rail => {
+  const track = rail.querySelector('.lx-track'), slides = [...track.querySelectorAll('.lx-slide')];
+  const prev = rail.querySelector('.lx-prev'), next = rail.querySelector('.lx-next'), count = rail.querySelector('.lx-count');
+  const dots = [...rail.querySelectorAll('.lx-dotnav')];
+  let cur = 0;
+  const go = i => { i = Math.max(0, Math.min(slides.length - 1, i)); track.scrollTo({ left: slides[i].offsetLeft - slides[0].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
+  const mark = i => {
+    cur = i;
+    slides.forEach((s, j) => s.classList.toggle('cur', j === i));
+    dots.forEach((d, j) => d.toggleAttribute('aria-current', j === i) || (j === i && d.setAttribute('aria-current', 'true')));
+    count.textContent = `${i + 1} / ${slides.length}`;
+    prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+  };
+  let raf = 0;
+  track.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      const x = track.scrollLeft + slides[0].offsetLeft, i = slides.reduce((b, s, j) => Math.abs(s.offsetLeft - x) < Math.abs(slides[b].offsetLeft - x) ? j : b, 0);
+      if (i !== cur) mark(i);
+    });
+  }, { passive: true });
+  prev.addEventListener('click', () => go(cur - 1));
+  next.addEventListener('click', () => go(cur + 1));
+  dots.forEach((d, j) => d.addEventListener('click', () => go(j)));
+  track.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+  });
+  // clicking a peeking card brings it in
+  slides.forEach((s, j) => s.addEventListener('click', e => { if (j !== cur && !e.target.closest('a, button, audio')) go(j); }));
+  mark(0);
+  // screenshots only: ?slide=3
+  const q = +new URLSearchParams(location.search).get('slide'); if (q > 1) setTimeout(() => go(q - 1), 300);
+});

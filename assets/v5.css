@@ -482,3 +482,44 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
   .js-l .js-card, .js-r .js-card { grid-column: 2; justify-self: stretch; }
   .js-l .js-art, .js-r .js-art { grid-column: 2; grid-row: auto; justify-self: start; }
 }
+
+/* R73h — project highlights as swipeable cards: one at a time, the next one peeks in, snaps into place */
+.lx-rail { margin-top: 56px; }
+.lx-track { display: flex; align-items: flex-start; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain; scrollbar-width: none; padding: 4px 2px 8px; }
+.lx-track::-webkit-scrollbar { display: none; }
+.lx-track:focus-visible { outline: 2px solid var(--c-deep); outline-offset: 6px; border-radius: 12px; }
+.lx-track > .lx-slide { flex: 0 0 88%; scroll-snap-align: start; margin-top: 0; padding: 28px 30px 30px; background: #fff; border: 2px solid var(--c-deep); border-radius: 26px; transition: opacity 260ms var(--ease-out); }
+.lx-track > .lx-slide:not(.cur) { opacity: .55; }
+.lx-slide .lx-shot { background: var(--paper); border-radius: 16px; }
+.lx-nav { display: flex; align-items: center; gap: 16px; margin-top: 18px; }
+.lx-prev, .lx-next { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--c-deep); background: var(--paper); color: var(--c-deep); font-size: 20px; line-height: 1; cursor: pointer; transition: background 160ms var(--ease-out), transform 140ms var(--ease-out), opacity 160ms; }
+@media (hover: hover) and (pointer: fine) { .lx-prev:hover, .lx-next:hover { background: var(--mark); } }
+.lx-prev:active, .lx-next:active { transform: scale(.94); }
+.lx-prev:disabled, .lx-next:disabled { opacity: .3; cursor: default; }
+.lx-count { font-size: 15px; color: var(--ink-soft); font-variant-numeric: tabular-nums; min-width: 3.2em; }
+.lx-dots { display: flex; gap: 8px; margin-left: auto; margin-right: 4px; }
+.lx-dotnav { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 99px; background: rgba(29, 26, 24, .22); cursor: pointer; transition: width 240ms var(--ease-out), background 200ms; }
+.lx-dotnav[aria-current="true"] { width: 26px; background: var(--c-deep); }
+.v5 .in-lines path { stroke: var(--c-deep); }
+@media (max-width: 760px) {
+  .lx-track > .lx-slide { flex-basis: 92%; padding: 20px 18px 22px; border-radius: 20px; }
+  .lx-dots { display: none; }
+  .lx-count { margin-left: auto; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) { .lx-track { scroll-behavior: auto; } }
+@media (min-width: 761px) {
+  .lx-track > .lx-slide { flex-basis: min(74%, 900px); }
+  .lx-slide .lx-shot { padding: 18px; }
+  .lx-slide .lx-pic img { max-height: 58svh; width: auto; max-width: 100%; }
+}
+/* arrows above the cards, so they never fall below a tall card */
+.lx-rail { display: flex; flex-direction: column; }
+.lx-nav { order: -1; margin: 0 0 16px; }
+
+/* R73i — Janet: the journey line should wave, not run straight. JS draws one path that sways side to side
+   between the chapter dots and inks it in as you scroll. */
+.journey.wavy::before, .journey.wavy::after { display: none; }
+.journey .wave { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.journey .wave path { fill: none; stroke-linecap: round; stroke-width: 2.4; }
+.journey .wave .w-bg { stroke: rgba(29, 26, 24, .14); }
+.journey .wave .w-fg { stroke: var(--c-deep); }
