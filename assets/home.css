@@ -60,3 +60,13 @@ nav a:active { transform: scale(.98); }
 @media (prefers-reduced-motion: reduce) { .say { transform: none; } .say.on { transform: none; } }
 @media (max-width: 820px) { .say { right: 0; top: -2%; } }
 .say.think { top: -5%; right: -6%; }
+
+/* R73p — a little depth (Janet: "头像再3D一点"): she sits on a sticker disc with an offset shadow, her head breaks out
+   over the top of the circle, and the whole thing tilts a few degrees toward your pointer, her head moving a touch more
+   than the disc behind it. Mouse only; phones and reduced motion keep it still. */
+.me .shade { fill: var(--ink); transition: transform 600ms var(--ease); }
+.me .sun { stroke: var(--ink); stroke-width: 5; }
+.me svg { overflow: visible; transform: perspective(1100px) rotateY(calc(var(--nx, 0) * 7deg)) rotateX(calc(var(--ny, 0) * -5deg)); transition: transform 600ms var(--ease); }
+.me .depth { transform: translate(calc(var(--nx, 0) * 12px), calc(var(--ny, 0) * 7px)); transition: transform 600ms var(--ease); }
+.me .shade { transform: translate(calc(var(--nx, 0) * -8px), calc(var(--ny, 0) * -6px)); }
+@media (prefers-reduced-motion: reduce) { .me svg, .me .depth, .me .shade { transform: none; } }

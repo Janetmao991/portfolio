@@ -12,10 +12,20 @@
       p.style.transform = `translate(${dx / d * 8 * k}px, ${dy / d * 5.5 * k}px)`;
     });
   };
-  const frame = () => { raf = 0; if (target) { const r = target.getBoundingClientRect(); look(r.right, r.top + r.height / 2); } else look(px, py); };
+  // R73p: the disc tilts toward where you are (or the word you point at); -1..1 each way
+  const me = face.closest('.me'), fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const tilt = (x, y) => {
+    if (!fine || reduce) return;
+    const r = face.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const c = v => Math.max(-1, Math.min(1, v));
+    me.style.setProperty('--nx', c((x - cx) / (innerWidth * .5)).toFixed(3));
+    me.style.setProperty('--ny', c((y - cy) / (innerHeight * .5)).toFixed(3));
+  };
+  const frame = () => { raf = 0; if (target) { const r = target.getBoundingClientRect(); look(r.right, r.top + r.height / 2); tilt(r.right, r.top + r.height / 2); } else { look(px, py); if (moved) tilt(px, py); } };
+  let moved = false;
   const ask = () => { if (!raf) raf = requestAnimationFrame(frame); };
   if (!reduce) {
-    addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; ask(); }, { passive: true });
+    addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; moved = true; ask(); }, { passive: true });
     addEventListener('resize', ask);
   }
   // pointing at a word: she pulls that page's face and says a line (R73c); a short delay out keeps it from flickering between words

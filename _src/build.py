@@ -2231,8 +2231,8 @@ def rail(items, name):
 def face_disc(slug, root=""):
     """R73d: the inner pages open with her in the homepage's sun disc, wearing the face of that page."""
     x = FACE.get(slug, "work")
-    return (f'<svg class="disc" viewBox="-30 60 740 740"><defs><clipPath id="disc-{slug}"><circle cx="340" cy="430" r="370"/></clipPath></defs>'
-            f'<circle cx="340" cy="430" r="370" fill="#f6dcc0"/><g clip-path="url(#disc-{slug})">'
+    return (f'<svg class="disc" viewBox="-40 30 780 780"><defs><clipPath id="disc-{slug}"><circle cx="315" cy="480" r="310"/><circle cx="335" cy="345" r="335"/></clipPath></defs>'
+            f'<circle cx="327" cy="494" r="310" fill="#1d1a18"/><circle cx="315" cy="480" r="310" fill="#f6dcc0" stroke="#1d1a18" stroke-width="5"/><g clip-path="url(#disc-{slug})">'
             f'<image href="{root}assets/janet-x-{x}.webp" x="0" y="0" width="720" height="841"/></g></svg>')
 
 
@@ -2293,13 +2293,15 @@ def index_page():
     <p class="links"><a href="{X}">X</a><a href="{GITHUB}">GitHub</a>{EMAIL}</p>
   </div>
   <figure class="me">
-    <svg id="face" viewBox="-30 60 740 740" role="img" aria-label="Janet, drawn as a cartoon, smiling; her eyes follow your pointer">
+    <svg id="face" viewBox="-40 30 780 780" role="img" aria-label="Janet, drawn as a cartoon, smiling; her eyes follow your pointer">
       <defs>
-        <clipPath id="disc"><circle cx="340" cy="430" r="370"/></clipPath>
+        <clipPath id="disc"><circle cx="315" cy="480" r="310"/><circle cx="335" cy="345" r="335"/></clipPath>
         <mask id="open" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="841"><image href="assets/janet-eyes-mask.png" x="0" y="0" width="720" height="841"/></mask>
       </defs>
-      <circle class="sun" cx="340" cy="430" r="370"/>
+      <circle class="shade" cx="327" cy="494" r="310"/>
+      <circle class="sun" cx="315" cy="480" r="310"/>
       <g clip-path="url(#disc)">
+      <g class="depth">
       <g class="x0">
       <image href="assets/janet-bust.webp" x="0" y="0" width="720" height="841"/>
       <g mask="url(#open)" id="eyes">
@@ -2313,6 +2315,7 @@ def index_page():
       <image class="x" data-x="research" href="assets/janet-x-research.webp" x="0" y="0" width="720" height="841"/>
       <image class="x" data-x="about" href="assets/janet-x-about.webp" x="0" y="0" width="720" height="841"/>
       <image class="x" data-x="contact" href="assets/janet-x-contact.webp" x="0" y="0" width="720" height="841"/>
+      </g>
       </g>
     </svg>
     <p class="say" aria-hidden="true"><span></span></p>
