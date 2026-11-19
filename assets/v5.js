@@ -1,9 +1,9 @@
 /* Portfolio v5 (R72). Home: the menu lights the matching part of the drawing; the laptop looks up words.
-   Colour trials while Janet chooses: ?c=red or ?c=blue (green is the default). */
+   Colour trials while Janet chooses: ?c=lime, ?c=red or ?c=blue (green is the default). */
 (() => {
   const html = document.documentElement;
   const c = new URLSearchParams(location.search).get('c');
-  if (c === 'red' || c === 'blue') {
+  if (['red', 'blue', 'lime'].includes(c)) {
     html.dataset.palette = c;
     document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
       const u = new URL(a.href, location.href);

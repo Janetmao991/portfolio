@@ -16,8 +16,9 @@
   --t-head: clamp(32px, 1.3rem + 2.6vw, 54px);
   --t-display: clamp(52px, 2rem + 6vw, 128px);
 }
-html[data-palette="red"] { --c: #c63d1e; --c-deep: #2b1410; --c-wash: #f6e3dc; --paper: #f9f7f4; }
-html[data-palette="blue"] { --c: #1f4387; --c-deep: #111a2e; --c-wash: #e1e7f2; --paper: #f7f7f4; }
+html[data-palette="red"] { --c: #d9432a; --c-deep: #2b1410; --c-wash: #f8e4de; }
+html[data-palette="lime"] { --c: #1f8a4f; --c-deep: #13241a; --c-wash: #e2f0e7; }
+html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; }
 
 .v5 {
   --display: var(--serif); --sans: var(--serif);
@@ -220,3 +221,6 @@ html { -webkit-tap-highlight-color: transparent; }
 
 /* a crop shown large keeps the drawing's line weight, not a magnified one */
 .p-work .desk.crop :is(path, rect, ellipse, circle), .p-research .desk.crop :is(path, rect, ellipse, circle) { vector-effect: non-scaling-stroke; }
+
+/* bright colours carry less contrast: the small lines on the coloured field go up a size */
+html[data-palette] .m5-d, html[data-palette] .h5-links { font-size: 17px; }
