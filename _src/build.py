@@ -2350,24 +2350,28 @@ JOURNEY = [
     ("invest", "Investing", "2016 – 2022 · Qianhai · Goldhouse", "15+ pre-IPO deals", [
         ("Goldhouse Capital · Investment Manager", "Apr 2018 – Dec 2022", ["Led a team through 15+ pre-IPO investments in TMT.", "Led an $8M investment in a social media company, which grew to 4M daily users and 30M+ registered users while we held it.", "Executed a $25M raise for the exclusive maker of nano-silver conductive film."]),
         ("Qianhai Equity Exchange · Investment Manager", "Jul 2016 – Apr 2018", ["Chosen by the CEO to lead due diligence on 10+ pre-IPO companies, $5M invested."])]),
-    ("found", "Founding", "2020 – 2022 · West Bank Digital", "$3M a year", [
+    ("found", "Founding", "2020 – 2022 · West Bank Digital", "$3M a year", ("invest", True, "alongside Goldhouse"), [
         ("Shenzhen West Bank Digital Technology · Co-Founder & Product Manager", "Jan 2020 – Aug 2022", ["Led app development for China's largest financial newspaper.", "Built a financial database for its bank customers, bringing $3M in annual subscription revenue."])]),
     ("study", "Studying", "2024 · USC Marshall", "MBA, Dean's List", [
         ("University of Southern California, Marshall School of Business", "2024", ["MBA (STEM), Dean's List."])]),
     ("operate", "Operating", "2024 – now · Your Choice Investment", "$10M first year", [
         ("Your Choice Investment · US Representative & Finance Manager", "Oct 2024 – now", ["Hand-picked by the board to run a data center company in Indiana; negotiated a service agreement that brought $10M in first-year revenue.", "Set up operations and finance for HKEX compliance.", "Led buy-side due diligence on a $10M infrastructure acquisition."])]),
-    ("build", "Building", "now · AI builder", "6 tools, one system", [
+    ("build", "Building", "now · AI builder", "6 tools, one system", ("operate", False, "alongside my day job"), [
         ("Tools I use every day", "now", ["LexiAI, LexiSpeak, Writing Station and podcast-dig, working as one system for learning English.", "Startup teardowns (Clay, Granola) and AI Term Explainer films.", "An agentic equity research workflow and a personal agent OS, built on Claude Code and MCP."])]),
 ]
 
 
 def journey_section():
     rows = []
-    for i, (k, word, sub, hook, parts) in enumerate(JOURNEY):
+    for i, row in enumerate(JOURNEY):
+        k, word, sub, hook, *rest = row
+        branch, parts = (rest[0], rest[1]) if len(rest) == 2 else (None, rest[0])
         side = "l" if i % 2 == 0 else "r"
+        bat = (f' data-branch="{branch[0]}" data-rejoin="{"1" if branch[1] else "0"}"') if branch else ""
+        bnote = f'<span class="js-along">{branch[2]}</span>' if branch else ""
         card = "".join(f'<div class="jc-part"><h4>{org}</h4><p class="jd">{dates}</p><ul>{"".join(f"<li>{x}</li>" for x in pts)}</ul></div>' for org, dates, pts in parts)
-        rows.append(f"""<li class="js js-{side}" data-k="{k}">
-    <div class="js-word"><h3>{word}</h3><p>{sub}</p></div>
+        rows.append(f"""<li class="js js-{side}{' js-br' if branch else ''}" data-k="{k}"{bat}>
+    <div class="js-word"><h3>{word}</h3><p>{sub}</p>{bnote}</div>
     <span class="js-dot" aria-hidden="true"></span>
     <div class="js-art" data-art="{k}"></div>
     <button type="button" class="js-pill" aria-expanded="false" aria-controls="jc-{k}">{hook}</button>

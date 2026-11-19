@@ -266,27 +266,45 @@
   const rows = [...j.querySelectorAll('.js')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduce) document.documentElement.classList.add('js-on-arm');
-  // the wavy line: through every dot, bulging left then right between them
+  // R73m — the wavy line: a main line through the main chapters, and for chapters that ran at the same time
+  // as another (data-branch), a second line that forks off after its parent, passes their dot and rejoins
+  // before the next main chapter (or runs on to "now").
   const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('class', 'wave'); svg.setAttribute('aria-hidden', 'true');
-  const bg = document.createElementNS(NS, 'path'), fg = document.createElementNS(NS, 'path');
-  bg.setAttribute('class', 'w-bg'); fg.setAttribute('class', 'w-fg'); svg.append(bg, fg); j.prepend(svg); j.classList.add('wavy');
-  let len = 1;
+  svg.setAttribute('class', 'wave'); svg.setAttribute('aria-hidden', 'true'); j.prepend(svg); j.classList.add('wavy');
+  const mk = cls => { const p = document.createElementNS(NS, 'path'); p.setAttribute('class', cls); svg.appendChild(p); return p; };
+  const lines = [];   // { fg, y0, y1, len }
   const shape = () => {
-    const r = j.getBoundingClientRect();
-    const pts = rows.map(row => { const d = row.querySelector('.js-dot').getBoundingClientRect(); return [d.left + d.width / 2 - r.left, d.top + d.height / 2 - r.top]; });
-    if (!pts.length) return;
-    const x0 = pts[0][0], amp = Math.min(46, r.width * .05);
-    let d = `M${x0} 0 C${x0 + amp * .8} ${pts[0][1] * .35} ${x0 - amp * .8} ${pts[0][1] * .7} ${pts[0][0]} ${pts[0][1]}`;
-    for (let i = 1; i < pts.length; i++) {
-      const [ax, ay] = pts[i - 1], [bx, by] = pts[i], s = i % 2 ? 1 : -1, h = by - ay;
-      d += ` C${ax + s * amp} ${ay + h * .33} ${bx + s * amp} ${by - h * .33} ${bx} ${by}`;
+    svg.querySelectorAll('path').forEach(p => p.remove()); lines.length = 0;
+    const r = j.getBoundingClientRect(), H = r.height, narrow = innerWidth <= 760;
+    const pt = row => { const d = row.querySelector('.js-dot').getBoundingClientRect(); return [d.left + d.width / 2 - r.left, d.top + d.height / 2 - r.top]; };
+    const main = rows.filter(row => !row.dataset.branch), amp = narrow ? 9 : Math.min(42, r.width * .045);
+    const mp = main.map(pt), x0 = mp[0][0];
+    // main line
+    let d = `M${x0} 0 C${x0 + amp * .8} ${mp[0][1] * .35} ${x0 - amp * .8} ${mp[0][1] * .7} ${mp[0][0]} ${mp[0][1]}`;
+    for (let i = 1; i < mp.length; i++) {
+      const [ax, ay] = mp[i - 1], [bx, by] = mp[i], sg = i % 2 ? 1 : -1, h = by - ay;
+      d += ` C${ax + sg * amp} ${ay + h * .33} ${bx + sg * amp} ${by - h * .33} ${bx} ${by}`;
     }
-    const [lx, ly] = pts[pts.length - 1], end = r.height, s = pts.length % 2 ? 1 : -1;
-    d += ` C${lx + s * amp * .7} ${ly + (end - ly) * .4} ${lx} ${end - 10} ${lx} ${end}`;
-    bg.setAttribute('d', d); fg.setAttribute('d', d);
-    len = fg.getTotalLength(); fg.style.strokeDasharray = `${len}`;
+    const [lx, ly] = mp[mp.length - 1];
+    d += ` C${lx - amp * .6} ${ly + (H - ly) * .4} ${lx + amp * .3} ${H - 30} ${lx} ${H}`;
+    const add = (dd, y0, y1, cls) => { const bg = mk('w-bg ' + cls), fg = mk('w-fg ' + cls); bg.setAttribute('d', dd); fg.setAttribute('d', dd); const len = fg.getTotalLength(); fg.style.strokeDasharray = `${len}`; fg.style.strokeDashoffset = `${len}`; lines.push({ fg, y0, y1, len }); };
+    add(d, 0, H, 'w-main');
+    // branches
+    rows.filter(row => row.dataset.branch).forEach(row => {
+      const parent = rows.find(x => x.dataset.k === row.dataset.branch); if (!parent) return;
+      const [px, py] = pt(parent), [bx, by] = pt(row);
+      const after = main[main.indexOf(parent) + 1], fork = py + 34;
+      let bd = `M${px} ${fork} C${px} ${fork + 30} ${bx} ${by - 60} ${bx} ${by}`;
+      let end = H;
+      if (row.dataset.rejoin === '1' && after) {
+        const [nx, ny] = pt(after), join = ny - 40; end = join;
+        bd += ` C${bx} ${by + 60} ${nx} ${join - 40} ${nx} ${join}`;
+      } else bd += ` C${bx} ${by + (H - by) * .4} ${bx + (bx > px ? 6 : -6)} ${H - 30} ${bx} ${H}`;
+      add(bd, fork, end, 'w-branch');
+    });
   };
+  const fg = { style: {} };  // kept for the old progress line below
+  let len = 1;
   shape(); addEventListener('resize', shape); new ResizeObserver(shape).observe(j);
   let raf = 0;
   const tick = () => {
@@ -294,7 +312,7 @@
     const r = j.getBoundingClientRect(), reach = innerHeight * .62 - r.top;
     const p = reduce ? 1 : Math.max(0, Math.min(1, reach / r.height));
     j.style.setProperty('--draw', p.toFixed(4));
-    fg.style.strokeDashoffset = `${len * (1 - p)}`;
+    lines.forEach(L => { const f = reduce ? 1 : Math.max(0, Math.min(1, (reach - L.y0) / Math.max(1, L.y1 - L.y0))); L.fg.style.strokeDashoffset = `${L.len * (1 - f)}`; });
     rows.forEach(row => {
       const dot = row.querySelector('.js-dot'), d = dot.getBoundingClientRect();
       const hit = reduce || d.top + d.height / 2 - r.top <= reach;

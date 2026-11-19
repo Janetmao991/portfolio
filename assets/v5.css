@@ -593,3 +593,15 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
   .lx-slide .lx-shot:has(.lx-pic ~ .lx-pic) { row-gap: 10px; }
   .lx-slide .lx-audio { margin-top: 6px; }
 }
+
+/* R73m — chapters that ran at the same time sit on a branch beside the main line */
+.js-br .js-dot { transform: translateX(var(--bx)); }
+.js-br.on .js-dot { transform: translateX(var(--bx)) scale(1.15); }
+.js-l.js-br { --bx: -58px; } .js-r.js-br { --bx: 58px; }
+.js-br .js-pill { transform: translateX(var(--bx)); }
+.js-br .js-pill:active { transform: translateX(var(--bx)) scale(.96); }
+.js-along { display: inline-block; margin-top: 8px; padding: 2px 10px; border: 1.5px dashed var(--c-deep); border-radius: 999px; font-size: 14px; font-style: italic; }
+@media (max-width: 760px) { .js-l.js-br, .js-r.js-br { --bx: 16px; } .js-br .js-pill { transform: none; } }
+.js-l.js-br { --bx: -120px; } .js-r.js-br { --bx: 120px; }
+.js-l.js-br .js-word { padding-right: 104px; } .js-r.js-br .js-word { padding-left: 104px; }
+@media (max-width: 760px) { .js-l.js-br, .js-r.js-br { --bx: 16px; } .js-l.js-br .js-word, .js-r.js-br .js-word { padding: 0 0 0 14px; } }
