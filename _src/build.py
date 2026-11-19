@@ -65,7 +65,7 @@ def head(title, desc, root):
 <meta property="og:description" content="{desc}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#f7f7f5">
+<meta name="theme-color" content="#f4f3ef">
 {FONTS(root)}
 <link rel="stylesheet" href="{root}assets/style.css">
 {V5_FONTS}
@@ -2284,7 +2284,7 @@ def index_page():
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#f7f5f1">
+<meta name="theme-color" content="#f4f3ef">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">

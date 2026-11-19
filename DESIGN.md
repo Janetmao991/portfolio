@@ -45,3 +45,5 @@ hand-drawn room, the KlingAI desk scene (too student-like), product screenshots 
 - R73u: less space above the page titles (title level with the face disc); About lead drops "a lifelong learner of English" at Janet's request.
 
 - R73v/w: font Fraunces → Newsreader (Janet found Fraunces wobbly). taste-skill inspect pass on every page: titles = menu words on one line (Projects / Research / My journey), one body size, section gaps roughly halved, My journey intro in two columns, journey chapters closer, project cards scale with the map. Homepage auto-plays: each menu word lights up in turn with its face and line (2.6s, a quiet beat between rounds); any pointer/keyboard/touch takes over, resumes after 5s idle; off under reduced motion. Emil pass: blur on the face crossfade, bubble exits faster than it enters, highlighter 300ms.
+
+- R73x: palette A (taste skill: no yellow cream) — page bone #f4f3ef, Contact band putty #e5e1d8, sheets/cards #fbfaf8; the sun disc and yellow highlighter stay warm. Blur on the face swap removed (Janet: it flickers).

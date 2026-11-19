@@ -1,6 +1,6 @@
 /* R73 homepage (direction D, chosen by Janet): few words, her portrait whose eyes follow the pointer. */
 
-:root.home6, .home6 { --ink: #1d1a18; --soft: #6b645d; --paper: #f7f5f1; --sun: #f6dcc0; --mark: #ffe27a; --ease: cubic-bezier(.23, 1, .32, 1); --m: clamp(20px, 5vw, 88px); }
+:root.home6, .home6 { --ink: #1d1a18; --soft: #6b645d; --paper: #f4f3ef; --sun: #f6dcc0; --mark: #ffe27a; --ease: cubic-bezier(.23, 1, .32, 1); --m: clamp(20px, 5vw, 88px); }
 * { box-sizing: border-box; }
 html { -webkit-tap-highlight-color: transparent; }
 .home6 { margin: 0; background: var(--paper); color: var(--ink); font-family: Newsreader, Georgia, serif; font-optical-sizing: auto;  overflow-x: clip; }
@@ -72,14 +72,9 @@ nav a:active { transform: scale(.98); }
 @media (prefers-reduced-motion: reduce) { .me svg, .me .depth, .me .shade { transform: none; } }
 
 /* R73w — Emil pass on the homepage motion.
-   · the face swap is a crossfade of two drawings; a touch of blur on the incoming one blends them into one change
    · the bubble leaves faster than it arrives (exit 120ms, enter 220ms)
    · the highlighter sweep comes down to 300ms, so the menu answers as quickly as the face does */
-@media (prefers-reduced-motion: no-preference) {
-  .me .x { filter: blur(3px); transition: opacity 200ms var(--ease), filter 260ms var(--ease); }
-  .d6[data-x="work"] .me .x[data-x="work"], .d6[data-x="research"] .me .x[data-x="research"],
-  .d6[data-x="about"] .me .x[data-x="about"], .d6[data-x="contact"] .me .x[data-x="contact"] { filter: none; }
-}
+/* (blur on the face swap removed — Janet: it flickers) */
 .say { transition: opacity 120ms var(--ease), transform 120ms var(--ease); }
 .say.on { transition: opacity 160ms var(--ease), transform 220ms var(--ease); }
 nav a span { transition-duration: 300ms; }
