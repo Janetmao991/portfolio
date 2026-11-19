@@ -394,3 +394,43 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
 .v5 .in-def i { color: var(--ink-soft); }
 .v5 .dm { --dm-accent: #1d1a18; }
 .v5 .dm .dm-ctrl .dm-sound[aria-pressed=false]:hover { background: #3a3430; border-color: #3a3430; }
+
+/* R73f — Where I've been: a thread of her career; the line inks down to the stop you pick, its story opens beside it */
+.jn h2 { font-size: var(--t-head); font-weight: 400; margin: 0 0 clamp(28px, 4vw, 56px); }
+.jn-g { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 96px); align-items: start; }
+.thread { list-style: none; margin: 0; padding: 0 0 0 34px; position: relative; --p: 0px; }
+.thread::before, .thread::after { content: ""; position: absolute; left: 9px; top: 14px; width: 2px; border-radius: 2px; }
+.thread::before { bottom: 14px; background: rgba(29, 26, 24, .16); }
+.thread::after { height: var(--p); background: var(--c-deep); transition: height 480ms var(--ease-out); }
+.thread li { position: relative; }
+.thread button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 4.2em 1fr; align-items: baseline; gap: 12px; width: 100%; padding: 12px 0; cursor: pointer; }
+.thread button::before { content: ""; position: absolute; left: -32px; top: 50%; width: 16px; height: 16px; margin-top: -8px; border-radius: 50%; background: var(--paper); box-shadow: inset 0 0 0 2px var(--c-deep); transition: background 200ms var(--ease-out), transform 200ms var(--ease-out); } /* taste-skill-ignore: a ring, not a shadow */
+.thread button[aria-selected="true"]::before { background: var(--c-deep); transform: scale(1.18); }
+.thread .jy { font-size: 15px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.thread .jo { font-size: clamp(19px, 1rem + .4vw, 23px); line-height: 1.25; background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat; background-size: 0% 40%; background-position: 0 88%; transition: background-size 320ms var(--ease-out); }
+.thread button[aria-selected="true"] .jo { background-size: 100% 40%; }
+@media (hover: hover) and (pointer: fine) { .thread button:hover .jo { background-size: 100% 40%; } }
+.thread button:focus-visible { outline: 2px solid var(--c-deep); outline-offset: 4px; border-radius: 6px; }
+.thread button:active::before { transform: scale(.9); }
+.jn-panels { position: relative; transform: translateY(var(--y, 0px)); transition: transform 480ms var(--ease-out); }
+.jp { padding: 26px 30px 24px; background: #fff; border: 2px solid var(--c-deep); border-radius: 22px; }
+.jp .jd { margin: 0; font-size: 15px; color: var(--ink-soft); }
+.jp h3 { margin: 6px 0 0; font-size: clamp(24px, 1.1rem + .9vw, 32px); font-weight: 420; letter-spacing: -.02em; }
+.jp .jr { margin: 2px 0 0; font-size: 18px; font-style: italic; }
+.jp ul { margin: 16px 0 0; padding-left: 1.1em; display: grid; gap: 8px; }
+.jp li { font-size: var(--t-body); line-height: 1.5; }
+@keyframes jp-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: no-preference) { .jp.in { animation: jp-in 320ms var(--ease-out) both; } }
+@media (prefers-reduced-motion: reduce) { .thread::after, .jn-panels { transition: none; } }
+@media (max-width: 760px) {
+  .jn-g { grid-template-columns: 1fr; }
+  .jn-panels { transform: none; }
+  .thread .jp { margin: 4px 0 12px; }
+}
+.thread .jo { justify-self: start; }
+.thread button { position: relative; }
+@media (max-width: 760px) {
+  .ab-t p { position: relative; }
+  .ab .dl-w { position: static; }
+  .ab .dl-def { left: 0; right: 0; width: auto; max-width: none; }
+}

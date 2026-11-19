@@ -213,3 +213,47 @@
     })();
   }
 })();
+
+/* R73f — the career thread on the About page: pick a stop, the line inks down to it, its story opens beside it
+   (on a phone, right under it). A tablist: arrow keys move between stops. */
+(() => {
+  const list = document.querySelector('.thread');
+  if (!list) return;
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  const box = document.querySelector('.jn-panels');
+  const narrow = matchMedia('(max-width: 760px)');
+  const pick = (i, focus) => {
+    tabs.forEach((t, j) => {
+      const on = i === j, panel = document.getElementById(t.getAttribute('aria-controls'));
+      t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+      panel.hidden = !on;
+      if (on) {
+        panel.classList.remove('in'); void panel.offsetWidth; panel.classList.add('in');
+        if (narrow.matches) t.parentElement.appendChild(panel); else if (panel.parentElement !== box) box.appendChild(panel);
+      }
+    });
+    const t = tabs[i], lr = list.getBoundingClientRect(), tr = t.getBoundingClientRect();
+    list.style.setProperty('--p', `${tr.top + tr.height / 2 - lr.top - 14}px`);
+    if (!narrow.matches) {
+      const room = Math.max(0, lr.height - box.offsetHeight);
+      box.style.setProperty('--y', `${Math.min(room, Math.max(0, tr.top - lr.top - 24))}px`);
+    } else box.style.setProperty('--y', '0px');
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => pick(i));
+    t.addEventListener('keydown', e => {
+      const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (k) { e.preventDefault(); pick((i + k + tabs.length) % tabs.length, true); }
+      if (e.key === 'Home') { e.preventDefault(); pick(0, true); }
+      if (e.key === 'End') { e.preventDefault(); pick(tabs.length - 1, true); }
+    });
+  });
+  const cur = () => tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+  narrow.addEventListener('change', () => pick(cur()));
+  addEventListener('resize', () => pick(cur()));
+  pick(0);
+  // screenshots only: ?stop=gh opens that stop
+  const s = new URLSearchParams(location.search).get('stop');
+  if (s) { const i = tabs.findIndex(t => t.id === 'jt-' + s); if (i >= 0) setTimeout(() => pick(i), 300); }
+})();

@@ -2321,6 +2321,54 @@ def research_page():
                  "Research", "Startups I've researched, and AI terms I've explained on film.", body, "420 930 330 290")
 
 
+# R73f: her career as a thread on the About page. Facts only from job-search/resume-bank.md (CANONICAL FACTS, Janet 2026-07-12);
+# investor framing for Goldhouse (truth ruling #5). No phone, no visa. Newest first.
+JOURNEY = [
+    ("now", "Now", "Building with AI", "AI builder · San Francisco", "2024 – now", [
+        "Building the tools I use every day to learn English: LexiAI, LexiSpeak, Writing Station and podcast-dig, working as one system.",
+        "Taking startups apart (Clay, Granola) and explaining AI words on film (AI Term Explainer).",
+        "An agentic equity research workflow and a personal agent OS, built on Claude Code and MCP."]),
+    ("ycii", "2024", "Your Choice Investment", "US Representative & Finance Manager", "Oct 2024 – now", [
+        "Hand-picked by the board to run a data center company in Indiana; negotiated a service agreement with one of the largest hardware makers in crypto, bringing $10M in first-year revenue.",
+        "Set up operations and finance for HKEX compliance: cash-flow modeling, returns, year-end audit, shareholder meetings.",
+        "Led buy-side financial due diligence on a $10M infrastructure acquisition."]),
+    ("usc", "2024", "USC Marshall", "MBA (STEM), Dean's List", "2024", [
+        "University of Southern California, Marshall School of Business."]),
+    ("wb", "2020", "West Bank Digital Technology", "Co-Founder & Product Manager", "Jan 2020 – Aug 2022", [
+        "Co-founded the company in Shenzhen and led app development for China's largest financial newspaper.",
+        "Built a financial database for its bank customers, bringing $3M in annual subscription revenue."]),
+    ("gh", "2018", "Goldhouse Capital", "Investment Manager", "Apr 2018 – Dec 2022", [
+        "Led a team through 15+ pre-IPO investments in TMT: commercial due diligence, valuation, and investor communication after the deal.",
+        "Led an $8M investment in a social media company, which grew to 4M daily users and 30M+ registered users while we held it.",
+        "Executed a $25M raise for the exclusive maker of nano-silver conductive film; backed a restaurant-queuing SaaS later acquired by Alibaba."]),
+    ("qh", "2016", "Qianhai Equity Exchange", "Investment Manager", "Jul 2016 – Apr 2018", [
+        "Chosen by the CEO to lead due diligence on 10+ pre-IPO companies, for $5M invested in total."]),
+    ("bdo", "2013", "BDO", "Auditing Manager", "Jul 2013 – Jun 2016", [
+        "15+ IPO audits: transactions, revenue, expenses and tax, consolidated statements.",
+        "Led a team through a carmaker's annual audit in two months, 33% faster than usual."]),
+    ("snu", "2013", "Shanghai Normal University", "B.S. Finance", "2013", [
+        "Bachelor of Science in Finance, Financial School."]),
+]
+
+
+def journey_section():
+    nodes, panels = [], []
+    for i, (k, yr, org, role, dates, pts) in enumerate(JOURNEY):
+        sel = "true" if i == 0 else "false"
+        nodes.append(f'<li><button type="button" role="tab" id="jt-{k}" aria-controls="jp-{k}" aria-selected="{sel}" tabindex="{0 if i == 0 else -1}">'
+                     f'<span class="jy">{yr}</span><span class="jo">{org}</span></button></li>')
+        body = "".join(f"<li>{p}</li>" for p in pts)
+        panels.append(f'<div class="jp" role="tabpanel" id="jp-{k}" aria-labelledby="jt-{k}"{"" if i == 0 else " hidden"}>'
+                      f'<p class="jd">{dates}</p><h3>{org}</h3><p class="jr">{role}</p><ul>{body}</ul></div>')
+    return f"""<section class="s5 jn" id="journey">
+  <h2>Where I've been</h2>
+  <div class="jn-g">
+    <ol class="thread" role="tablist" aria-label="Career" aria-orientation="vertical">{"".join(nodes)}</ol>
+    <div class="jn-panels">{"".join(panels)}</div>
+  </div>
+</section>"""
+
+
 def about_page():
     story = "".join(f"<p>{t}</p>" for t in HERO_STORY)
     body = f"""<section class="s5 ab" id="about" aria-label="About Janet">
@@ -2329,7 +2377,8 @@ def about_page():
     {story}
     <p class="ab-cta"><a class="b5" href="work.html">See what I built <span aria-hidden="true">→</span></a></p>
   </div>
-</section>"""
+</section>
+{journey_section()}"""
     return page5("about", "About", "Janet Mao is an AI builder in San Francisco and a former VC. She builds tools for learning English with AI, and dives deep into startups.",
                  "About me", "An AI builder in San Francisco, a former VC, and a lifelong learner of English.", body, "600 540 640 620")
 
