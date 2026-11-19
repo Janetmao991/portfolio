@@ -9,6 +9,7 @@
     html.dataset.palette = 'trial';
   }
   if (q.get('bg') === 'wash') html.classList.add('bg-wash');
+  if (['line', 'red'].includes(q.get('me'))) html.classList.add('me-' + q.get('me'));  // trials: her drawn line version / one-colour picture
   if (['red', 'blue', 'lime'].includes(c)) {
     html.dataset.palette = c;
     document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
@@ -17,10 +18,10 @@
     });
   }
   // keep colour trials when clicking through
-  if (hex || q.get('bg')) document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
+  if (hex || q.get('bg') || q.get('me')) document.querySelectorAll('a[href$=".html"], a[href*=".html#"]').forEach(a => {
     const u = new URL(a.href, location.href);
     if (u.origin !== location.origin) return;
-    if (hex) u.searchParams.set('hex', hex); if (q.get('bg')) u.searchParams.set('bg', q.get('bg'));
+    if (hex) u.searchParams.set('hex', hex); if (q.get('bg')) u.searchParams.set('bg', q.get('bg')); if (q.get('me')) u.searchParams.set('me', q.get('me'));
     a.href = u.pathname + u.search + u.hash;
   });
 
@@ -74,7 +75,7 @@
 
   // R72c the menu ties a thread to the thing it names in the drawing (a nod to the project map)
   const str = document.querySelector('.h5-str');
-  const TO = { work: [30, 172], research: [58, 400], about: [250, 318], contact: [592, 404] };
+  const TO = { work: [50, 123], research: [58, 400], about: [218, 340], contact: [592, 404] };
   if (h5 && str && art) {
     const path = str.querySelector('path'), pin = str.querySelector('circle');
     let shown = null;
@@ -113,7 +114,7 @@
         const hb = head.getBoundingClientRect();
         const dx = Math.max(-1, Math.min(1, (ev.clientX - (hb.left + hb.width / 2)) / (innerWidth / 2)));
         const dy = Math.max(-1, Math.min(1, (ev.clientY - (hb.top + hb.height / 2)) / (innerHeight / 2)));
-        art.style.setProperty('--look', `${dx * 4}deg`);
+        art.style.setProperty('--look', `${dx * 3}deg`);
         art.style.setProperty('--ex', `${dx * 2.4}px`);
         art.style.setProperty('--ey', `${dy * 1.8}px`);
       });

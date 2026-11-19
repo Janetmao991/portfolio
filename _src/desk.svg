@@ -36,7 +36,7 @@
   </g>
 
   <!-- the board: six projects tied with string -->
-  <g class="o-work" transform="translate(-26 -6)">
+  <g class="o-work" transform="translate(10 -4) scale(.72)">
     <rect class="g" x="56" y="90" width="236" height="172" rx="3"/>
     <rect x="64" y="98" width="220" height="156" rx="2" stroke-width="1.4"/>
     <g class="threads" stroke-width="1.6">
@@ -99,29 +99,35 @@
     <g class="lines" stroke-width="2"><path class="ln a" pathLength="1" d="M436 370H570"/><path class="ln b" pathLength="1" d="M436 381H552"/><path class="ln c" pathLength="1" d="M436 391H520"/></g>
   </g>
 
+</g>
+
+<!-- her own cartoon (made by Janet), seated in the chair; the drawn arms and chair go in front of it -->
+<g class="o-about me-pic"><g class="head-img"><image class="me-c" href="ASSET/janet-cartoon.webp" x="185" y="166" width="230" height="269"/><image class="me-r" href="ASSET/janet-cartoon-red.webp" x="185" y="166" width="230" height="269"/></g></g>
+<g filter="url(#wob)" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
   <!-- Janet, turned round in her chair, arms folded on its back (drawn from her photo) -->
   <g class="o-about"><g transform="translate(300 524) scale(1.2) translate(-300 -524)">
+    <g class="me-line">
     <path class="g" d="M220 476C224 434 256 414 288 408H312C344 414 376 434 380 476Z"/>
     <path class="g" d="M272 420L285 399L299 424ZM328 420L315 399L301 424Z" stroke-width="2"/>
     <path d="M300 424V452" stroke-width="2"/>
-    <g class="head">
+    <g class="head"><g transform="rotate(-4 300 400)">
       <path d="M290 392V410M310 392V410" stroke-width="2.2"/>
-      <g class="fly" stroke-width="1.3"><path d="M300 262C296 240 290 228 280 218M309 258C313 236 323 226 336 220M292 270C276 254 262 250 248 252M318 266C332 252 346 250 358 255M303 260C303 242 305 230 308 216"/></g>
-      <circle class="p" cx="307" cy="266" r="17"/>
-      <path class="g" d="M258 340C258 306 278 292 300 292C322 292 342 306 342 340C342 370 324 392 300 394C276 392 258 370 258 340Z"/>
-      <path class="p" d="M254 344C248 304 268 278 300 276C334 276 354 302 348 344C346 330 340 318 330 311C319 303 305 302 295 306C284 302 271 308 265 318C259 327 256 336 254 344Z" stroke-width="2"/>
-      <path d="M258 334C251 352 253 370 260 384M344 336C351 354 349 368 342 380" stroke-width="1.6"/>
-      <path class="g" d="M259 344C250 342 250 361 259 363M341 344C350 342 350 361 341 363" stroke-width="2"/>
-      <circle class="p" cx="255" cy="366" r="2.8" stroke-width="1"/><circle class="p" cx="345" cy="366" r="2.8" stroke-width="1"/>
-      <path d="M275 322C281 317 289 317 294 320M306 320C311 317 319 317 325 322" stroke-width="2.6"/>
-      <path d="M277 334C281 329 289 329 293 333M307 333C311 329 319 329 323 334" stroke-width="2"/>
+      <g class="fly" stroke-width="1.3"><path d="M300 282C292 260 280 246 266 236M302 280C304 258 300 244 294 230M304 282C314 262 326 252 340 248M298 284C282 270 266 266 252 268M306 284C320 274 336 272 350 276"/></g>
+      <path class="g" d="M256 338C256 304 276 290 300 290C324 290 344 304 344 338C344 372 324 394 300 396C276 394 256 372 256 338Z"/>
+      <path class="p" d="M252 352C246 306 268 278 300 278C332 278 354 306 348 352C346 330 338 314 324 306C314 300 304 300 300 305C296 300 286 300 276 306C262 314 254 330 252 352Z" stroke-width="2"/>
+      <path class="g" d="M259 340C249 338 249 362 259 364M341 340C351 338 351 362 341 364" stroke-width="2"/>
+      <circle class="p" cx="256" cy="366" r="3" stroke-width="1"/><circle class="p" cx="344" cy="366" r="3" stroke-width="1"/>
+      <path d="M254 334C244 356 246 384 254 406M259 348C252 370 255 390 262 402M346 334C356 356 354 384 346 406M341 348C348 370 345 390 338 402" stroke-width="1.5"/>
+      <path d="M271 321C279 314 290 314 296 318M304 318C310 314 321 314 329 321" stroke-width="3.6"/>
+      <path d="M276 334C280 327 290 327 295 332M276 334l-5-2M305 332C310 327 320 327 324 334M324 334l5-2" stroke-width="2"/>
       <g class="eyes"><g class="pupils">
-        <ellipse class="p" cx="285" cy="337" rx="5.8" ry="5" stroke-width="1"/><ellipse class="p" cx="315" cy="337" rx="5.8" ry="5" stroke-width="1"/>
-        <circle class="g" cx="287" cy="335" r="1.5" stroke="none"/><circle class="g" cx="317" cy="335" r="1.5" stroke="none"/>
+        <ellipse class="p" cx="285.5" cy="337" rx="6.4" ry="6.6" stroke-width="1"/><ellipse class="p" cx="314.5" cy="337" rx="6.4" ry="6.6" stroke-width="1"/>
+        <circle class="g" cx="287.6" cy="334.4" r="2" stroke="none"/><circle class="g" cx="316.6" cy="334.4" r="2" stroke="none"/>
       </g></g>
-      <path d="M300 344C298 352 296 356 300 358" stroke-width="1.8"/>
-      <path d="M290 370C295 375 305 375 311 369" stroke-width="2.2"/>
-      <path d="M268 356l5-5M274 358l5-5M321 358l5-5M327 356l5-5" stroke-width="1.2"/>
+      <path d="M299 350C296 355 297 359 302 359" stroke-width="1.8"/>
+      <path d="M289 371C297 378 308 377 315 367l2-2" stroke-width="2.4"/>
+      <path d="M270 352l-1.2 4.5M274.5 352l-1.2 4.5M279 352l-1.2 4.5M322 352l-1.2 4.5M326.5 352l-1.2 4.5M331 352l-1.2 4.5" stroke-width="1.5"/>
+    </g></g>
     </g>
     <g class="chair">
       <path d="M300 520V652M248 670L300 652L352 670"/>
@@ -133,12 +139,11 @@
     <g class="arm"><path d="M364 454C342 444 318 444 294 450" stroke-width="28"/><path class="gs" d="M364 454C342 444 318 444 294 450" stroke-width="22.8"/></g>
     <path d="M300 440V460" stroke-width="1.6"/>
   </g></g>
-  </g>
 </g>
 
 <!-- words: kept out of the wobble so they stay crisp -->
 <g class="words" fill="currentColor" stroke="none">
-  <g class="o-work" transform="translate(-26 -6)">
+  <g class="o-work" transform="translate(10 -4) scale(.72)">
     <text x="111" y="125.5" text-anchor="middle">Speak</text>
     <text x="140" y="181.5" text-anchor="middle">LexiAI</text>
     <text x="111" y="235.5" text-anchor="middle">Write</text>

@@ -276,3 +276,12 @@ html.intro .h5-links { animation-delay: 1.15s; }
 @media (prefers-reduced-motion: no-preference) {
   .desk .fly { transform-box: fill-box; transform-origin: 50% 100%; animation: r5-sway 4.5s ease-in-out infinite alternate; }
 }
+
+/* R72e her own cartoon sits in the chair; the drawn arms fold over it. ?me=line shows the drawn version, ?me=red a one-colour picture */
+.desk .me-line, .desk .me-r { display: none; }
+html.me-line .desk .me-line { display: inline; }
+html.me-line .desk .me-pic { display: none; }
+html.me-red .desk .me-r { display: inline; }
+html.me-red .desk .me-c { display: none; }
+.desk .head-img { transform-box: fill-box; transform-origin: 50% 90%; transform: rotate(calc(var(--look, 0deg) + var(--tilt, 0deg))); transition: transform 420ms var(--ease-out); }
+html.intro .desk .me-pic { animation: r5-rise 700ms var(--ease-out) 900ms both; --rise: 8px; }

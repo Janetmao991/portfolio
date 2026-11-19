@@ -2197,7 +2197,7 @@ HERO_STORY = [  # the old hero's words, now the About page
 
 def desk(uid="", crop=None, cls="desk"):
     """The drawing. uid keeps ids unique when it appears twice; crop = a viewBox to show one corner of it."""
-    svg = DESK_SVG
+    svg = DESK_SVG.replace('href="ASSET/', 'href="assets/')
     if uid:
         svg = (svg.replace('id="', f'id="{uid}-').replace('url(#', f'url(#{uid}-').replace('aria-labelledby="', f'aria-labelledby="{uid}-'))
     if crop:
