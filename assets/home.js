@@ -43,6 +43,26 @@
     a.addEventListener('focus', () => { a.classList.add('on'); show(a); });
     a.addEventListener('blur', () => { a.classList.remove('on'); show(null); });
   });
+  // R73w: nobody pointing? she walks through the menu on her own — each word lights up in turn, her face and line
+  // change with it. Pointer, keyboard or touch take over at once; it picks up again after a few quiet seconds.
+  const words = [...document.querySelectorAll('nav a')];
+  let auto = 0, ai = -1, idleT = 0, user = false;
+  const STEP = 2600, IDLE = 5000;
+  const tick = () => {
+    if (user || document.hidden) return;
+    words.forEach(w => w.classList.remove('on'));
+    ai = (ai + 1) % (words.length + 1);           // one beat with nothing lit, so it breathes between rounds
+    if (ai < words.length) { words[ai].classList.add('on'); show(words[ai]); } else show(null);
+  };
+  const play = () => { if (reduce || auto) return; auto = setInterval(tick, STEP); };
+  const hold = () => {
+    user = true; clearInterval(auto); auto = 0; clearTimeout(idleT);
+    words.forEach(w => { if (w !== document.activeElement) w.classList.remove('on'); });
+    idleT = setTimeout(() => { user = false; if (!document.activeElement || !words.includes(document.activeElement)) { show(null); ai = -1; play(); } }, IDLE);
+  };
+  words.forEach(a => { a.addEventListener('pointerenter', hold); a.addEventListener('focus', hold); });
+  addEventListener('pointerdown', hold); addEventListener('keydown', hold);
+  if (!new URLSearchParams(location.search).get('look')) setTimeout(play, 1600);
   // she blinks now and then (and when you click)
   const blink = () => { eyes.classList.remove('blink'); void eyes.getBoundingClientRect(); eyes.classList.add('blink'); };
   if (!reduce) {

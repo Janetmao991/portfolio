@@ -6,7 +6,7 @@
   --c-deep: #2a1916;     /* running text: the colour, nearly black */
   --c-wash: #f5e3e0;     /* the colour at 12%, for a quiet field */
   --paper: #f7f7f5;      /* near-white */
-  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
   --ease-out: cubic-bezier(.23, 1, .32, 1);
   --ease-in-out: cubic-bezier(.77, 0, .175, 1);
   --m: clamp(20px, 4.4vw, 72px);          /* the one pair of page margins */
@@ -27,7 +27,7 @@ html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; 
   --bg-outer: var(--paper); --bg-panel: var(--paper); --ui: var(--paper); --rule: transparent;
   background: var(--paper); color: var(--c-deep);
   font-family: var(--serif); font-size: var(--t-body); line-height: 1.55;
-  font-optical-sizing: auto; font-variation-settings: "SOFT" 50;
+  font-optical-sizing: auto; 
 }
 .v5 h1, .v5 h2, .v5 h3 { font-family: var(--serif); font-weight: 420; letter-spacing: -.02em; }
 .v5 ::selection { background: var(--c); color: var(--paper); }
@@ -39,7 +39,7 @@ html[data-palette="blue"] { --c: #2f5bd6; --c-deep: #111a2e; --c-wash: #e3e9f9; 
 .desk .g { fill: var(--gr); }
 .desk .p { fill: currentColor; }
 .desk .gs { stroke: var(--gr); }
-.desk text { font-family: var(--serif); font-size: 12px; font-variation-settings: "SOFT" 50; }
+.desk text { font-family: var(--serif); font-size: 12px;  }
 .desk .hw { font-size: 20px; font-style: italic; }
 .desk .pr { font-size: 9.5px; }
 .desk .sp { font-size: 10px; text-anchor: middle; }
@@ -370,7 +370,7 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
 
 /* R73d — inner pages match the homepage: warm near-white, ink, the same serif, a yellow highlighter, the sun disc */
 :root { --c: #1d1a18; --c-deep: #1d1a18; --c-wash: #f6dcc0; --ink-art: #1d1a18; --paper: #f7f5f1; --mark: #ffe27a; }
-.v5 { background: var(--paper); color: var(--c-deep); font-variation-settings: "SOFT" 50; }
+.v5 { background: var(--paper); color: var(--c-deep);  }
 .v5 a { color: var(--c-deep); text-decoration-color: rgba(29, 26, 24, .35); }
 .v5 a:hover { color: var(--c-deep); text-decoration-color: currentColor; }
 .n5 { align-items: center; }
@@ -734,9 +734,34 @@ li.js { grid-template-rows: auto auto auto; }
 @media (prefers-reduced-motion: reduce) { .v5 .fm-n { rotate: 0deg; } }
 
 /* R73s — her words on the Founding note, in the same voice as the bubbles */
-.jn-say { margin: -4px 0 14px; font-size: 15.5px; line-height: 1.45; font-style: italic; color: var(--ink, #1d1a18); }
+.jn-say { margin: -4px 0 14px; font-size: 17px; line-height: 1.45; font-style: italic; color: var(--ink, #1d1a18); }
 @media (max-width: 760px) { .js-r .js-note, .js-l .js-note { width: calc(100% - 18px); } }
 
 /* R73u — less empty space above each page title: the title sits level with the face, not at the bottom of it */
 .p5-head { align-items: center; padding: clamp(12px, 2.5vw, 40px) 0 clamp(36px, 5vw, 80px); }
 .p5-lead { text-wrap: balance; }
+
+/* R73v — one rhythm for every page (taste-skill inspect pass, 2026-11-19).
+   Titles match the menu words and fit on one line; the lead sits under the title on one or two lines; body text is one
+   size everywhere; the gaps between sections are the same and about half what they were. */
+.p5-head { padding: clamp(16px, 3vw, 48px) 0 clamp(40px, 5vw, 72px); }
+.p5-lead { max-width: 46ch; }
+.s5 { padding-bottom: clamp(64px, 8vw, 120px); }
+.v5 .ab-t, .v5 .ab-t p, .v5 .fit-note, .v5 .rs-h p { font-size: var(--t-body); }
+/* My journey: the big line on the left, the short paragraphs beside it, so the right half is not empty */
+@media (min-width: 900px) {
+  .v5 .ab-t { max-width: none; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(32px, 6vw, 120px); align-items: start; }
+  .v5 .ab-t .ab-id { grid-column: 1; grid-row: 1 / span 9; margin: 0; max-width: 18ch; font-size: clamp(26px, 1.2rem + 1.2vw, 38px); line-height: 1.2; }
+  .v5 .ab-t > p:not(.ab-id) { grid-column: 2; }
+}
+.jn h2 { margin-bottom: clamp(20px, 3vw, 40px); }
+/* Projects map: the cards grow with the map instead of staying small on wide screens */
+.v5 .fit { container-type: inline-size; }
+.v5 .fit .nd { width: clamp(150px, 19.5cqw, 260px); padding: clamp(10px, 1.1cqw, 16px) clamp(12px, 1.3cqw, 18px) clamp(12px, 1.3cqw, 18px); }
+.v5 .fit .nd .ic { width: clamp(40px, 4.8cqw, 64px); height: clamp(40px, 4.8cqw, 64px); }
+.v5 .fit .nd b { font-size: clamp(16px, 1.75cqw, 22px); }
+.v5 .fit .nd small { font-size: clamp(13.5px, 1.45cqw, 17px); }
+.v5 .fit .wl { font-size: clamp(13px, 1.35cqw, 16px); }
+/* journey: chapters closer together (the empty stretches between them read as gaps), her words at body size */
+li.js { padding-bottom: clamp(36px, 4.5vw, 72px); }
+.js-say-t { font-size: var(--t-body); }

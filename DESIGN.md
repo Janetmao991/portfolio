@@ -43,3 +43,5 @@ hand-drawn room, the KlingAI desk scene (too student-like), product screenshots 
 - R73t: the About page is titled "My journey" (tab, h1); its timeline section heading became "The path so far" to avoid saying it twice.
 
 - R73u: less space above the page titles (title level with the face disc); About lead drops "a lifelong learner of English" at Janet's request.
+
+- R73v/w: font Fraunces → Newsreader (Janet found Fraunces wobbly). taste-skill inspect pass on every page: titles = menu words on one line (Projects / Research / My journey), one body size, section gaps roughly halved, My journey intro in two columns, journey chapters closer, project cards scale with the map. Homepage auto-plays: each menu word lights up in turn with its face and line (2.6s, a quiet beat between rounds); any pointer/keyboard/touch takes over, resumes after 5s idle; off under reduced motion. Emil pass: blur on the face crossfade, bubble exits faster than it enters, highlighter 300ms.

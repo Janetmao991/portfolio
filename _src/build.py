@@ -33,7 +33,7 @@ OUT = Path(__file__).resolve().parent.parent
 FONTS = lambda root: f'<link rel="preload" href="{root}assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>'
 # R72 (v5 redesign): one serif family, Fraunces (soft), for everything; one saturated colour on near-white. assets/v5.css sits on top of style.css.
 V5_FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-            '<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..700,50&display=swap" rel="stylesheet">')
+            '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">')
 DESK_SVG = (Path(__file__).resolve().parent / "scene.svg").read_text().strip()  # R72j: her KlingAI scene + live overlays (desk.svg = the earlier hand-drawn room)
 # R43: project and research pages fade in on scroll (assets/entrance.js). This runs in <head>, before first paint: motion on
 # unless reduced motion / no IntersectionObserver; if entrance.js never arrives, the class comes off after 2.5s so nothing stays hidden.
@@ -2287,7 +2287,7 @@ def index_page():
 <meta name="theme-color" content="#f7f5f1">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..700,50&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/home.css">
 {OLD_HASH}
 </head>
@@ -2343,8 +2343,8 @@ def index_page():
 def work_page():
     body = strip_ph(map_section()).replace('<section class="plate fits hl-sec" id="work">', '<section class="s5 fits" id="work">')
     body = body.replace(blurb("fit-in", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.", highlight=False), "")
-    return page5("work", "Things I've built", "Six tools Janet Mao built for learning English with AI and for researching startups, and how they connect as one system.",
-                 "Things I've built", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.",
+    return page5("work", "Projects", "Six tools Janet Mao built for learning English with AI and for researching startups, and how they connect as one system.",
+                 "Projects", "My two priorities right now are diving deep into startups and strengthening my English. They’re not separate pursuits—they reinforce each other.",
                  body, "130 120 545 400", '\n<script src="assets/map.js"></script>\n<script src="assets/delight.js"></script>')
 
 

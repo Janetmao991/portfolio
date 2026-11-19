@@ -3,7 +3,7 @@
 :root.home6, .home6 { --ink: #1d1a18; --soft: #6b645d; --paper: #f7f5f1; --sun: #f6dcc0; --mark: #ffe27a; --ease: cubic-bezier(.23, 1, .32, 1); --m: clamp(20px, 5vw, 88px); }
 * { box-sizing: border-box; }
 html { -webkit-tap-highlight-color: transparent; }
-.home6 { margin: 0; background: var(--paper); color: var(--ink); font-family: Fraunces, Georgia, serif; font-optical-sizing: auto; font-variation-settings: "SOFT" 50; overflow-x: clip; }
+.home6 { margin: 0; background: var(--paper); color: var(--ink); font-family: Newsreader, Georgia, serif; font-optical-sizing: auto;  overflow-x: clip; }
 a { color: inherit; text-decoration: none; }
 .d6 { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: end; padding: 0 var(--m); position: relative; }
 .t { align-self: center; padding: 56px 0; position: relative; z-index: 2; }
@@ -70,3 +70,16 @@ nav a:active { transform: scale(.98); }
 .me .depth { transform: translate(calc(var(--nx, 0) * 12px), calc(var(--ny, 0) * 7px)); transition: transform 600ms var(--ease); }
 .me .shade { transform: translate(calc(var(--nx, 0) * -8px), calc(var(--ny, 0) * -6px)); }
 @media (prefers-reduced-motion: reduce) { .me svg, .me .depth, .me .shade { transform: none; } }
+
+/* R73w — Emil pass on the homepage motion.
+   · the face swap is a crossfade of two drawings; a touch of blur on the incoming one blends them into one change
+   · the bubble leaves faster than it arrives (exit 120ms, enter 220ms)
+   · the highlighter sweep comes down to 300ms, so the menu answers as quickly as the face does */
+@media (prefers-reduced-motion: no-preference) {
+  .me .x { filter: blur(3px); transition: opacity 200ms var(--ease), filter 260ms var(--ease); }
+  .d6[data-x="work"] .me .x[data-x="work"], .d6[data-x="research"] .me .x[data-x="research"],
+  .d6[data-x="about"] .me .x[data-x="about"], .d6[data-x="contact"] .me .x[data-x="contact"] { filter: none; }
+}
+.say { transition: opacity 120ms var(--ease), transform 120ms var(--ease); }
+.say.on { transition: opacity 160ms var(--ease), transform 220ms var(--ease); }
+nav a span { transition-duration: 300ms; }
