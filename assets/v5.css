@@ -563,3 +563,27 @@ html.intro .h5-art .scene { animation: r5-rise 900ms var(--ease-out) 150ms both;
 .lx-track { align-items: stretch; }
 .lx-track > .lx-slide { align-self: stretch; overflow: hidden; }
 @media (min-width: 761px) { .lx-slide .lx-pic img { max-height: 44svh; } }
+
+/* R73k — each card dressed like a note stuck in a notebook: a strip of washi tape, dotted paper, a small doodle */
+.lx-track > .lx-slide { overflow: visible; background-color: #fffdf8; background-image: radial-gradient(rgba(29, 26, 24, .11) 1.1px, transparent 1.3px); background-size: 22px 22px; background-position: 11px 11px; }
+.lx-track > .lx-slide::before { content: ""; position: absolute; top: -16px; left: 50%; width: 132px; height: 32px; margin-left: -66px; background: var(--tape); transform: rotate(var(--tt)); z-index: 2;
+  clip-path: polygon(0 6%, 3% 0, 97% 4%, 100% 0, 99% 30%, 100% 62%, 97% 100%, 4% 96%, 0 100%, 2% 66%, 0 34%); }
+.lx-track > .lx-slide { position: relative; }
+.lx-track > .lx-slide::after { content: ""; position: absolute; top: -22px; right: -18px; width: 58px; height: 58px; background: var(--doodle) center / contain no-repeat; transform: rotate(var(--dt)); z-index: 2; }
+@keyframes lx-pop { 0% { transform: rotate(var(--dt)) scale(.6); } 60% { transform: rotate(calc(var(--dt) - 10deg)) scale(1.15); } 100% { transform: rotate(var(--dt)) scale(1); } }
+@media (prefers-reduced-motion: no-preference) { .lx-slide[data-pos="0"]::after { animation: lx-pop 520ms var(--ease-out) 260ms both; } }
+.lx-slide .lx-shot { background-color: rgba(247, 245, 241, .9); }
+@media (max-width: 760px) { .lx-track > .lx-slide::after { width: 44px; height: 44px; right: -10px; top: -16px; } .lx-track > .lx-slide::before { width: 96px; margin-left: -48px; } }
+.lx-track > .lx-slide:nth-child(1) { --tape: rgba(255,226,122,.78); --tt: -4deg; --dt: 8deg; --doodle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2060%2060%22%3E%3Cpath%20d%3D%22M30%206l6.5%2015.5%2016.5%201.5-12.5%2011%204%2016.5L30%2042l-14.5%208.5%204-16.5L7%2023l16.5-1.5z%22%20fill%3D%22%23ffe27a%22%20stroke%3D%22%231d1a18%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E"); }
+.lx-track > .lx-slide:nth-child(2) { --tape: rgba(170,220,196,.75); --tt: 3deg; --dt: -6deg; --doodle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2060%2060%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%231d1a18%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M30%208c2%2014%206%2018%2020%2022-14%204-18%208-20%2022-2-14-6-18-20-22%2014-4%2018-8%2020-22z%22%20fill%3D%22%23cfe8dc%22/%3E%3Cpath%20d%3D%22M50%208v8M46%2012h8M10%2046v6M7%2049h6%22/%3E%3C/g%3E%3C/svg%3E"); }
+.lx-track > .lx-slide:nth-child(3) { --tape: rgba(246,184,168,.75); --tt: -2deg; --dt: 4deg; --doodle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2060%2060%22%3E%3Cpath%20d%3D%22M30%2050S9%2037%209%2022c0-8%206-13%2012-13%204%200%207%202%209%206%202-4%205-6%209-6%206%200%2012%205%2012%2013%200%2015-21%2028-21%2028z%22%20fill%3D%22%23f6b8a8%22%20stroke%3D%22%231d1a18%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E"); }
+.lx-track > .lx-slide:nth-child(4) { --tape: rgba(200,190,240,.75); --tt: 5deg; --dt: -10deg; --doodle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2060%2060%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%231d1a18%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%2040c6-14%2014-20%2022-14s4%2016-4%2012%202-22%2024-26%22/%3E%3Cpath%20d%3D%22M44%206l8%206-9%204%22/%3E%3C/g%3E%3C/svg%3E"); }
+.lx-track > .lx-slide:nth-child(5) { --tape: rgba(170,205,240,.75); --tt: -3deg; --dt: 6deg; --doodle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2060%2060%22%3E%3Cg%20stroke%3D%22%231d1a18%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%2222%22%20fill%3D%22%23d7d2f2%22/%3E%3Cpath%20d%3D%22M21%2025v2M39%2025v2%22%20stroke-width%3D%224%22/%3E%3Cpath%20d%3D%22M19%2035c6%208%2016%208%2022%200%22%20fill%3D%22none%22/%3E%3C/g%3E%3C/svg%3E"); }
+.lx-slide:not([data-pos="0"])::after { opacity: 0; }
+/* the stack is as tall as the front card; the cards behind are trimmed to match */
+.lx-track { align-items: start; }
+.lx-track > .lx-slide { align-self: start; height: var(--h, auto); transition: transform 700ms var(--ease-out), opacity 500ms var(--ease-out), box-shadow 400ms var(--ease-out), height 450ms var(--ease-out); }
+.lx-track > .lx-slide[data-pos="0"] { overflow: visible; }
+.lx-track > .lx-slide:not([data-pos="0"]) { overflow: hidden; }
+.lx-track > .lx-slide > * { transition: opacity 360ms var(--ease-out) 180ms; }
+.lx-track > .lx-slide:not([data-pos="0"]) > * { opacity: 0; transition-delay: 0ms; }

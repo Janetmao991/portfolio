@@ -342,10 +342,18 @@ document.querySelectorAll('.lx-rail').forEach(rail => {
     if (out) setTimeout(() => { if (out.dataset.pos === 'out') { out.dataset.pos = 'hide'; } }, 700);
     dots.forEach((d, j) => { if (j === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
     count.textContent = `${cur + 1} / ${n}`;
+    fit();
     // restart the dot's timer
     rail.classList.remove('playing'); void rail.offsetWidth; sync();
   };
   const go = i => { const from = cur; cur = (i + n) % n; place(from); arm(); };
+  function fit() {
+    const f = slides[cur]; f.style.height = 'auto';
+    const h = f.offsetHeight; f.style.height = '';
+    rail.style.setProperty('--h', h + 'px');
+  }
+  addEventListener('resize', fit);
+  slides.forEach(sl => sl.querySelectorAll('img').forEach(im => im.complete || im.addEventListener('load', () => { if (sl === slides[cur]) fit(); })));
   const running = () => !stopped && !hover && !focus && seen && !document.hidden;
   const sync = () => {
     rail.classList.toggle('playing', !stopped);
