@@ -786,3 +786,9 @@ li.js { padding-bottom: clamp(36px, 4.5vw, 72px); }
 .lp-note .cap { display: block; margin-top: 4px; font-size: 15px; line-height: 1.35; }
 @media (prefers-reduced-motion: reduce) { .lp-note { transition: opacity 200ms; } }
 @media (max-width: 699px) { .loops-b, .lp-note { display: none; } }
+
+/* R74 — research pages built from plates (AI Term films, Startup Teardowns, Clay, Granola, Startup Research):
+   v5 zeroed the plate padding, so the title block's links ran straight into the next heading and stacked sections touched.
+   Give every section after the first the same breathing room, and set the line under a section heading at body size. */
+.v5 main > .plate + .plate { margin-top: clamp(56px, 7vw, 104px); }
+.v5 .funnel-n { margin: -14px 0 clamp(28px, 3vw, 40px); font-size: var(--t-body); line-height: 1.55; }
